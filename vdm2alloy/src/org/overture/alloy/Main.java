@@ -112,12 +112,12 @@ public class Main
 //			Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
 //			result.result.get(0).apply(analysis);
 			
-			analysis.result.add("pred show{}");
-			analysis.result.add("run show");
+			analysis.components.add(new Pred("show","",""));
+			analysis.components.add(new Run("show"));
 
 			FileWriter outFile = new FileWriter(tmpFile);
 			PrintWriter out = new PrintWriter(outFile);
-			for (String string : analysis.result)
+			for (Part string : analysis.components)
 			{
 				if (verbose)
 				{

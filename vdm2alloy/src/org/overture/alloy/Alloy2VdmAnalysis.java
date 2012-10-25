@@ -68,11 +68,13 @@ public class Alloy2VdmAnalysis
 		DepthFirstAnalysisAdaptorQuestionAnswer<Alloy2VdmAnalysis.Context, Alloy2VdmAnalysis.AlloyPart>
 {
 	private static final long serialVersionUID = 1L;
+	final public List<Part> components = new Vector<Part>();
 
 	public class AlloyPart
 	{
 		public String exp = "";
 		public Queue<AlloyExp> predicates = new LinkedList<AlloyExp>();
+		public Queue<AlloyExp> topLevel = new LinkedList<AlloyExp>();
 
 		public AlloyPart(String exp)
 		{
@@ -104,12 +106,22 @@ public class Alloy2VdmAnalysis
 			this.predicates.clear();
 		}
 
+		public String toPartBody()
+		{
+			String tmp = exp;
+			for (AlloyExp expression : topLevel)
+			{
+				tmp+="\n\t"+expression;
+			}
+			return tmp;
+		}
 	}
 
 	public static class Context
 	{
 		final Map<PType, Sig> types = new HashMap<PType, Sig>();
 		final Map<String, PType> variables = new HashMap<String, PType>();
+		final Map<String, String> stateMap = new HashMap<String, String>();
 
 		@Override
 		public String toString()
@@ -158,10 +170,9 @@ public class Alloy2VdmAnalysis
 
 	}
 
-	public List<String> result = new Vector<String>();
+	// public List<String> result = new Vector<String>();
 	Set<INode> trnaslated = new HashSet<INode>();
 
-	Map<String, String> stateMap = new HashMap<String, String>();
 	// String expression = "";
 	private String moduleName;
 
@@ -174,8 +185,9 @@ public class Alloy2VdmAnalysis
 	public AlloyPart caseAModuleModules(AModuleModules node, Context question)
 			throws AnalysisException
 	{
-		result.add("module " + moduleName + "\n");
-		result.add("open util/relation\n");
+		// result.add("module " + moduleName + "\n");
+		// result.add("open util/relation\n");
+		this.components.add(new ModuleHeader(moduleName, "util/relation"));
 		return super.caseAModuleModules(node, question);
 	}
 
@@ -200,9 +212,10 @@ public class Alloy2VdmAnalysis
 					switch (bt.kindSBasicType())
 					{
 						case TOKEN:
-							result.add("sig " + t.getName().name + "{}");
+							// result.add("sig " + t.getName().name + "{}");
 							Sig s = new Sig(node.getName().name);
 							ctxt.types.put(bt, s);
+							this.components.add(s);
 							break;
 
 					}
@@ -233,11 +246,12 @@ public class Alloy2VdmAnalysis
 							quotes.add(nit.getName().name);
 						}
 					}
-					result.add("sig " + node.getName().name + " in "
-							+ toList(quotes, "+") + "{}");
+					// result.add("sig " + node.getName().name + " in "
+					// + toList(quotes, "+") + "{}");
 					Sig s = new Sig(node.getName().name);
 					s.setInTypes(quotes);
 					ctxt.types.put(ut, s);
+					this.components.add(s);
 				}
 					break;
 
@@ -245,17 +259,21 @@ public class Alloy2VdmAnalysis
 				{
 					SSeqType stype = (SSeqType) t.getType();
 					ctxt.merge(createType(stype.getSeqof()));
-					result.add("sig "
-							+ node.getName().name
-							+ " {\n\t /*This should actually use the list lib*/x : set "
-							+ getTypeName(stype.getSeqof()) + "\n}");
-					result.add("fact " + node.getName().name + "Set"
-							+ "{all c1,c2 : " + node.getName().name
-							+ " | c1.x = c2.x implies c1=c2}\n");
+					// result.add("sig "
+					// + node.getName().name
+					// + " {\n\t /*This should actually use the list lib*/x : set "
+					// + getTypeName(stype.getSeqof()) + "\n}");
+//					result.add("fact " + node.getName().name + "Set"
+//							+ "{all c1,c2 : " + node.getName().name
+//							+ " | c1.x = c2.x implies c1=c2}\n");
 
 					Sig s = new Sig(node.getName().name);
 					s.addField("x", new Sig.FieldType(getTypeName(stype.getSeqof()), Sig.FieldType.Prefix.seq));
 					ctxt.types.put(stype, s);
+					this.components.add(s);
+					this.components.add(new Fact(node.getName().name + "Set", "all c1,c2 : "
+							+ node.getName().name
+							+ " | c1.x = c2.x implies c1=c2"));
 					break;
 				}
 
@@ -263,14 +281,17 @@ public class Alloy2VdmAnalysis
 				{
 					ASetType stype = (ASetType) t.getType();
 					ctxt.merge(createType(stype.getSetof()));
-					result.add("sig " + node.getName().name + " {\n\tx : set "
-							+ getTypeName(stype.getSetof()) + "\n}");
-					result.add("fact " + node.getName().name + "Set"
-							+ "{all c1,c2 : " + node.getName().name
-							+ " | c1.x = c2.x implies c1=c2}\n");
+//					result.add("sig " + node.getName().name + " {\n\tx : set "
+//							+ getTypeName(stype.getSetof()) + "\n}");
+//					result.add("fact " + node.getName().name + "Set"
+//							+ "{all c1,c2 : " + node.getName().name
+//							+ " | c1.x = c2.x implies c1=c2}\n");
 					Sig s = new Sig(node.getName().name);
 					s.addField("x", new Sig.FieldType(getTypeName(stype.getSetof()), Sig.FieldType.Prefix.set));
 					ctxt.types.put(stype, s);
+					this.components.add(s);
+					this.components.add(new Fact(node.getName().name + "Set","all c1,c2 : " + node.getName().name
+							+ " | c1.x = c2.x implies c1=c2"));
 					break;
 				}
 			}
@@ -287,10 +308,11 @@ public class Alloy2VdmAnalysis
 			{
 				AQuoteType qt = (AQuoteType) type;
 				String name = qt.getValue().value.toUpperCase();
-				result.add("one sig " + name + "{}");// " extends "+node.getName().name+"{}");
+//				result.add("one sig " + name + "{}");// " extends "+node.getName().name+"{}");
 				Sig s = new Sig(name);
 				s.isOne = true;
 				ctxt.types.put(qt, s);
+				this.components.add(s);
 				return ctxt;
 			}
 			case BASIC:
@@ -300,8 +322,12 @@ public class Alloy2VdmAnalysis
 					case BOOLEAN:
 						break;
 					case CHAR:
-						result.add("sig " + getTypeName(type) + " {}");
-						ctxt.types.put(type, new Sig(getTypeName(type)));
+					{
+//						result.add("sig " + getTypeName(type) + " {}");
+						Sig s =new Sig(getTypeName(type));
+						ctxt.types.put(type, s);
+						this.components.add(s);
+					}
 					case NUMERIC:
 						break;
 					case TOKEN:
@@ -321,22 +347,23 @@ public class Alloy2VdmAnalysis
 			case PRODUCT:
 			{
 				Sig s = new Sig(getTypeName(type));
-				String sig = "sig " + getTypeName(type) + "{";
+//				String sig = "sig " + getTypeName(type) + "{";
 				int i = 0;
 				for (Iterator<PType> itr = ((AProductType) type).getTypes().iterator(); itr.hasNext();)
 				{
 					String fname = getTypeName(itr.next());
 					s.addField("x" + i, new Sig.FieldType(fname));
-					sig += "\n\tx" + i + " : " + fname;
-					if (itr.hasNext())
-					{
-						sig += ",";
-					}
+//					sig += "\n\tx" + i + " : " + fname;
+//					if (itr.hasNext())
+//					{
+//						sig += ",";
+//					}
 					i++;
 				}
 
-				result.add(sig + "\n}");
+//				result.add(sig + "\n}");
 				ctxt.types.put(type, s);
+				this.components.add(s);
 				return ctxt;
 			}
 		}
@@ -397,10 +424,7 @@ public class Alloy2VdmAnalysis
 		}
 		trnaslated.add(node);
 		String name = node.getName().name;
-//		List<String> facts = new Vector<String>();
 		Sig s = new Sig(name);
-
-//		result.add("\nsig " + name + "{");
 
 		for (Iterator<AFieldField> itr = node.getFields().iterator(); itr.hasNext();)
 		{
@@ -409,65 +433,35 @@ public class Alloy2VdmAnalysis
 			if (f.getType().kindPType() == EType.MAP)
 			{
 				SMapType ftype = (SMapType) f.getType();
-//				String field = "\t" + f.getTag() + ": " + ftype.getFrom()
-//						+ " -> "
-//						+ (ftype.kindSMapType() == EMapType.MAP ? "one " : "")
-//						+ ftype.getTo() + (itr.hasNext() ? "," : "");
-//				result.add(field);
-				s.addField(f.getTag(), new Sig.MapFieldType(ftype.getFrom().toString(), (ftype.kindSMapType() == EMapType.MAP?FieldType.Prefix.undefined:FieldType.Prefix.lone), new Sig.FieldType(ftype.getTo().toString(), FieldType.Prefix.lone)));
+				s.addField(f.getTag(), new Sig.MapFieldType(ftype.getFrom().toString(), (ftype.kindSMapType() == EMapType.MAP ? FieldType.Prefix.undefined
+						: FieldType.Prefix.lone), new Sig.FieldType(ftype.getTo().toString(), FieldType.Prefix.lone)));
 				switch (ftype.kindSMapType())
 				{
 					case INMAP:
-						s.constraints.add("/*" + name + "." + f.getTag() + " is an INMAP */ "+ "injective["+f.getTag()+","+s.name+"] and functional["+f.getTag()+","+s.name+"]");
-//						facts.add("/*" + name + "." + f.getTag()
-//								+ " is an INMAP*/\n\t (some fe: " + name
-//								+ " | ( all fs1,fs2 : fe." + f.getTag()
-//								+ ".univ | fe." + f.getTag() + "[fs1] = fe."
-//								+ f.getTag() + "[fs2] implies fs1=fs2 ))");
-						
-						// facts.add("injective["+f.getTag()+"] and surjective["+f.getTag()+"]");
-						// or
-						// facts.add("bijective["+f.getTag()+"]");
+						s.constraints.add("/*" + name + "." + f.getTag()
+								+ " is an INMAP */ " + "injective["
+								+ f.getTag() + "," + s.name
+								+ "] and functional[" + f.getTag() + ","
+								+ s.name + "]");
 						break;
 					case MAP:
-//						facts.add("/*" + name + "." + f.getTag()
-//								+ " is a MAP*/\n\t (some fe: " + name
-//								+ " | ( all fs1,fs2 : fe." + f.getTag()
-//								+ ".univ | fs1=fs2  implies fe." + f.getTag()
-//								+ "[fs1] = fe." + f.getTag() + "[fs2] ))");
-						// facts.add("surjective["+f.getTag()+"]");
-						s.constraints.add("/*" + name + "." + f.getTag() + " is a MAP   */ "+ "functional["+f.getTag()+","+s.name+"]");
+						s.constraints.add("/*" + name + "." + f.getTag()
+								+ " is a MAP   */ " + "functional["
+								+ f.getTag() + "," + s.name + "]");
 						break;
 
 				}
 			}
 		}
-
-//		result.add("}");
-//		// INV
-//		result.add("{");
-		// expression = "";
-		stateMap.clear();
+		question.stateMap.clear();
 		for (AFieldField f : node.getFields())
 		{
-			stateMap.put(f.getTag(), f.getTag());
-			// stateMap.put(f + "~", preStateId + "." + f);
+			question.stateMap.put(f.getTag(), f.getTag());
 		}
 
-		s.constraints.add( node.getInvExpression().apply(this, question).exp);
-		result.add(s.toString());
-//		result.add("}");
-
-//		result.add("fact{");
-//		for (Iterator<String> itr = facts.iterator(); itr.hasNext();)
-//		{
-//			result.add("\t" + itr.next());
-//			if (itr.hasNext())
-//			{
-//				result.add("\tand");
-//			}
-//		}
-//		result.add("}\n");
+		s.constraints.add(node.getInvExpression().apply(this, question).toPartBody());
+//		result.add(s.toString());
+		this.components.add(s);
 		return null;
 	}
 
@@ -539,43 +533,47 @@ public class Alloy2VdmAnalysis
 			}
 		}
 
-		result.add("pred " + node.getName().name + "(" + arguments + ")");
-		result.add("{");
+//		result.add("pred " + node.getName().name + "(" + arguments + ")");
+//		result.add("{");
+		StringBuilder sb = new StringBuilder();
 
 		if (!readOnlyState.isEmpty())
 		{
-			result.add("\t /* Frame conditions */");
+			sb.append("\n\t /* Frame conditions */");
 			for (String id : readOnlyState)
 			{
-				result.add("\t" + postStateId + "." + id + " = " + preStateId
+				sb.append("\n\t" + postStateId + "." + id + " = " + preStateId
 						+ "." + id);
 			}
 		}
 
 		// expression = "";
-		stateMap.clear();
+		question.stateMap.clear();
 		for (String f : stateFields)
 		{
-			stateMap.put(f, preStateId + "." + f);
+			question.stateMap.put(f, preStateId + "." + f);
 		}
 
-		result.add("\t /* Pre conditions */");
-		result.add("\t" + node.getPrecondition().apply(this, question).exp);
+		sb.append("\n\t /* Pre conditions */");
+		sb.append("\n\t" + node.getPrecondition().apply(this, question).toPartBody());
 
 		// expression = "";
-		stateMap.clear();
+		question.stateMap.clear();
 		for (String f : stateFields)
 		{
-			stateMap.put(f, postStateId + "." + f);
-			stateMap.put(f + "~", preStateId + "." + f);
+			question.stateMap.put(f, postStateId + "." + f);
+			question.stateMap.put(f + "~", preStateId + "." + f);
 		}
 
-		result.add("\t /* Post conditions */");
-		result.add("\t" + node.getPostcondition().apply(this, question).exp);
+		sb.append("\n\t /* Post conditions */");
+		sb.append("\n\t" + node.getPostcondition().apply(this, question).toPartBody());
 
-		result.add("}\n");
+//		result.add("}\n");
+		
+		this.components.add(new Pred(node.getName().name,arguments,sb.toString()));
 
-		result.add("run " + node.getName().name);
+//		result.add("run " + node.getName().name);
+		this.components.add(new Run(node.getName().name));
 		return null;
 	}
 
@@ -594,8 +592,8 @@ public class Alloy2VdmAnalysis
 						+ getTypeName(p.getType());
 			}
 
-			result.add("pred " + node.getName().name + "(" + arguments + ")");
-			result.add("{");
+//			result.add("pred " + node.getName().name + "(" + arguments + ")");
+//			result.add("{");
 
 			// if (!readOnlyState.isEmpty())
 			// {
@@ -608,29 +606,35 @@ public class Alloy2VdmAnalysis
 			// }
 
 			// expression = "";
-			stateMap.clear();
+			question.stateMap.clear();
 			// for (String f : stateFields)
 			// {
 			// stateMap.put(f, preStateId + "." + f);
 			// }
+			StringBuilder sb = new StringBuilder();
 
-			result.add("\t /* Pre conditions */");
-			result.add("\t" + node.getPrecondition().apply(this, question).exp);
+			sb.append("\n\t /* Pre conditions */");
+			sb.append("\n\t" + node.getPrecondition().apply(this, question).toPartBody());
 
 			// expression = "";
-			stateMap.clear();
+			question.stateMap.clear();
 			// for (String f : stateFields)
 			// {
 			// stateMap.put(f, postStateId + "." + f);
 			// stateMap.put(f + "~", preStateId + "." + f);
 			// }
 
-			result.add("\t /* Post conditions */");
-			result.add("\t" + node.getPostcondition().apply(this, question).exp);
+			sb.append("\n\t /* Post conditions */");
+			sb.append("\n\t" + node.getPostcondition().apply(this, question).toPartBody());
 
-			result.add("}\n");
+//			result.add("}\n");
 
-			result.add("run " + node.getName().name);
+//			result.add("run " + node.getName().name);
+			
+			this.components.add(new Pred(node.getName().name,arguments,sb.toString()));
+
+//			result.add("run " + node.getName().name);
+			this.components.add(new Run(node.getName().name));
 		}
 		return null;
 	}
@@ -660,29 +664,38 @@ public class Alloy2VdmAnalysis
 		}
 		if (node.getType().getResult() instanceof ABooleanBasicType)
 		{
-			result.add("pred " + node.getName().name + "(" + arguments + ")");
-			result.add("{");
+//			result.add("pred " + node.getName().name + "(" + arguments + ")");
+			StringBuilder sb = new StringBuilder();
+			
 
-			stateMap.clear();
+			question.stateMap.clear();
 
-			result.add("\t /* Body */");
-			result.add("\t" + node.getBody().apply(this, question).exp);
+			sb.append("\n\t /* Body */");
+			sb.append("\n\t" + node.getBody().apply(this, question).toPartBody());
 
-			result.add("}\n");
-			result.add("run " + node.getName().name);
+//			result.add("run " + node.getName().name);
+			this.components.add(new Pred(node.getName().name, arguments, sb.toString()));
+			this.components.add(new Run(node.getName().name));
+			
 		} else
 		{
-			result.add("fun " + node.getName().name + "[" + arguments + "]:"
-					+ getTypeName(node.getType().getResult()));
-			result.add("{");
+			StringBuilder sb = new StringBuilder();
+			
+//			result.add("fun " + node.getName().name + "[" + arguments + "]:"
+//					+ getTypeName(node.getType().getResult()));
+//			result.add("{");
 
-			stateMap.clear();
+			question.stateMap.clear();
 
-			result.add("\t /* Body */");
-			result.add("\t" + node.getBody().apply(this, question).exp);
+			sb.append("\n\t /* Body */");
+			sb.append("\n\t" + node.getBody().apply(this, question).toPartBody());
 
-			result.add("}\n");
-			result.add("run " + node.getName().name);
+//			result.add("}\n");
+//			result.add("run " + node.getName().name);
+
+
+			this.components.add(new Fun(node.getName().name, arguments, sb.toString(),getTypeName(node.getType().getResult())));
+			this.components.add(new Run(node.getName().name));
 		}
 		return null;
 	}
@@ -840,9 +853,9 @@ public class Alloy2VdmAnalysis
 	{
 		AlloyPart p = new AlloyPart();
 		String name = node.getName().name + (node.getName().isOld() ? "~" : "");
-		if (stateMap.containsKey(name))
+		if (question.stateMap.containsKey(name))
 		{
-			p.exp += stateMap.get(name);
+			p.exp += question.stateMap.get(name);
 		} else
 		{
 			p.exp += name;
@@ -1122,19 +1135,23 @@ public class Alloy2VdmAnalysis
 		// return;
 		// }
 		// }
-
+		AlloyPart p = new AlloyPart();
 		if (node.getRoot().getType() instanceof SMapType
 				&& node.getAncestor(AStateDefinition.class) == null)
 		{
-			AlloyPart p = new AlloyPart();
-			p.merge(node.getArgs().get(0).apply(this, question));
-			p.exp += " in (";
-			p.merge(node.getRoot().apply(this, question));
-			p.exp += ").univ";
-			result.add("\t /*Map domain pre condition */\n\t" + p.exp);
+			AlloyPart p1 = new AlloyPart();
+			p1.merge(node.getArgs().get(0).apply(this, question));
+//			p1.exp += " in (";
+//			p1.merge(node.getRoot().apply(this, question));
+//			p1.exp += ").univ";
+			p1.exp += " in dom[";
+			p1.merge(node.getRoot().apply(this, question));
+			p1.exp += "]";
+	//FIXME: 		result.add("\t /*Map domain pre condition */\n\t" + p.exp);
+			p.topLevel.add(new AlloyExp("/*Map domain pre condition */ \n\t"+p1.exp));
 		}
 
-		AlloyPart p = new AlloyPart();
+		
 		p.merge(node.getRoot().apply(this, question));
 		p.exp += "[";
 		for (Iterator<PExp> itr = node.getArgs().iterator(); itr.hasNext();)
@@ -1257,6 +1274,7 @@ public class Alloy2VdmAnalysis
 		}
 		original.exp += new_.exp;
 		original.predicates.addAll(new_.predicates);
+		original.topLevel.addAll(new_.topLevel);
 		return original;
 	}
 

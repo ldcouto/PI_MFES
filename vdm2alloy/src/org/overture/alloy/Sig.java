@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.Map.Entry;
 
-public class Sig
+public class Sig extends Part
 {
 	public static class FieldType
 	{
@@ -104,8 +104,9 @@ public class Sig
 		if (!this.fields.isEmpty())
 		{
 			tmp = tmp.substring(0, tmp.length() - 2);
+			tmp+="\n";
 		}
-		tmp += "\n}";
+		tmp += "}";
 		if (!constraints.isEmpty())
 		{
 			tmp += "{";
