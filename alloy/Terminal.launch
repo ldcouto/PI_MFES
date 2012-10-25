@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/alloy/src/edu/mit/csail/sdg/alloy4/Terminal.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="edu.mit.csail.sdg.alloy4.Terminal"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-alloy &quot;C:\PhD\Lausdahl_Phd\MIT\Translated Models\Telephone\telephone_alloy.als&quot; -solver MiniSatJNI -k"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="alloy"/>
+</launchConfiguration>
