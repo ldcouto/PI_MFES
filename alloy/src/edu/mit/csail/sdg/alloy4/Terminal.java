@@ -116,7 +116,7 @@ public class Terminal
 		{
 			someWorld = CompUtil.parseEverything_fromFile(rep, null, intputAlloyModel);
 			System.out.println();
-		} catch (ErrorSyntax e)
+		} catch (Err e)
 		{
 			System.err.println(e);
 			System.err.println();

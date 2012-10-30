@@ -18,6 +18,6 @@ public class Fun extends Part
 	@Override
 	public String toString()
 	{
-		return ("pred " + name + "[" + arguments + "]:"+returnType+"\n{"+body+"}\n");
+		return ("fun " + name + "[" + arguments + "]: "+returnType+"\n{"+body+"\n}\n");
 	}
 }

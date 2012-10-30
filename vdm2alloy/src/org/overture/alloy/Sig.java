@@ -70,6 +70,7 @@ public class Sig extends Part
 	final List<String> fieldNames = new Vector<String>();
 	public final String name;
 	public boolean isOne = false;
+	public boolean isWrapper = false;
 	private List<String> quotes = new Vector<String>();
 	public final List<String> constraints = new Vector<String>();
 

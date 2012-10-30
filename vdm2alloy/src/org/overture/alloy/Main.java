@@ -107,7 +107,7 @@ public class Main
 			}
 
 			Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-			result.result.get(0).apply(analysis,new Alloy2VdmAnalysis.Context());
+			result.result.get(0).apply(analysis,new Context());
 			
 //			Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
 //			result.result.get(0).apply(analysis);

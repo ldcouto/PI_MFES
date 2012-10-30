@@ -8,6 +8,6 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre6"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.overture.alloy.Main"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-vdm &quot;C:\Users\kel\Dropbox\OvertureAlloy\CountryColouringSL\CountryColouring.vdmsl&quot; -o contry -v"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-vdm &quot;C:\Users\kel\Dropbox\OvertureAlloy\CountryColouringSL\CountryColouring.vdmsl&quot; -o country -v"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="vdm2alloy"/>
 </launchConfiguration>

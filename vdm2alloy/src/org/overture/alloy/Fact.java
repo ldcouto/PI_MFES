@@ -14,6 +14,6 @@ public class Fact extends Part
 	@Override
 	public String toString()
 	{
-		return ("fact " + name + "{\n"+body+"}\n");
+		return ("fact " + name + "{\n"+body+"\n}\n");
 	}
 }
