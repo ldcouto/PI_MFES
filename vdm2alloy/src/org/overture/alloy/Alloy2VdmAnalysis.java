@@ -220,13 +220,21 @@ public class Alloy2VdmAnalysis
 					ASetType stype = (ASetType) t.getType();
 					ctxt.merge(createType(stype.getSetof()));
 					Sig s = new Sig(node.getName().name);
-					s.addField("x", new Sig.FieldType(getTypeName(stype.getSetof()), Sig.FieldType.Prefix.set));
-					s.isWrapper = true;
+
+					if (stype.getSetof() instanceof AProductType)
+					{
+						s.supers.add(ctxt.getSig(stype.getSetof()));
+					} else
+					{
+						s.addField("x", new Sig.FieldType(getTypeName(stype.getSetof()), Sig.FieldType.Prefix.set));
+						s.isWrapper = true;
+
+						this.components.add(new Fact(node.getName().name
+								+ "Set", "all c1,c2 : " + node.getName().name
+								+ " | c1.x = c2.x implies c1=c2"));
+					}
 					ctxt.addType(stype, s);
 					this.components.add(s);
-					this.components.add(new Fact(node.getName().name + "Set", "all c1,c2 : "
-							+ node.getName().name
-							+ " | c1.x = c2.x implies c1=c2"));
 					break;
 				}
 			}
@@ -280,13 +288,20 @@ public class Alloy2VdmAnalysis
 			case PRODUCT:
 			{
 				Sig s = new Sig(getTypeName(type));
-				int i = 0;
-				for (Iterator<PType> itr = ((AProductType) type).getTypes().iterator(); itr.hasNext();)
+				Sig.FieldType ftype = null;
+				for (Iterator<PType> itr = ((AProductType) type).getTypes().descendingIterator(); itr.hasNext();)
 				{
 					String fname = getTypeName(itr.next());
-					s.addField("x" + i, new Sig.FieldType(fname));
-					i++;
+					if (ftype == null)
+					{
+						ftype = new Sig.FieldType(fname, Prefix.undefined);
+					} else
+					{
+						ftype = new Sig.MapFieldType(fname, Prefix.undefined, ftype);
+					}
 				}
+				s.addField("x", ftype);
+				s.isWrapper = true;
 				ctxt.addType(type, s);
 				this.components.add(s);
 				return ctxt;
@@ -904,14 +919,14 @@ public class Alloy2VdmAnalysis
 				for (Iterator<PExp> itr = setEnum.getMembers().iterator(); itr.hasNext();)
 				{
 					setConstrain += itr.next().apply(this, setCompCtxt).exp;
-							
+
 					if (itr.hasNext())
 					{
 						setConstrain += " + ";
 					}
 
 				}
-				setConstrain +=" = " + var + "." + fieldName;
+				setConstrain += " = " + var + "." + fieldName;
 
 			}
 		} else

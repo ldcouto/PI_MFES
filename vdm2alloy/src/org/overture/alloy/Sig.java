@@ -73,6 +73,7 @@ public class Sig extends Part
 	public boolean isWrapper = false;
 	private List<String> quotes = new Vector<String>();
 	public final List<String> constraints = new Vector<String>();
+	public final List<Sig> supers = new Vector<Sig>();
 
 	public Sig(String typeName)
 	{
@@ -97,7 +98,8 @@ public class Sig extends Part
 				+ "sig "
 				+ name
 				+ (this.quotes.isEmpty() ? "" : " in "
-						+ Alloy2VdmAnalysis.toList(quotes, "+")) + "{";
+						+ Alloy2VdmAnalysis.toList(quotes, "+")) +(this.supers.isEmpty() ? "" : " extends "
+								+ Alloy2VdmAnalysis.toList(getNames(supers), "+"))+ "{";
 		for (Entry<String, FieldType> entry : this.fields.entrySet())
 		{
 			tmp += "\n\t" + entry.getKey() + ": " + entry.getValue() + ", ";
@@ -122,6 +124,16 @@ public class Sig extends Part
 			tmp += "\n}\n";
 		}
 		return tmp;
+	}
+
+	private static List<String> getNames(List<Sig> supers2)
+	{
+		List<String> names = new Vector<String>();
+		for (Sig s : supers2)
+		{
+			names.add(s.name);
+		}
+		return names;
 	}
 
 	public void setInTypes(List<String> quotes)
