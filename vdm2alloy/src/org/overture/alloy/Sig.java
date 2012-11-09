@@ -41,6 +41,11 @@ public class Sig extends Part
 		{
 			return (this.typePrefix.displayName() + " " + sigTypeName).trim();
 		}
+		
+		public int size()
+		{
+			return 1;
+		}
 	}
 
 	public static class MapFieldType extends FieldType
@@ -64,10 +69,16 @@ public class Sig extends Part
 		{
 			return sigTypeName + " " + typePrefix.displayName() + " -> " + to;
 		}
+		
+		@Override
+		public int size()
+		{
+			return super.size() + to.size();
+		}
 	}
 
 	private final Map<String, Sig.FieldType> fields = new HashMap<String, Sig.FieldType>();
-	final List<String> fieldNames = new Vector<String>();
+	private final List<String> fieldNames = new Vector<String>();
 	public final String name;
 	public boolean isOne = false;
 	public boolean isWrapper = false;
@@ -88,7 +99,36 @@ public class Sig extends Part
 
 	public FieldType getField(String name)
 	{
-		return this.fields.get(name);
+		FieldType ft =  this.fields.get(name);
+		if(ft !=null)
+		{
+			return ft;
+		}
+		
+		for (Sig s : supers)
+		{
+			ft = s.getField(name);
+			if(ft !=null)
+			{
+				break;
+			}
+		}
+		return ft;
+	}
+	
+	public List<String> getFieldNames()
+	{
+		if(supers.isEmpty())
+		{
+			return this.fieldNames;
+		}
+		
+		List<String> fields = new Vector<String>();
+		for (Sig s : this.supers)
+		{
+			fields.addAll(s.getFieldNames());
+		}
+		return fields;
 	}
 
 	@Override

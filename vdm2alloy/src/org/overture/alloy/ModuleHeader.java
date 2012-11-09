@@ -18,10 +18,10 @@ public class ModuleHeader extends Part
 	@Override
 	public String toString()
 	{
-		String tmp ="module " + name + "\n";
+		String tmp ="module " + name + "\n\n";
 		for (String op : opens)
 		{
-			tmp+="\nopen "+op+"\n";
+			tmp+="open "+op+"\n";
 		}
 		return tmp;
 	}
