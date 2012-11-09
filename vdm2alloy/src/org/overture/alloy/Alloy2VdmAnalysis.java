@@ -633,62 +633,25 @@ public class Alloy2VdmAnalysis
 		if (node.getAncestor(AInSetBinaryExp.class) != null)
 		{
 			AlloyPart p = new AlloyPart();
-//			String predicate = "";
-
-//			boolean isLet = false;
-//			Map<String, PType> variables = new HashMap<String, PType>();
 
 			Sig s = question.getSig(node.getType());
 			if (!s.getFieldNames().isEmpty()
 					&& s.getField(s.getFieldNames().get(0)).size() == node.getArgs().size())
 			{
-				// String var = getNewVariableName();
-				// p.exp += var;
 				List<String> fields = new Vector<String>();
 				for (int i = 0; i < node.getArgs().size(); i++)
 				{
 					PExp a = node.getArgs().get(i);
 					AlloyPart ap = a.apply(this, question);
-					if (!question.containsVariable(ap.exp))
-					{
-//						isLet = true;
-					} else
+					if (question.containsVariable(ap.exp))
 					{
 						fields.add(ap.exp);
 					}
-					// variables.put(ap.exp, a.getType());
-					// predicate += ap.exp + " = " + var + "."
-					// + s.getFieldNames().get(i);
-					// if (i < node.getArgs().size() - 1)
-					// {
-					// if (isLet)
-					// {
-					// predicate += ", ";
-					// } else
-					// {
-					// predicate += " and ";
-					// }
-					// }
 
 				}
 				p.exp += toList(fields, "->") + " ";
 
-			} else
-			{
-//				predicate = "/*Cannot match patterin in tuple" + node + "*/";
 			}
-
-			// AlloyExp part = null;
-			// if (isLet)
-			// {
-			// part = new AlloyLetExp("let " + predicate + " | ", variables);
-			// } else
-			// {
-			// part = new AlloyExp(predicate);
-			// }
-			//
-			// p.predicates.add(part);
-
 			return p;
 		}
 
@@ -704,9 +667,6 @@ public class Alloy2VdmAnalysis
 				&& smb.getSet().getType() instanceof ANamedInvariantType)
 		{
 			AlloyPart p = new AlloyPart();
-//			String predicate = "";
-
-//			boolean isLet = false;
 			Map<String, PType> variables = new HashMap<String, PType>();
 
 			ANamedInvariantType aNamedInvariantType = (ANamedInvariantType) smb.getSet().getType();
@@ -715,76 +675,30 @@ public class Alloy2VdmAnalysis
 			AProductType ptype = (AProductType) ((ASetType) aNamedInvariantType.getType()).getSetof();
 			if (s.getFieldNames().size() == 1)
 			{
-//				String field = s.getFieldNames().iterator().next();
-				// field.prefix has to be set or seq
-//				Sig fieldSig = question.getSig(s.getField(field).sigTypeName);
-
-				// if (fieldSig.getFieldNames().size() == node.getPlist().size())
+				for (int i = 0; i < node.getPlist().size(); i++)
 				{
-					// String var = getNewVariableName();
-					// p.exp += var;
-
-					for (int i = 0; i < node.getPlist().size(); i++)
+					PPattern a = node.getPlist().get(i);
+					AlloyPart ap = a.apply(this, question);
+					PType apType = ptype.getTypes().get(i);
+					variables.put(ap.exp, apType);
+					p.exp += ap.exp;
+					if (i < node.getPlist().size() - 1)
 					{
+						p.exp += "->";
+					}
 
-						PPattern a = node.getPlist().get(i);
-						AlloyPart ap = a.apply(this, question);
-						// if (!question.containsVariable(ap.exp))
-						// {
-						// isLet = true;
-						// }
-						PType apType = ptype.getTypes().get(i);
-						variables.put(ap.exp, apType);
-						p.exp += ap.exp;
-						// predicate += ap.exp + " = " + var + "."
-						// + fieldSig.getFieldNames().get(i);
-						if (i < node.getPlist().size() - 1)
-						{
-							p.exp += "->";
-							// if (isLet)
-							// {
-							// predicate += ", ";
-							// } else
-							// {
-							// predicate += " and ";
-							// }
-						}
-
-						if (!question.containsVariable(ap.exp))
-						{
-							p.typeBindings.add(new AlloyTypeBind(ap.exp, question.getSig(apType)));
-							question.addVariable(ap.exp, apType);
-						}
+					if (!question.containsVariable(ap.exp))
+					{
+						p.typeBindings.add(new AlloyTypeBind(ap.exp, question.getSig(apType)));
+						question.addVariable(ap.exp, apType);
 					}
 				}
 
-			} else
-			{
-//				predicate = "/*Cannot match patterin in tuple" + node + "*/";
 			}
-
-			// AlloyExp part = null;
-			// if (isLet)
-			// {
-			// part = new AlloyLetExp("let " + predicate + " | ", variables);
-			// } else
-			// {
-			// part = new AlloyExp(predicate);
-			// }
-			//
-			// p.predicates.add(part);
-
 			return p;
 		}
 		return super.caseATuplePattern(node, question);
 	}
-
-	int varIndex = 0;
-
-//	private String getNewVariableName()
-//	{
-//		return "var" + varIndex++;
-//	}
 
 	@Override
 	public AlloyPart caseAVariableExp(AVariableExp node, Context question)
@@ -870,21 +784,15 @@ public class Alloy2VdmAnalysis
 		} else
 		{
 			AlloyPart p = new AlloyPart("(");
-			p.merge(node.getExp().apply(this,question));
-			// String var = getNewVariableName();
-			// AlloyPart p = new AlloyPart("{ " + var);
-			 Sig eType = question.getSig(node.getExp().getType());
-			 if(eType.isWrapper)
-			 {
-				 Sig nestedT = question.getSig(eType.getField(eType.getFieldNames().get(0)).sigTypeName);
-				 p.exp+="."+eType.getFieldNames().get(0)+")."+nestedT.getFieldNames().get(0);
-//					 Sig nested2T = question.getSig(nestedT.getField(nestedT.getFieldNames().get(0)).sigTypeName);
-			 }
-			
-			// p.exp += " : " + nested2T.name + " | " + var + " in (";
-			// p.merge(getBind(node.getExp(), question));
-			// // question.getSig(((ASetType)node.getExp().getType()).getSetof())
-			// p.exp += ")." + nestedT.getFieldNames().get(0) + "}";
+			p.merge(node.getExp().apply(this, question));
+			Sig eType = question.getSig(node.getExp().getType());
+			if (eType.isWrapper)
+			{
+				Sig nestedT = question.getSig(eType.getField(eType.getFieldNames().get(0)).sigTypeName);
+				p.exp += "." + eType.getFieldNames().get(0) + ")."
+						+ nestedT.getFieldNames().get(0);
+			}
+
 			return p;
 		}
 	}
@@ -916,18 +824,15 @@ public class Alloy2VdmAnalysis
 		AlloyPart pbind = new AlloyPart();
 		for (Iterator<PMultipleBind> itr = node.getBindings().iterator(); itr.hasNext();)
 		{
-			// pbind.exp += " some ";
 			AlloyPart bindPart = itr.next().apply(this, setCompCtxt);
 			pbind.merge(bindPart);
 			if (itr.hasNext())
 			{
 				pbind.exp += " , ";
 			}
-
 		}
 
 		AlloyPart p = new AlloyPart("{");
-		// String setConstrain = null;
 
 		if (node.getFirst() instanceof ASetEnumSetExp)
 		{
@@ -953,40 +858,6 @@ public class Alloy2VdmAnalysis
 
 			}
 			pbind.typeBindings.clear();
-			// PType type = setEnum.getType();
-			// if (type instanceof ASetType)
-			// {
-			// String var = getNewVariableName();
-			// Sig s = question.getSig(type);
-			// String fieldName = null;
-			// if (s == null)
-			// {
-			// s = new Sig(getTypeName(type).replace(" ", ""));
-			// s.isWrapper = true;
-			// this.components.add(s);
-			// question.addType(type, s);
-			// fieldName = getNewVariableName();
-			// s.addField(fieldName, new FieldType(getTypeName(((ASetType) type).getSetof()), Prefix.set));
-			// } else if (s.getFieldNames().size() == 1)
-			// {
-			// fieldName = s.getFieldNames().get(0);
-			// }
-			// setConstrain = "";
-			//
-			// p.exp += var + " : " + s.name;
-			// for (Iterator<PExp> itr = setEnum.getMembers().iterator(); itr.hasNext();)
-			// {
-			// setConstrain += itr.next().apply(this, setCompCtxt).exp;
-			//
-			// if (itr.hasNext())
-			// {
-			// setConstrain += " + ";
-			// }
-			//
-			// }
-			// setConstrain += " = " + var + "." + fieldName;
-			//
-			// }
 		} else
 		{
 			p.merge(node.getFirst().apply(this, setCompCtxt));
@@ -994,18 +865,7 @@ public class Alloy2VdmAnalysis
 
 		p.exp += " | ";
 
-		// p.merge(node.getBindings().get(0).apply(this, question));
 		p.merge(pbind);
-		// p.exp += " | ";
-		// if (!p.predicates.isEmpty())
-		// {
-		// p.appendPredicates();
-		// }
-		// if (setConstrain != null)
-		// {
-		//
-		// p.exp += setConstrain;
-		// }
 		p.exp += "}";
 		return p;
 	}
@@ -1139,7 +999,6 @@ public class Alloy2VdmAnalysis
 			Context question) throws AnalysisException
 	{
 		AlloyPart p = new AlloyPart("(");
-		// p.merge(node.getRight().apply(this, question));
 		p.exp += "univ -";
 		p.merge(node.getLeft().apply(this, question));
 		p.exp += ")";
@@ -1152,19 +1011,6 @@ public class Alloy2VdmAnalysis
 	public AlloyPart caseAApplyExp(AApplyExp node, Context question)
 			throws AnalysisException
 	{
-		// if (node.getRoot().kindPExp() == EExp.UNARY)
-		// {
-		// if (((SUnaryExp) node.getRoot()).kindSUnaryExp() == EUnaryExp.MAPINVERSE)
-		// {
-		// AMapInverseUnaryExp root = (AMapInverseUnaryExp) node.getRoot();
-		//
-		// node.getArgs().get(0).apply(this);
-		// expression += ".(";
-		// root.getExp().apply(this);
-		// expression += ")";
-		// return;
-		// }
-		// }
 		AlloyPart p = new AlloyPart();
 		if (node.getRoot().getType() instanceof SMapType
 				&& node.getAncestor(AStateDefinition.class) == null)
@@ -1311,12 +1157,6 @@ public class Alloy2VdmAnalysis
 		if (node.getSet() != null && !_visitedNodes.contains(node.getSet()))
 		{
 			p.merge(getBind(node.getSet(), question));// node.getSet().apply(this, question));
-
-			// Sig s = question.getSig(node.getSet().getType());
-			// if(s!=null && s.isWrapper)
-			// {
-			// p.exp+="."+s.getFieldNames().get(0);
-			// }
 		}
 		return p;
 	}
@@ -1429,14 +1269,7 @@ public class Alloy2VdmAnalysis
 		AlloyPart p = new AlloyPart("(");
 		String bind = "";
 
-		// if (node.getLeft().kindPExp() != EExp.TUPLE)
-		// {
 		bind = " in ";
-		// } else
-		// {
-		// // p.exp += "some ";
-		// bind = " : ";
-		// }
 
 		p.merge(node.getLeft().apply(this, question));
 		p.exp += bind;
