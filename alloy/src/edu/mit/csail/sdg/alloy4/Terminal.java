@@ -19,10 +19,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
-import edu.mit.csail.sdg.alloy4.A4Reporter;
-import edu.mit.csail.sdg.alloy4.Err;
-import edu.mit.csail.sdg.alloy4.ErrorSyntax;
-import edu.mit.csail.sdg.alloy4.Util;
 import edu.mit.csail.sdg.alloy4compiler.ast.Command;
 import edu.mit.csail.sdg.alloy4compiler.ast.Module;
 import edu.mit.csail.sdg.alloy4compiler.parser.CompUtil;
@@ -35,11 +31,20 @@ public class Terminal
 	/** The system-specific file separator (forward-slash on UNIX, back-slash on Windows, etc.) */
 	private static final String fs = System.getProperty("file.separator");
 
+	
 	/**
 	 * @param args
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception
+	{
+		execute(args);
+	}
+	/**
+	 * @param args
+	 * @throws Exception
+	 */
+	public static int execute(String[] args) throws Exception
 	{
 		// create the command line parser
 		CommandLineParser parser = new PosixParser();
@@ -73,7 +78,7 @@ public class Terminal
 				// automatically generate the help statement
 				HelpFormatter formatter = new HelpFormatter();
 				formatter.printHelp("vdm2alloy", optionsArg);
-				return;
+				return 0;
 			}
 
 		} catch (ParseException exp)
@@ -81,7 +86,7 @@ public class Terminal
 			System.err.println("Unexpected exception:" + exp.getMessage());
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("vdm2alloy", optionsArg);
-			return;
+			return 1;
 		}
 
 		String intputAlloyModel = null;
@@ -106,7 +111,7 @@ public class Terminal
 			{
 				System.err.println("Solver could not be resolved with value: "
 						+ solverName);
-				return;
+				return 1;
 			}
 			options.solver = solver;
 		}
@@ -121,7 +126,7 @@ public class Terminal
 			System.err.println(e);
 			System.err.println();
 			System.err.flush();
-			return;
+			return 1;
 		}
 
 		List<Command> commandsToRun = new Vector<Command>();
@@ -141,7 +146,7 @@ public class Terminal
 			{
 				System.err.println("Command: " + commandName + " not found in "
 						+ someWorld.getAllCommands());
-				return;
+				return 1;
 			}
 		}
 
@@ -172,6 +177,7 @@ public class Terminal
 			}
 		}
 		System.out.println("Done.");
+		return 0;
 	}
 
 	private static String getAvaliableSatSolvers()

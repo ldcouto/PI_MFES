@@ -22,12 +22,20 @@ import edu.mit.csail.sdg.alloy4.Terminal;
 
 public class Main
 {
-
 	/**
 	 * @param args
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception
+	{
+		execute(args);
+	}
+
+	/**
+	 * @param args
+	 * @throws Exception
+	 */
+	public static int execute(String[] args) throws Exception
 	{
 		// create the command line parser
 		CommandLineParser parser = new PosixParser();
@@ -41,7 +49,7 @@ public class Main
 		Option outputOpt = new Option("o", "output", true, "a file path used to write the translated result to");
 		Option suppressAlloyCheckOpt = new Option("nocheck", "noalloycheck", false, "run alloy to on the generated file");
 		Option verboseOpt = new Option("v", "verbose", false, "verbose output when generating");
-		Option extraAlloyTest = new Option("test2", "alloytest2",true,"exstra model used when checking the output");
+		Option extraAlloyTest = new Option("test2", "alloytest2", true, "exstra model used when checking the output");
 
 		options.addOption(helpOpt);
 		options.addOption(vdmOpt);
@@ -61,7 +69,7 @@ public class Main
 				// automatically generate the help statement
 				HelpFormatter formatter = new HelpFormatter();
 				formatter.printHelp("vdm2alloy", options);
-				return;
+				return 0;
 			}
 
 		} catch (ParseException exp)
@@ -69,7 +77,7 @@ public class Main
 			System.err.println("Unexpected exception:" + exp.getMessage());
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("vdm2alloy", options);
-			return;
+			return 1;
 		}
 
 		File input = null;
@@ -107,12 +115,13 @@ public class Main
 			}
 
 			Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-			result.result.get(0).apply(analysis,new Context());
-			
-//			Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-//			result.result.get(0).apply(analysis);
-			
-			analysis.components.add(new Pred("show","",""));
+			result.result.get(0).apply(analysis, new Context());
+
+			// Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0,
+			// tmpFile.getName().indexOf(".")));
+			// result.result.get(0).apply(analysis);
+
+			analysis.components.add(new Pred("show", "", ""));
 			analysis.components.add(new Run("show"));
 
 			FileWriter outFile = new FileWriter(tmpFile);
@@ -133,21 +142,30 @@ public class Main
 				System.out.println("\n------------------------------------");
 				System.out.println("Running Alloy...\n");
 				System.out.println("Temp file: " + tmpFile.getAbsolutePath());
-				
-				System.out.println("Running Alloy on file: "+tmpFile.getName());
-				Terminal.main(new String[] { "-alloy",tmpFile.getAbsolutePath(),"-a" });
-				
-				if(line.hasOption(extraAlloyTest.getOpt()))
+
+				System.out.println("Running Alloy on file: "
+						+ tmpFile.getName());
+				int exitCode = Terminal.execute(new String[] { "-alloy",
+						tmpFile.getAbsolutePath(), "-a" });
+				if (exitCode != 0)
+				{
+					return exitCode;
+				}
+
+				if (line.hasOption(extraAlloyTest.getOpt()))
 				{
 					String testInputPath = line.getOptionValue(extraAlloyTest.getOpt());
-					System.out.println("Running Alloy on file: "+testInputPath);
-					Terminal.main(new String[] {"-alloy", testInputPath,"-a" });
+					System.out.println("Running Alloy on file: "
+							+ testInputPath);
+					Terminal.main(new String[] { "-alloy", testInputPath, "-a" });
 				}
 			}
 		} else
 		{
 			System.err.println("Errors in input VDM model");
+			return 1;
 		}
+		return 0;
 	}
 
 }

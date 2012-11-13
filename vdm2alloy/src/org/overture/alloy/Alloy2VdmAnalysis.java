@@ -237,11 +237,28 @@ public class Alloy2VdmAnalysis
 					}
 					ctxt.addType(stype, s);
 					this.components.add(s);
+					createTypeInvariant(node, s, ctxt);
 					break;
 				}
 			}
 		}
 		return null;
+	}
+
+	private void createTypeInvariant(ATypeDefinition def, Sig sig, Context ctxt)
+			throws AnalysisException
+	{
+		if (def.getInvdef() != null)
+		{
+			String body = "all ";
+			AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
+			body += pattern.exp + " : " + sig.name + " | ";
+			Context invCtxt = new Context(ctxt);
+			invCtxt.addVariable(pattern.exp, def.getType());
+			body += def.getInvExpression().apply(this, invCtxt).exp;
+			Fact f = new Fact(sig.name + "Inv", body);
+			this.components.add(f);
+		}
 	}
 
 	private Context createType(PType type)
@@ -314,7 +331,7 @@ public class Alloy2VdmAnalysis
 
 	String getTypeName(PType type)
 	{
-		switch (type.kindPType())
+		tw: switch (type.kindPType())
 		{
 			case SEQ:
 			{
@@ -335,7 +352,7 @@ public class Alloy2VdmAnalysis
 						return ((ANamedInvariantType) itype).getName().name;
 
 					case RECORD:
-						break;
+						break tw;
 
 				}
 			}
@@ -495,10 +512,12 @@ public class Alloy2VdmAnalysis
 			question.addState(f, preStateId + "." + f);
 		}
 
-		sb.append("\n\t /* Pre conditions */");
-		sb.append("\n\t"
-				+ node.getPrecondition().apply(this, ctxt).toPartBody());
-
+		if (node.getPrecondition() != null)
+		{
+			sb.append("\n\t /* Pre conditions */");
+			sb.append("\n\t"
+					+ node.getPrecondition().apply(this, ctxt).toPartBody());
+		}
 		// expression = "";
 		question.clearState();
 		for (String f : stateFields)
@@ -550,10 +569,12 @@ public class Alloy2VdmAnalysis
 		question.clearState();
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("\n\t /* Pre conditions */");
-		sb.append("\n\t"
-				+ node.getPrecondition().apply(this, ctxt).toPartBody());
-
+		if (node.getPrecondition() != null)
+		{
+			sb.append("\n\t /* Pre conditions */");
+			sb.append("\n\t"
+					+ node.getPrecondition().apply(this, ctxt).toPartBody());
+		}
 		question.clearState();
 
 		sb.append("\n\t /* Post conditions */");
