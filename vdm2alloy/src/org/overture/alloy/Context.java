@@ -13,16 +13,19 @@ public class Context
 	private final Map<String, PType> variables = new HashMap<String, PType>();
 	private final Map<String, String> stateMap = new HashMap<String, String>();
 	private final Context outer;
+	
 
 	public Context()
 	{
-		this.outer = null;
+		this(null);
 	}
 
 	public Context(Context outer)
 	{
-		this.outer = outer;
+		this.outer=outer;
 	}
+	
+	
 
 	@Override
 	public String toString()
@@ -46,6 +49,16 @@ public class Context
 
 	public Sig getSig(PType type)
 	{
+		//Search match
+		for (Entry<PType, Sig> entry : types.entrySet())
+		{
+			if(entry.getKey().equals(type))
+			{
+				return entry.getValue();
+			}
+		}
+		
+		//Search for compatible match
 		for (Entry<PType, Sig> entry : types.entrySet())
 		{
 			if (TypeComparator.compatible(entry.getKey(), type))
@@ -53,10 +66,13 @@ public class Context
 				return entry.getValue();
 			}
 		}
+		
+		//No match to search outer context
 		if (outer != null)
 		{
 			return outer.getSig(type);
 		}
+		
 		return null;
 	}
 

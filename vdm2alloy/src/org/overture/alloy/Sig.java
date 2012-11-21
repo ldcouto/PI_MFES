@@ -155,13 +155,13 @@ public class Sig extends Part
 			tmp += "{";
 			for (Iterator<String> itr = constraints.iterator(); itr.hasNext();)
 			{
-				tmp += "\n\t(" + itr.next()+")";
+				tmp +=   Formatter.format(0,itr.next());
 				if (itr.hasNext())
 				{
 					tmp += " and";
 				}
 			}
-			tmp += "\n}\n";
+			tmp += "}\n";
 		}
 		return tmp;
 	}
@@ -171,7 +171,7 @@ public class Sig extends Part
 		List<String> names = new Vector<String>();
 		for (Sig s : supers2)
 		{
-			names.add(s.name);
+			names.add((s==null?"null":s.name));
 		}
 		return names;
 	}

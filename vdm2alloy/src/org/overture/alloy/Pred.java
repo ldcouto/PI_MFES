@@ -16,6 +16,6 @@ public class Pred extends Part
 	@Override
 	public String toString()
 	{
-		return ("pred " + name + "(" + arguments + ")\n{"+body+"\n}\n");
+		return ("pred " + name + "(" + arguments + ")\n{"+Formatter.format(0, body)+"\n}\n");
 	}
 }

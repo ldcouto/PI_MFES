@@ -53,7 +53,7 @@ types
             conflicts : set of Conflict
   inv mk_Kernel(ls,cs) ==
         forall c in set cs & 
-              mk_Conflict(c.path2,c.path1) in set cs and
+              let  ccc in set  cs be st  ccc.path1 = c.path2 and ccc.path2 = c.path1 in -- mk_Conflict(c.path2,c.path1) in set cs and
               c.path1 in set dom ls and 
 	      c.path2 in set dom ls and 
               (ls(c.path1) = <Red> or ls(c.path2) = <Red>)
@@ -63,26 +63,26 @@ functions
 -- changing the light to green for a given path
 
   ToGreen: Path * Kernel -> Kernel
-  ToGreen(p,mk_Kernel(lights,conflicts)) ==
-    mk_Kernel(ChgLight(lights,p,<Green>),conflicts)
-  pre p in set dom lights and
-      lights(p) = <Red> and
-      forall mk_Conflict(p1,p2) in set conflicts &
-             (p = p1 => lights(p2) = <Red>);
+  ToGreen(p,mk_Kernel(ls,cs)) ==
+    mk_Kernel(ChgLight(ls,p,<Green>),cs)
+  pre p in set dom ls and
+      ls(p) = <Red> and
+      forall mk_Conflict(p1,p2) in set cs &
+             (p = p1 => ls(p2) = <Red>);
 
 -- changing the light to red for a given path
 
   ToRed: Path * Kernel -> Kernel
-  ToRed(p,mk_Kernel(lights,conflicts)) ==
-    mk_Kernel(ChgLight(lights,p,<Red>),conflicts)
-  pre p in set dom lights and lights(p) = <Amber>;
+  ToRed(p,mk_Kernel(ls,cs)) ==
+    mk_Kernel(ChgLight(ls,p,<Red>),cs)
+  pre p in set dom ls and ls(p) = <Amber>;
 
 -- changing the light to amber for a given path
 
   ToAmber: Path * Kernel -> Kernel
-  ToAmber(p,mk_Kernel(lights,conflicts)) ==
-    mk_Kernel(ChgLight(lights,p,<Amber>),conflicts)
-  pre p in set dom lights and lights(p) = <Green>;
+  ToAmber(p,mk_Kernel(ls,cs)) ==
+    mk_Kernel(ChgLight(ls,p,<Amber>),cs)
+  pre p in set dom ls and ls(p) = <Green>;
 
   ChgLight: (map Path to Light) * Path * Light -> (map Path to Light)
   ChgLight(lights,p,colour) ==

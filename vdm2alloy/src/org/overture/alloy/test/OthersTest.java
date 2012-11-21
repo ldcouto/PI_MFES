@@ -14,12 +14,12 @@ public class OthersTest extends Vdm2AlloyBaseTest
 				output.getPath(), "-v",  }), 0);
 	}
 	
-	public void testTraffic() throws Exception
-	{
-		File vdm = new File(getInputDir(), "traffic.vdmsl");
-		File output = new File(getOutputDir(), "traffic.als");
-		assertEquals(Main.execute(new String[] { "-vdm", vdm.getPath(), "-o",
-				output.getPath(), "-v",  }), 0);
-	}
+//	public void testTraffic() throws Exception
+//	{
+//		File vdm = new File(getInputDir(), "traffic.vdmsl");
+//		File output = new File(getOutputDir(), "traffic.als");
+//		assertEquals(Main.execute(new String[] { "-vdm", vdm.getPath(), "-o",
+//				output.getPath(), "-v",  }), 0);
+//	}
 
 }
