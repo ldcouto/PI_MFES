@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Vector;
@@ -31,11 +32,13 @@ import org.overture.ast.expressions.AMapDomainUnaryExp;
 import org.overture.ast.expressions.AMapEnumMapExp;
 import org.overture.ast.expressions.AMapInverseUnaryExp;
 import org.overture.ast.expressions.AMapletExp;
+import org.overture.ast.expressions.AMkBasicExp;
 import org.overture.ast.expressions.AMkTypeExp;
 import org.overture.ast.expressions.AOrBooleanBinaryExp;
 import org.overture.ast.expressions.AQuoteLiteralExp;
 import org.overture.ast.expressions.ASetCompSetExp;
 import org.overture.ast.expressions.ASetEnumSetExp;
+import org.overture.ast.expressions.ASetUnionBinaryExp;
 import org.overture.ast.expressions.AVariableExp;
 import org.overture.ast.expressions.PExp;
 import org.overture.ast.expressions.SBinaryExp;
@@ -143,6 +146,16 @@ public class Alloy2VdmAnalysis
 		// result.add("module " + moduleName + "\n");
 		// result.add("open util/relation\n");
 		this.components.add(new ModuleHeader(moduleName, "util/relation", "vdmutil"));
+		
+		BasicTokenSearch basicTokens = new BasicTokenSearch();
+		node.apply(basicTokens);
+		for (Entry<String, INode> entry : basicTokens.mkbasicToken.entrySet())
+		{
+			Sig s = new Sig(entry.getKey());
+			s.isOne = true;
+			this.components.add(s);
+		}
+		
 		return super.caseAModuleModules(node, question);
 	}
 
@@ -207,17 +220,20 @@ public class Alloy2VdmAnalysis
 						{
 							ctxt.merge(createType(f.getType(), outer));
 							s.addField(f.getTag(), getFieldType(f.getType()));
-							s.constraints.addAll(getFieldConstraints(f,s.name));
+							s.constraints.addAll(getFieldConstraints(f, s.name));
 						}
 						Context invCtxt = new Context(ctxt);
-						AlloyPart invPart = recordType.getInvDef().getParamPatternList().get(0).get(0).apply(this, invCtxt);
-						boolean hasLet = !invPart.exp.isEmpty();
-						invPart.merge(recordType.getInvDef().getBody().apply(this, invCtxt));
-						if (hasLet)
+						if (recordType.getInvDef() != null)
 						{
-							invPart.exp = "( " + invPart.exp + ")";
+							AlloyPart invPart = recordType.getInvDef().getParamPatternList().get(0).get(0).apply(this, invCtxt);
+							boolean hasLet = !invPart.exp.isEmpty();
+							invPart.merge(recordType.getInvDef().getBody().apply(this, invCtxt));
+							if (hasLet)
+							{
+								invPart.exp = "( " + invPart.exp + ")";
+							}
+							s.constraints.add(invPart.exp);
 						}
-						s.constraints.add(invPart.exp);
 						ctxt.addType(recordType, s);
 						this.components.add(s);
 						return ctxt;
@@ -498,13 +514,13 @@ public class Alloy2VdmAnalysis
 			switch (ftype.kindSMapType())
 			{
 				case INMAP:
-					constraints.add("/*" + sig + "." + field.getTag()
+					constraints.add(" /*" + sig + "." + field.getTag()
 							+ " is an INMAP */ " + "injective["
 							+ field.getTag() + "," + sig + "] and functional["
 							+ field.getTag() + "," + sig + "]");
 					break;
 				case MAP:
-					constraints.add("/*" + sig + "." + field.getTag()
+					constraints.add(" /*" + sig + "." + field.getTag()
 							+ " is a MAP   */ " + "functional["
 							+ field.getTag() + "," + sig + "]");
 					break;
@@ -526,12 +542,18 @@ public class Alloy2VdmAnalysis
 				String name = node.getPattern().toString();// todo
 				Sig s = new Sig(name);
 				ctxt.merge(createType(node.getType(), ctxt));
-//				System.out.println("Type is: "+ node.getType()+" Found sig: "+ctxt.getSig(node.getType()).name);
+				// System.out.println("Type is: "+ node.getType()+" Found sig: "+ctxt.getSig(node.getType()).name);
 				s.supers.add(ctxt.getSig(node.getType()));
 				s.isOne = true;
 				ctxt.addVariable(name, node.getType());
 				this.components.add(s);
 				break;
+			}
+			default:
+			{
+				System.out.println("Skipping value: \""
+						+ node.getPattern().toString()
+						+ "\" it should be generated as a function");
 			}
 
 		}
@@ -566,23 +588,23 @@ public class Alloy2VdmAnalysis
 															 * Sig.FieldType(ftype.getTo().toString(),
 															 * FieldType.Prefix.lone)));
 															 */
-//				switch (ftype.kindSMapType())
-//				{
-//					case INMAP:
-//						s.constraints.add("/*" + name + "." + f.getTag()
-//								+ " is an INMAP */ " + "injective["
-//								+ f.getTag() + "," + s.name
-//								+ "] and functional[" + f.getTag() + ","
-//								+ s.name + "]");
-//						break;
-//					case MAP:
-//						s.constraints.add("/*" + name + "." + f.getTag()
-//								+ " is a MAP   */ " + "functional["
-//								+ f.getTag() + "," + s.name + "]");
-//						break;
-//
-//				}
-				s.constraints.addAll(getFieldConstraints(f,s.name));
+				// switch (ftype.kindSMapType())
+				// {
+				// case INMAP:
+				// s.constraints.add("/*" + name + "." + f.getTag()
+				// + " is an INMAP */ " + "injective["
+				// + f.getTag() + "," + s.name
+				// + "] and functional[" + f.getTag() + ","
+				// + s.name + "]");
+				// break;
+				// case MAP:
+				// s.constraints.add("/*" + name + "." + f.getTag()
+				// + " is a MAP   */ " + "functional["
+				// + f.getTag() + "," + s.name + "]");
+				// break;
+				//
+				// }
+				s.constraints.addAll(getFieldConstraints(f, s.name));
 			}
 		}
 		question.clearState();
@@ -590,8 +612,10 @@ public class Alloy2VdmAnalysis
 		{
 			question.addState(f.getTag(), f.getTag());
 		}
-
+if(node.getInvExpression()!=null)
+{
 		s.constraints.add(node.getInvExpression().apply(this, question).toPartBody());
+}
 		this.components.add(s);
 		return null;
 	}
@@ -992,6 +1016,21 @@ public class Alloy2VdmAnalysis
 		}
 		return super.caseAMkTypeExp(node, question);
 	}
+	
+	@Override
+	public AlloyPart caseAMkBasicExp(AMkBasicExp node, Context question)
+			throws AnalysisException
+	{
+		String name = BasicTokenSearch.getName(node);
+		for (Part p : this.components)
+		{
+			if(p instanceof Sig && ((Sig)p).name.equals(name))
+			{
+				return new AlloyPart(name);
+			}
+		}
+		return super.caseAMkBasicExp(node, question);
+	}
 
 	@Override
 	public AlloyPart caseARecordPattern(ARecordPattern node, Context question)
@@ -1332,6 +1371,7 @@ public class Alloy2VdmAnalysis
 				p.exp += " & ";
 				break;
 			case SETUNION:
+				p.exp += " + ";
 				break;
 			case STARSTAR:
 				break;
@@ -1694,4 +1734,11 @@ public class Alloy2VdmAnalysis
 		return defaultSBinaryExp(node, question);
 	};
 
+	
+	@Override
+	public AlloyPart caseASetUnionBinaryExp(ASetUnionBinaryExp node,
+			Context question) throws AnalysisException
+	{//TODO: not checked
+		return defaultSBinaryExp(node, question);
+	}
 }
