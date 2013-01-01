@@ -6,7 +6,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/parser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/typechecker"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/alloy"/>
-	<classpathentry kind="lib" path="C:/Users/kel/Downloads/commons-cli-1.2-bin/commons-cli-1.2/commons-cli-1.2.jar" sourcepath="C:/Users/kel/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/PhD/Lausdahl_Phd/MIT/Tool_Source_Code/commons-cli-1.2.jar" sourcepath="C:/Users/kel/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
