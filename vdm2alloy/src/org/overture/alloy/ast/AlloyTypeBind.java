@@ -1,4 +1,5 @@
-package org.overture.alloy;
+package org.overture.alloy.ast;
+
 
 public class AlloyTypeBind extends AlloyExp
 {

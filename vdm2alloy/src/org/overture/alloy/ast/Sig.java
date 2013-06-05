@@ -1,4 +1,4 @@
-package org.overture.alloy;
+package org.overture.alloy.ast;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,13 +7,16 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.Map.Entry;
 
+import org.overture.alloy.Alloy2VdmAnalysis;
+import org.overture.alloy.Formatter;
+
 public class Sig extends Part
 {
 	public static class FieldType
 	{
-		String sigTypeName;
+		public String sigTypeName;
 
-		enum Prefix
+		public enum Prefix
 		{
 			one, set, seq, lone,undefined;
 			

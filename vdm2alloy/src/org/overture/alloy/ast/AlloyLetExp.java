@@ -1,4 +1,4 @@
-package org.overture.alloy;
+package org.overture.alloy.ast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,7 @@ import org.overture.ast.types.PType;
 
 public class AlloyLetExp extends AlloyExp
 {
-	Map<String,PType> variables = new HashMap<String, PType>();
+	public Map<String,PType> variables = new HashMap<String, PType>();
 	public AlloyLetExp()
 	{
 	}

@@ -1,4 +1,6 @@
-package org.overture.alloy;
+package org.overture.alloy.ast;
+
+import org.overture.alloy.Formatter;
 
 public class Fun extends Part
 {

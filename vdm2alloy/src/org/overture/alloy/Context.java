@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.overture.alloy.ast.Sig;
 import org.overture.ast.types.PType;
 import org.overture.typechecker.TypeComparator;
 

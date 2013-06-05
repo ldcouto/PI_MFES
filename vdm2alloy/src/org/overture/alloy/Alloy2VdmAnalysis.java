@@ -11,8 +11,9 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Vector;
 
-import org.overture.alloy.Sig.FieldType;
-import org.overture.alloy.Sig.FieldType.Prefix;
+import org.overture.alloy.ast.*;
+import org.overture.alloy.ast.Sig.FieldType;
+import org.overture.alloy.ast.Sig.FieldType.Prefix;
 import org.overture.ast.analysis.AnalysisException;
 import org.overture.ast.analysis.DepthFirstAnalysisAdaptorQuestionAnswer;
 import org.overture.ast.definitions.AExplicitFunctionDefinition;
@@ -620,7 +621,7 @@ if(node.getInvExpression()!=null)
 		return null;
 	}
 
-	static String toList(List<String> quotes, String seperator)
+	public static String toList(List<String> quotes, String seperator)
 	{
 		StringBuilder sb = new StringBuilder();
 		for (Iterator<String> itr = quotes.iterator(); itr.hasNext();)
