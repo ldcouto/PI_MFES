@@ -16,8 +16,8 @@ public class TelephoneOriginalTest extends Vdm2AlloyBaseTest
 	{
 		File vdm = new File(getInputDir(), "telephone.vdmsl");
 		File output = new File(getOutputDir(), "telephone.als");
-		assertEquals(Main.execute(new String[] { "-vdm", vdm.getPath(), "-o",
-				output.getPath(), "-v", "-test2",
+		assertEquals(Main.execute(new String[] { "-vdm", copy(vdm), "-o",
+				output.getPath(), verbose, "-test2",
 				new File(getOutputDir(), "m2.als").getPath() }), 0);
 	}
 

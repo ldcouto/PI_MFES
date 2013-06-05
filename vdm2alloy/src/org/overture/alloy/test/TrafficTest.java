@@ -17,8 +17,8 @@ public class TrafficTest extends Vdm2AlloyBaseTest
 	{
 		File vdm = new File(getInputDir(), "traffic.vdmsl");
 		File output = new File(getOutputDir(), "traffic.als");
-		assertEquals(Main.execute(new String[] { "-vdm", vdm.getPath(), "-o",
-				output.getPath(), "-v", "-test2",
+		assertEquals(Main.execute(new String[] { "-vdm", copy(vdm), "-o",
+				output.getPath(), verbose, "-test2",
 				new File(getOutputDir(), test2).getPath() }), 0);
 	}
 

@@ -146,7 +146,7 @@ public class Main
 				System.out.println("Running Alloy on file: "
 						+ tmpFile.getName());
 				int exitCode = Terminal.execute(new String[] { "-alloy",
-						tmpFile.getAbsolutePath(), "-a" });
+						tmpFile.getAbsolutePath(), "-a","-s","SAT4J" });
 				if (exitCode != 0)
 				{
 					return exitCode;
@@ -157,7 +157,7 @@ public class Main
 					String testInputPath = line.getOptionValue(extraAlloyTest.getOpt());
 					System.out.println("Running Alloy on file: "
 							+ testInputPath);
-					Terminal.main(new String[] { "-alloy", testInputPath, "-a" });
+					Terminal.main(new String[] { "-alloy", testInputPath, "-a" ,"-s","SAT4J"});
 				}
 			}
 		} else
