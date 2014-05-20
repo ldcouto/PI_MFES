@@ -1,0 +1,132 @@
+module test
+
+sig Subscriber{}
+one sig AI{}
+one sig SI{}
+one sig WI{}
+sig Initiator in AI + SI + WI{}
+one sig SR{}
+one sig WR{}
+sig Recipient in SR + WR{}
+one sig FR{}
+one sig UN{}
+sig Status in FR + UN + Initiator + Recipient{}
+
+sig Exchange{
+	status: Subscriber -> one Status,
+	calls: Subscriber -> Subscriber
+}
+{
+	all i : (calls).univ | ((status[i]  = WI and status[calls[i] ]  = WR) or (status[i]  = SI and status[calls[i] ]  = SR))
+}
+fact{
+	/*Exchange.status is a MAP*/
+	 (some fe: Exchange | ( all fs1,fs2 : fe.status.univ | fs1=fs2  implies fe.status[fs1] = fe.status[fs2] ))
+	and
+	/*Exchange.calls is an INMAP*/
+	 (some fe: Exchange | ( all fs1,fs2 : fe.calls.univ | fe.calls[fs1] = fe.calls[fs2] implies fs1=fs2 ))
+}
+
+pred Lift(e : Exchange, e' : Exchange, s: Subscriber)
+{
+	 /* Frame conditions */
+	e'.calls = e.calls
+	 /* Pre conditions */
+	s in ((e.status :> (FR))).univ
+	 /* Post conditions */
+	e'.status = e.status ++ (s -> AI)
+}
+
+run Lift
+pred Connect(e : Exchange, e' : Exchange, i: Subscriber, r: Subscriber)
+{
+	 /* Pre conditions */
+	i in ((e.status :> (AI))).univ and r in ((e.status :> (FR))).univ
+	 /* Post conditions */
+	e'.status = e.status ++ (i -> WI + r -> WR) and e'.calls = e.calls ++ (i -> r)
+}
+
+run Connect
+pred MakeUn(e : Exchange, e' : Exchange, i: Subscriber)
+{
+	 /* Frame conditions */
+	e'.calls = e.calls
+	 /* Pre conditions */
+	i in ((e.status :> (AI))).univ
+	 /* Post conditions */
+	e'.status = e.status ++ (i -> UN)
+}
+
+run MakeUn
+pred Answer(e : Exchange, e' : Exchange, r: Subscriber)
+{
+	 /* Frame conditions */
+	e'.calls = e.calls
+	 /* Pre conditions */
+	r in ((e.status :> (WR))).univ
+	 /*Map domain pre condition */
+	r in (~(e'.calls)).univ
+	 /* Post conditions */
+	e'.status = e.status ++ (r -> SR + ~(e'.calls)[r]  -> SI)
+}
+
+run Answer
+pred ClearAttempt(e : Exchange, e' : Exchange, i: Subscriber)
+{
+	 /* Frame conditions */
+	e'.calls = e.calls
+	 /* Pre conditions */
+	i in ((e.status :> (AI))).univ
+	 /* Post conditions */
+	e'.status = e.status ++ (i -> FR)
+}
+
+run ClearAttempt
+pred ClearWait(e : Exchange, e' : Exchange, i: Subscriber)
+{
+	 /* Pre conditions */
+	i in ((e.status :> (WI))).univ
+	 /*Map domain pre condition */
+	i in (e.calls).univ
+	 /* Post conditions */
+	e'.status = e.status ++ (i -> FR + e.calls[i]  -> FR) and e'.calls = (e.calls.univ -(i)) <: e.calls
+}
+
+run ClearWait
+pred ClearSpeak(e : Exchange, e' : Exchange, i: Subscriber)
+{
+	 /* Pre conditions */
+	i in ((e.status :> (SI))).univ
+	 /*Map domain pre condition */
+	i in (e.calls).univ
+	 /* Post conditions */
+	e'.status = e.status ++ (i -> FR + e.calls[i]  -> UN) and e'.calls = (e.calls.univ -(i)) <: e.calls
+}
+
+run ClearSpeak
+pred Suspend(e : Exchange, e' : Exchange, r: Subscriber)
+{
+	 /* Frame conditions */
+	e'.calls = e.calls
+	 /* Pre conditions */
+	r in ((e.status :> (SR))).univ
+	 /*Map domain pre condition */
+	r in (~(e'.calls)).univ
+	 /* Post conditions */
+	e'.status = e.status ++ (r -> WR + ~(e'.calls)[r]  -> WI)
+}
+
+run Suspend
+pred ClearUn(e : Exchange, e' : Exchange, s: Subscriber)
+{
+	 /* Frame conditions */
+	e'.calls = e.calls
+	 /* Pre conditions */
+	s in ((e.status :> (UN))).univ
+	 /* Post conditions */
+	e'.status = e.status ++ (s -> FR)
+}
+
+run ClearUn
+pred show{}
+run show
