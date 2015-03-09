@@ -2,3 +2,8 @@ vdm2alloy/generated
 **/bin
 vdm2alloy/models
 vdm2alloy/binary
+
+.project
+.classpath
+**/.settings/
+**/target/
