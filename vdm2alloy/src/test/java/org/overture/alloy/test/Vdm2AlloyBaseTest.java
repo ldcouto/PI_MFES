@@ -33,7 +33,7 @@ public abstract class Vdm2AlloyBaseTest extends TestCase
 protected final static String verbose = "";//-v
 	public File getOutputDir()
 	{
-		File output = new File("generated");
+		File output = new File("target/generated");
 		output = new File(output, this.getName().substring(this.getName().toLowerCase().indexOf("test")
 				+ "test".length()));
 		output.mkdirs();
