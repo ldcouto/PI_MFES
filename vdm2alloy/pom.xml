@@ -10,52 +10,34 @@
 
  <groupId>org.overturetool.core.alloy</groupId>
   <artifactId>vdm2alloy</artifactId>
-  <name>A VDM-sl to Alloy translator</name>
-
+  <name>VDM-SL to Alloy Translation</name>
   
-
   <dependencies>
-  	<dependency>
-   		<groupId>org.overturetool.core.alloy</groupId>
-	<artifactId>alloyextension</artifactId>
-   		<version>${project.version}</version>
-	</dependency>
-  
-  
-   	<dependency>
-   		<groupId>junit</groupId>
-   		<artifactId>junit</artifactId>
-   		<version>4.11</version>
-	</dependency>
-    <dependency>
-      <groupId>org.overturetool.core</groupId>
-      <artifactId>ast</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.overturetool.core</groupId>
-      <artifactId>parser</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.overturetool.core</groupId>
-      <artifactId>typechecker</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.overturetool.core</groupId>
-      <artifactId>interpreter</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-
-	<dependency>
-    <groupId>mit.edu</groupId>
-    <artifactId>alloy</artifactId>
-    <version>4.2</version>
-</dependency>
-
+      <dependency>
+          <groupId>org.overturetool.core.alloy</groupId>
+          <artifactId>alloyextension</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.11</version>
+      </dependency>
+      <dependency>
+          <groupId>org.overturetool.core</groupId>
+          <artifactId>ast</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.overturetool.core</groupId>
+          <artifactId>typechecker</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>mit.edu</groupId>
+          <artifactId>alloy</artifactId>
+          <version>4.2</version>
+      </dependency>
   </dependencies>
 
-  
 </project>

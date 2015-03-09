@@ -11,7 +11,7 @@
 	<packaging>pom</packaging>
 	<groupId>org.overturetool.core</groupId>
 	<artifactId>alloy</artifactId>
-	<name>Alloy addon for overture</name>
+	<name>Alloy addon for Overture</name>
 
 	<modules>
 		<module>alloyextension</module>

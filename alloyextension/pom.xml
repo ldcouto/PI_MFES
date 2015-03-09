@@ -10,7 +10,7 @@
 
 	<groupId>org.overturetool.core.alloy</groupId>
 	<artifactId>alloyextension</artifactId>
-	<name>A terminal extension for the alloy analyser</name>
+	<name>Alloy Analyzer Terminal Extension</name>
 
 
 
