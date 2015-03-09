@@ -56,6 +56,7 @@ import org.overture.ast.expressions.ACompBinaryExp;
 import org.overture.ast.expressions.ADistUnionUnaryExp;
 import org.overture.ast.expressions.ADomainResByBinaryExp;
 import org.overture.ast.expressions.ADomainResToBinaryExp;
+import org.overture.ast.expressions.AEqualsBinaryExp;
 import org.overture.ast.expressions.AEquivalentBooleanBinaryExp;
 import org.overture.ast.expressions.AFieldExp;
 import org.overture.ast.expressions.AForAllExp;
@@ -296,10 +297,7 @@ public class Alloy2VdmAnalysis
 			if (type instanceof ABooleanBasicType)
 			{
 
-			} else if (type instanceof ATokenBasicType)
-			{
-
-			} else if (type instanceof ACharBasicType)
+			} else if (type instanceof ATokenBasicType || type instanceof ACharBasicType)
 			{
 				Sig s = new Sig(getTypeName(type));
 				ctxt.addType(type, s);
@@ -665,7 +663,7 @@ public class Alloy2VdmAnalysis
 
 			// }
 			// }
-		}
+		} 
 		return null;
 	}
 
@@ -1526,7 +1524,7 @@ public class Alloy2VdmAnalysis
 			}
 			// case DOMAINRESTO:
 			// break;
-			else if (node instanceof AEquivalentBooleanBinaryExp)
+			else if (node instanceof AEqualsBinaryExp)
 			// case EQUALS:
 			{
 				p.exp += " = ";
