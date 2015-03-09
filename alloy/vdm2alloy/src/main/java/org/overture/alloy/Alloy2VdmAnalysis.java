@@ -40,6 +40,7 @@ import org.overture.ast.definitions.AImplicitOperationDefinition;
 import org.overture.ast.definitions.AStateDefinition;
 import org.overture.ast.definitions.ATypeDefinition;
 import org.overture.ast.definitions.AValueDefinition;
+import org.overture.ast.definitions.PDefinition;
 import org.overture.ast.expressions.AApplyExp;
 import org.overture.ast.expressions.ADistUnionUnaryExp;
 import org.overture.ast.expressions.ADomainResByBinaryExp;
@@ -62,6 +63,7 @@ import org.overture.ast.expressions.AVariableExp;
 import org.overture.ast.expressions.PExp;
 import org.overture.ast.expressions.SBinaryExp;
 import org.overture.ast.expressions.SBooleanBinaryExp;
+import org.overture.ast.intf.lex.ILexNameToken;
 import org.overture.ast.lex.LexNameToken;
 import org.overture.ast.lex.VDMToken;
 import org.overture.ast.modules.AModuleModules;
@@ -75,6 +77,7 @@ import org.overture.ast.patterns.PMultipleBind;
 import org.overture.ast.patterns.PPattern;
 import org.overture.ast.statements.AExternalClause;
 import org.overture.ast.types.ABooleanBasicType;
+import org.overture.ast.types.ACharBasicType;
 import org.overture.ast.types.AFieldField;
 import org.overture.ast.types.AFunctionType;
 import org.overture.ast.types.ANamedInvariantType;
@@ -82,11 +85,13 @@ import org.overture.ast.types.AProductType;
 import org.overture.ast.types.AQuoteType;
 import org.overture.ast.types.ARecordInvariantType;
 import org.overture.ast.types.ASetType;
+import org.overture.ast.types.ATokenBasicType;
 import org.overture.ast.types.AUnionType;
 import org.overture.ast.types.PType;
 import org.overture.ast.types.SBasicType;
 import org.overture.ast.types.SInvariantType;
 import org.overture.ast.types.SMapType;
+import org.overture.ast.types.SNumericBasicType;
 import org.overture.ast.types.SSeqType;
 
 public class Alloy2VdmAnalysis
@@ -162,7 +167,7 @@ public class Alloy2VdmAnalysis
 		// result.add("module " + moduleName + "\n");
 		// result.add("open util/relation\n");
 		this.components.add(new ModuleHeader(moduleName, "util/relation", "vdmutil"));
-		
+
 		BasicTokenSearch basicTokens = new BasicTokenSearch();
 		node.apply(basicTokens);
 		for (Entry<String, INode> entry : basicTokens.mkbasicToken.entrySet())
@@ -171,7 +176,7 @@ public class Alloy2VdmAnalysis
 			s.isOne = true;
 			this.components.add(s);
 		}
-		
+
 		return super.caseAModuleModules(node, question);
 	}
 
@@ -215,107 +220,195 @@ public class Alloy2VdmAnalysis
 			return ctxt;
 		}
 
-		switch (type.kindPType())
+		if (type instanceof SInvariantType)
 		{
-			case INVARIANT:
+			SInvariantType invType = (SInvariantType) type;
+			if (invType instanceof ANamedInvariantType)
 			{
-				SInvariantType invType = (SInvariantType) type;
-				switch (invType.kindSInvariantType())
+				ctxt.merge(createNamedType((ANamedInvariantType) invType, outer));
+				return ctxt;
+			} else if (invType instanceof ARecordInvariantType)
+			{
+				ARecordInvariantType recordType = (ARecordInvariantType) type;
+				Sig s = new Sig(recordType.getName().getName());
+
+				for (AFieldField f : recordType.getFields())
 				{
-					case NAMED:
-					{
-						ctxt.merge(createNamedType((ANamedInvariantType) invType, outer));
-						return ctxt;
-					}
-					case RECORD:
-					{
-						ARecordInvariantType recordType = (ARecordInvariantType) type;
-						Sig s = new Sig(recordType.getName().name);
-
-						for (AFieldField f : recordType.getFields())
-						{
-							ctxt.merge(createType(f.getType(), outer));
-							s.addField(f.getTag(), getFieldType(f.getType()));
-							s.constraints.addAll(getFieldConstraints(f, s.name));
-						}
-						Context invCtxt = new Context(ctxt);
-						if (recordType.getInvDef() != null)
-						{
-							AlloyPart invPart = recordType.getInvDef().getParamPatternList().get(0).get(0).apply(this, invCtxt);
-							boolean hasLet = !invPart.exp.isEmpty();
-							invPart.merge(recordType.getInvDef().getBody().apply(this, invCtxt));
-							if (hasLet)
-							{
-								invPart.exp = "( " + invPart.exp + ")";
-							}
-							s.constraints.add(invPart.exp);
-						}
-						ctxt.addType(recordType, s);
-						this.components.add(s);
-						return ctxt;
-					}
-
+					ctxt.merge(createType(f.getType(), outer));
+					s.addField(f.getTag(), getFieldType(f.getType()));
+					s.constraints.addAll(getFieldConstraints(f, s.name));
 				}
-			}
-			case QUOTE:
-			{
-				AQuoteType qt = (AQuoteType) type;
-				String name = qt.getValue().value.toUpperCase();
-				Sig s = new Sig(name);
-				s.isOne = true;
-				ctxt.addType(qt, s);
+				Context invCtxt = new Context(ctxt);
+				if (recordType.getInvDef() != null)
+				{
+					AlloyPart invPart = recordType.getInvDef().getParamPatternList().get(0).get(0).apply(this, invCtxt);
+					boolean hasLet = !invPart.exp.isEmpty();
+					invPart.merge(recordType.getInvDef().getBody().apply(this, invCtxt));
+					if (hasLet)
+					{
+						invPart.exp = "( " + invPart.exp + ")";
+					}
+					s.constraints.add(invPart.exp);
+				}
+				ctxt.addType(recordType, s);
 				this.components.add(s);
 				return ctxt;
 			}
-			case BASIC:
+		} else if (type instanceof AQuoteType)
+		{
+			AQuoteType qt = (AQuoteType) type;
+			String name = qt.getValue().getValue().toUpperCase();
+			Sig s = new Sig(name);
+			s.isOne = true;
+			ctxt.addType(qt, s);
+			this.components.add(s);
+			return ctxt;
+		} else if (type instanceof SBasicType)
+		{
+			if (type instanceof ABooleanBasicType)
 			{
-				switch (((SBasicType) type).kindSBasicType())
-				{
-					case BOOLEAN:
-						break;
-					case TOKEN:
-					case CHAR:
-					{
-						Sig s = new Sig(getTypeName(type));
-						ctxt.addType(type, s);
-						this.components.add(s);
-					}
-					case NUMERIC:
-						break;
 
-				}
-				return ctxt;
-			}
-
-			case SEQ:
+			} else if (type instanceof ATokenBasicType)
 			{
-				// SSeqType stype = (SSeqType) type;
-				// result.add("sig "+getTypeName(type))
-				return ctxt;
-			}
 
-			case PRODUCT:
+			} else if (type instanceof ACharBasicType)
 			{
 				Sig s = new Sig(getTypeName(type));
-				Sig.FieldType ftype = null;
-				for (Iterator<PType> itr = ((AProductType) type).getTypes().descendingIterator(); itr.hasNext();)
-				{
-					String fname = getTypeName(itr.next());
-					if (ftype == null)
-					{
-						ftype = new Sig.FieldType(fname, Prefix.undefined);
-					} else
-					{
-						ftype = new Sig.MapFieldType(fname, Prefix.undefined, ftype);
-					}
-				}
-				s.addField("x", ftype);
-				s.isWrapper = true;
 				ctxt.addType(type, s);
 				this.components.add(s);
-				return ctxt;
+			} else if (type instanceof SNumericBasicType)
+			{
+
 			}
+			return ctxt;
+		} else if (type instanceof SSeqType)
+		{
+			// SSeqType stype = (SSeqType) type;
+			// result.add("sig "+getTypeName(type))
+			return ctxt;
+		} else if (type instanceof AProductType)
+		{
+			Sig s = new Sig(getTypeName(type));
+			Sig.FieldType ftype = null;
+			for (Iterator<PType> itr = ((AProductType) type).getTypes().descendingIterator(); itr.hasNext();)
+			{
+				String fname = getTypeName(itr.next());
+				if (ftype == null)
+				{
+					ftype = new Sig.FieldType(fname, Prefix.undefined);
+				} else
+				{
+					ftype = new Sig.MapFieldType(fname, Prefix.undefined, ftype);
+				}
+			}
+			s.addField("x", ftype);
+			s.isWrapper = true;
+			ctxt.addType(type, s);
+			this.components.add(s);
+			return ctxt;
 		}
+
+		// switch (type.kindPType())
+		// {
+		// case INVARIANT:
+		// {
+		// SInvariantType invType = (SInvariantType) type;
+		// switch (invType.kindSInvariantType())
+		// {
+		// case NAMED:
+		// {
+		// ctxt.merge(createNamedType((ANamedInvariantType) invType, outer));
+		// return ctxt;
+		// }
+		// case RECORD:
+		// {
+		// ARecordInvariantType recordType = (ARecordInvariantType) type;
+		// Sig s = new Sig(recordType.getName().name);
+		//
+		// for (AFieldField f : recordType.getFields())
+		// {
+		// ctxt.merge(createType(f.getType(), outer));
+		// s.addField(f.getTag(), getFieldType(f.getType()));
+		// s.constraints.addAll(getFieldConstraints(f, s.name));
+		// }
+		// Context invCtxt = new Context(ctxt);
+		// if (recordType.getInvDef() != null)
+		// {
+		// AlloyPart invPart = recordType.getInvDef().getParamPatternList().get(0).get(0).apply(this, invCtxt);
+		// boolean hasLet = !invPart.exp.isEmpty();
+		// invPart.merge(recordType.getInvDef().getBody().apply(this, invCtxt));
+		// if (hasLet)
+		// {
+		// invPart.exp = "( " + invPart.exp + ")";
+		// }
+		// s.constraints.add(invPart.exp);
+		// }
+		// ctxt.addType(recordType, s);
+		// this.components.add(s);
+		// return ctxt;
+		// }
+		//
+		// }
+		// }
+		// case QUOTE:
+		// {
+		// AQuoteType qt = (AQuoteType) type;
+		// String name = qt.getValue().value.toUpperCase();
+		// Sig s = new Sig(name);
+		// s.isOne = true;
+		// ctxt.addType(qt, s);
+		// this.components.add(s);
+		// return ctxt;
+		// }
+		// case BASIC:
+		// {
+		// switch (((SBasicType) type).kindSBasicType())
+		// {
+		// case BOOLEAN:
+		// break;
+		// case TOKEN:
+		// case CHAR:
+		// {
+		// Sig s = new Sig(getTypeName(type));
+		// ctxt.addType(type, s);
+		// this.components.add(s);
+		// }
+		// case NUMERIC:
+		// break;
+		//
+		// }
+		// return ctxt;
+		// }
+		//
+		// case SEQ:
+		// {
+		// // SSeqType stype = (SSeqType) type;
+		// // result.add("sig "+getTypeName(type))
+		// return ctxt;
+		// }
+		//
+		// case PRODUCT:
+		// {
+		// Sig s = new Sig(getTypeName(type));
+		// Sig.FieldType ftype = null;
+		// for (Iterator<PType> itr = ((AProductType) type).getTypes().descendingIterator(); itr.hasNext();)
+		// {
+		// String fname = getTypeName(itr.next());
+		// if (ftype == null)
+		// {
+		// ftype = new Sig.FieldType(fname, Prefix.undefined);
+		// } else
+		// {
+		// ftype = new Sig.MapFieldType(fname, Prefix.undefined, ftype);
+		// }
+		// }
+		// s.addField("x", ftype);
+		// s.isWrapper = true;
+		// ctxt.addType(type, s);
+		// this.components.add(s);
+		// return ctxt;
+		// }
+		// }
 		return ctxt;
 	}
 
@@ -586,21 +679,20 @@ public class Alloy2VdmAnalysis
 			return null;
 		}
 		trnaslated.add(node);
-		String name = node.getName().name;
+		String name = node.getName().getName();
 		Sig s = new Sig(name);
 
 		for (Iterator<AFieldField> itr = node.getFields().iterator(); itr.hasNext();)
 		{
 			AFieldField f = itr.next();
 
-			if (f.getType().kindPType() == EType.MAP)
+			if (f.getType() instanceof SMapType)
 			{
 				SMapType ftype = (SMapType) f.getType();
 				s.addField(f.getTag(), getFieldType(ftype)); /*
 															 * new Sig.MapFieldType(ftype.getFrom().toString(),
 															 * (ftype.kindSMapType() == EMapType.MAP ?
-															 * FieldType.Prefix.undefined
-															 * : FieldType.Prefix.lone), new
+															 * FieldType.Prefix.undefined : FieldType.Prefix.lone), new
 															 * Sig.FieldType(ftype.getTo().toString(),
 															 * FieldType.Prefix.lone)));
 															 */
@@ -628,10 +720,10 @@ public class Alloy2VdmAnalysis
 		{
 			question.addState(f.getTag(), f.getTag());
 		}
-if(node.getInvExpression()!=null)
-{
-		s.constraints.add(node.getInvExpression().apply(this, question).toPartBody());
-}
+		if (node.getInvExpression() != null)
+		{
+			s.constraints.add(node.getInvExpression().apply(this, question).toPartBody());
+		}
 		this.components.add(s);
 		return null;
 	}
@@ -656,7 +748,7 @@ if(node.getInvExpression()!=null)
 			throws AnalysisException
 	{
 		String stateId = node.getState().getName().getName().substring(0, 1).toLowerCase();
-		String stateSigName = node.getState().getName().name;
+		String stateSigName = node.getState().getName().getName();
 		String preStateId = stateId;
 		String postStateId = preStateId + "'";
 		String arguments = preStateId + " : " + stateSigName + ", "
@@ -696,11 +788,11 @@ if(node.getInvExpression()!=null)
 		readOnlyState.addAll(stateFields);
 		for (AExternalClause framecondition : node.getExternals())
 		{
-			if (framecondition.getMode().type == VDMToken.WRITE)
+			if (framecondition.getMode().getType() == VDMToken.WRITE)
 			{
-				for (LexNameToken id : framecondition.getIdentifiers())
+				for (ILexNameToken id : framecondition.getIdentifiers())
 				{
-					readOnlyState.remove(id.name);
+					readOnlyState.remove(id.getName());
 				}
 
 			}
@@ -743,8 +835,8 @@ if(node.getInvExpression()!=null)
 		sb.append("\n\t"
 				+ node.getPostcondition().apply(this, ctxt).toPartBody());
 
-		this.components.add(new Pred(node.getName().name, arguments, sb.toString()));
-		this.components.add(new Run(node.getName().name));
+		this.components.add(new Pred(node.getName().getName(), arguments, sb.toString()));
+		this.components.add(new Run(node.getName().getName()));
 		return null;
 	}
 
@@ -794,8 +886,8 @@ if(node.getInvExpression()!=null)
 		sb.append("\n\t"
 				+ node.getPostcondition().apply(this, ctxt).toPartBody());
 
-		this.components.add(new Pred(node.getName().name, arguments, sb.toString()));
-		this.components.add(new Run(node.getName().name));
+		this.components.add(new Pred(node.getName().getName(), arguments, sb.toString()));
+		this.components.add(new Run(node.getName().getName()));
 		return null;
 	}
 
@@ -896,19 +988,19 @@ if(node.getInvExpression()!=null)
 
 		if (node.getType().getResult() instanceof ABooleanBasicType)
 		{
-			this.components.add(new Pred(node.getName().name, arguments, sb.toString()));
+			this.components.add(new Pred(node.getName().getName(), arguments, sb.toString()));
 
 		} else if (node.getType().getResult() instanceof ARecordInvariantType)
 		{
 			PredicatContext pCtxt = (PredicatContext) ctxt;
 			arguments += ", " + pCtxt.getReturnName() + ": "
 					+ pCtxt.getSig(pCtxt.getReturnType()).name;
-			this.components.add(new Pred(node.getName().name, arguments, sb.toString()));
+			this.components.add(new Pred(node.getName().getName(), arguments, sb.toString()));
 		} else
 		{
-			this.components.add(new Fun(node.getName().name, arguments, sb.toString(), getTypeName(node.getType().getResult())));
+			this.components.add(new Fun(node.getName().getName(), arguments, sb.toString(), getTypeName(node.getType().getResult())));
 		}
-		this.components.add(new Run(node.getName().name));
+		this.components.add(new Run(node.getName().getName()));
 		return null;
 	}
 
@@ -976,7 +1068,7 @@ if(node.getInvExpression()!=null)
 			Map<String, PType> variables = new HashMap<String, PType>();
 
 			ANamedInvariantType aNamedInvariantType = (ANamedInvariantType) smb.getSet().getType();
-			Sig s = question.getSig(aNamedInvariantType.getName().name);
+			Sig s = question.getSig(aNamedInvariantType.getName().getName());
 
 			AProductType ptype = (AProductType) ((ASetType) aNamedInvariantType.getType()).getSetof();
 			if (s.getFieldNames().size() == 1)
@@ -1032,7 +1124,7 @@ if(node.getInvExpression()!=null)
 		}
 		return super.caseAMkTypeExp(node, question);
 	}
-	
+
 	@Override
 	public AlloyPart caseAMkBasicExp(AMkBasicExp node, Context question)
 			throws AnalysisException
@@ -1040,7 +1132,7 @@ if(node.getInvExpression()!=null)
 		String name = BasicTokenSearch.getName(node);
 		for (Part p : this.components)
 		{
-			if(p instanceof Sig && ((Sig)p).name.equals(name))
+			if (p instanceof Sig && ((Sig) p).name.equals(name))
 			{
 				return new AlloyPart(name);
 			}
@@ -1073,7 +1165,7 @@ if(node.getInvExpression()!=null)
 			return new AlloyPart();
 		} else
 		{
-			boolean parentIsDef = node.parent().kindNode() == NodeEnum.DEFINITION;
+			boolean parentIsDef = node.parent() instanceof PDefinition;
 			String varName = null;
 			AlloyPart p = new AlloyPart(" let ");
 			if (!parentIsDef)
@@ -1125,7 +1217,8 @@ if(node.getInvExpression()!=null)
 			throws AnalysisException
 	{
 		AlloyPart p = new AlloyPart();
-		String name = node.getName().name + (node.getName().isOld() ? "~" : "");
+		String name = node.getName().getName()
+				+ (node.getName().isOld() ? "~" : "");
 		String exp = "";
 		if (question.containsState(name))
 		{
@@ -1303,18 +1396,17 @@ if(node.getInvExpression()!=null)
 	public AlloyPart caseAQuoteLiteralExp(AQuoteLiteralExp node,
 			Context question) throws AnalysisException
 	{
-		return new AlloyPart(node.getValue().value.toUpperCase());
+		return new AlloyPart(node.getValue().getValue().toUpperCase());
 	}
 
 	@Override
 	public AlloyPart defaultInINode(INode node, Context question)
 			throws AnalysisException
 	{
-		switch (node.kindNode())
+		if (node instanceof PExp)
 		{
-			case EXP:
-				return new AlloyPart(" /* NOT Translated("
-						+ node.getClass().getSimpleName() + ")*/");
+			return new AlloyPart(" /* NOT Translated("
+					+ node.getClass().getSimpleName() + ")*/");
 		}
 		return null;
 	}
@@ -1630,7 +1722,7 @@ if(node.getInvExpression()!=null)
 	public AlloyPart caseAIdentifierPattern(AIdentifierPattern node,
 			Context question) throws AnalysisException
 	{
-		return new AlloyPart(node.getName().name);
+		return new AlloyPart(node.getName().getName());
 	}
 
 	@Override
@@ -1750,11 +1842,10 @@ if(node.getInvExpression()!=null)
 		return defaultSBinaryExp(node, question);
 	};
 
-	
 	@Override
 	public AlloyPart caseASetUnionBinaryExp(ASetUnionBinaryExp node,
 			Context question) throws AnalysisException
-	{//TODO: not checked
+	{// TODO: not checked
 		return defaultSBinaryExp(node, question);
 	}
 }
