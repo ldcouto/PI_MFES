@@ -5,7 +5,7 @@
 		<groupId>org.overturetool</groupId>
 		<artifactId>core</artifactId>
 		<version>2.2.3-SNAPSHOT<!--Replaceable: Main Version--></version>
-		<relativePath>../pom.xml</relativePath>
+		<relativePath>../PI_MFES/pom.xml</relativePath>
 	</parent>
 
 	<packaging>pom</packaging>

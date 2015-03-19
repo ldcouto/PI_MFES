@@ -1255,15 +1255,16 @@ public class Alloy2VdmAnalysis
 			}
 			for (int i = 0; i < fieldNames.size(); i++)
 			{
-				p.exp += fieldNames.get(i) + " = "
-						+ (!parentIsDef ? varName + "." : "")
-						+ tfieldNames.get(i);
-				question.addVariable(fieldNames.get(i), ((ARecordInvariantType) node.getType()).getFields().get(i).getType());
-				if (i < fieldNames.size() - 1)
-				{
-					p.exp += ", ";
-				}
-
+                //LETSSSSS
+                if(!fieldNames.get(i).equals("-")) {//ACRESCENTEI ISTO
+                    p.exp += fieldNames.get(i) + " = "
+                            + (!parentIsDef ? varName + "." : "")
+                            + tfieldNames.get(i);
+                    question.addVariable(fieldNames.get(i), ((ARecordInvariantType) node.getType()).getFields().get(i).getType());
+                    if (i < fieldNames.size() - 1) {
+                        p.exp += ", ";
+                    }
+                }
 			}
 			p.exp += " | ";
 			return p;
