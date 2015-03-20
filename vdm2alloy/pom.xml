@@ -5,7 +5,7 @@
      <groupId>org.overturetool.core</groupId>
   <artifactId>alloy</artifactId>
     <version>2.2.3-SNAPSHOT<!--Replaceable: Main Version--></version>
-    <relativePath>../PI_MFES/pom.xml</relativePath>
+    <relativePath>../vdm2alloy/pom.xml</relativePath>
   </parent>
 
  <groupId>org.overturetool.core.alloy</groupId>

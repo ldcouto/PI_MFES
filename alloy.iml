@@ -8,9 +8,27 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="alloy4.2" level="project" />
     <orderEntry type="library" name="commons-cli:commons-cli:1.2" level="project" />
     <orderEntry type="library" name="org.overturetool.core:ast:2.2.2" level="project" />
     <orderEntry type="library" name="org.overturetool.core:typechecker:2.2.2" level="project" />
+    <orderEntry type="library" name="alloy4.2" level="project" />
+    <orderEntry type="library" name="ast-2.2.2" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (2)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (3)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (4)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (5)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (6)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (7)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (8)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (9)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (10)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (11)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (12)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (13)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (14)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (15)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (16)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (17)" level="project" />
+    <orderEntry type="library" name="ast-2.2.2 (18)" level="project" />
   </component>
 </module>
