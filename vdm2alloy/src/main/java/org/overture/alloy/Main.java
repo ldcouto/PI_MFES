@@ -23,6 +23,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.List;
 
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -38,8 +39,8 @@ import org.overture.ast.modules.AModuleModules;
 import org.overture.config.Settings;
 import org.overture.typechecker.util.TypeCheckerUtil;
 import org.overture.typechecker.util.TypeCheckerUtil.TypeCheckResult;
-
 import edu.mit.csail.sdg.alloy4.Terminal;
+
 
 public class Main
 {
@@ -178,7 +179,7 @@ public class Main
 					String testInputPath = line.getOptionValue(extraAlloyTest.getOpt());
 					System.out.println("Running Alloy on file: "
 							+ testInputPath);
-					Terminal.main(new String[] { "-alloy", testInputPath, "-a" ,"-s","SAT4J"});
+					Terminal.main(new String[]{"-alloy", testInputPath, "-a", "-s", "SAT4J"});
 				}
 			}
 		} else

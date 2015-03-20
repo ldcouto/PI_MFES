@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="ast-2.2.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ast-2.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-cli-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hamcrest-core-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-4.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/parser-2.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/testframework-2.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/typechecker-2.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

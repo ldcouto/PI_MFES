@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="org.overturetool.core:ast:2.2.2" type="repository">
+    <properties maven-id="org.overturetool.core:ast:2.2.2" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/overturetool/core/ast/2.2.2/ast-2.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
