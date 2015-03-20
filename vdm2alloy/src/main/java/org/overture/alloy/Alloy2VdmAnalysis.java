@@ -233,7 +233,7 @@ public class Alloy2VdmAnalysis
 			AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
 			body += pattern.exp + " : " + sig.name + " | ";
 			Context invCtxt = new Context(ctxt);
-			invCtxt.addVariable(pattern.exp, def.getType());
+            invCtxt.addVariable(pattern.exp, def.getType());
 			body += def.getInvExpression().apply(this, invCtxt).exp;
 			Fact f = new Fact(sig.name + "Inv", body);
 			this.components.add(f);
@@ -287,6 +287,7 @@ public class Alloy2VdmAnalysis
 		{
 			AQuoteType qt = (AQuoteType) type;
 			String name = qt.getValue().getValue().toUpperCase();
+            //System.out.println(name);
 			Sig s = new Sig(name);
 			s.isOne = true;
 			ctxt.addType(qt, s);
@@ -446,6 +447,7 @@ public class Alloy2VdmAnalysis
 		if (namedType.getType() instanceof SBasicType)
 		{
 			Sig s = new Sig(namedType.getName().getName());
+            System.out.println(s.toString());
 			ctxt.merge(createType(namedType.getType(), ctxt));
 			s.supers.add(ctxt.getSig(namedType.getType()));
 			ctxt.addType(namedType, s);
@@ -488,16 +490,20 @@ public class Alloy2VdmAnalysis
 					AQuoteType qt = (AQuoteType) ute;
 					String name = qt.getValue().getValue().toUpperCase();
 					quotes.add(name);
-					createType(ute, ctxt);
+                    System.out.println(quotes.toString());
+                   createType(ute, ctxt);
+                    System.out.println("UTE->"+ute.toString()+"     ctx->"+ctxt.toString());//novo
 				} else if (ute instanceof ANamedInvariantType)
 				{
 					ANamedInvariantType nit = (ANamedInvariantType) ute;
 					quotes.add(nit.getName().getName());
+                    System.out.println("Quotes->   "+quotes.toString());
 				}
 			}
-			Sig s = new Sig(namedType.getName().getName());
+			Sig s = new Sig(namedType.getName().getName());System.out.println("Sig"+s.toString());
 			s.setInTypes(quotes);
 			ctxt.addType(ut, s);
+            System.out.println("SIG\t\t->"+ s.toString()+" \n\n    contexto->"+ctxt.toString());//ADICIONADO...
 			this.components.add(s);
 		}
 		// break;
