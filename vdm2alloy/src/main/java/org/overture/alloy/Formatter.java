@@ -21,6 +21,7 @@ package org.overture.alloy;
 import java.util.HashSet;
 import java.util.Set;
 
+
 public class Formatter
 {
 	public static String format(int startTab, String data)

@@ -28,7 +28,7 @@ import org.overture.typechecker.assistant.TypeCheckerAssistantFactory;
 
 public class Context
 {
-	private final Map<PType, Sig> types = new HashMap<PType, Sig>();
+	private final Map<PType, Sig> types = new HashMap<PType, Sig>(); // PType is a vdm type (token,Date,AccNum for example)... types.key=Vdm and types.value=alloy.
 	private final Map<String, PType> variables = new HashMap<String, PType>();
 	private final Map<String, String> stateMap = new HashMap<String, String>();
 	private final Context outer;
@@ -36,11 +36,14 @@ public class Context
 
 	public Context()
 	{
-		this(null);
+
+        this(null);
 	}
 
 	public Context(Context outer)
 	{
+       // System.out.print("olaNEW CONTEXT\n\n");
+
 		this.outer=outer;
 	}
 	
@@ -63,6 +66,7 @@ public class Context
 			sb.append(entry.getKey().toString() + " -> "
 					+ (entry.getValue()!=null?entry.getValue().toString().replace('\n', ' '):"null") + "\n");
 		}
+       // System.out.print("TO STRING-> "+sb.toString());
 		return sb.toString();
 	}
 
@@ -76,6 +80,7 @@ public class Context
 				return entry.getValue();
 			}
 		}
+      //  System.out.print("olaGETSIG\n\n");
 		
 		//Search for compatible match
 		for (Entry<PType, Sig> entry : types.entrySet())
@@ -91,7 +96,7 @@ public class Context
 		{
 			return outer.getSig(type);
 		}
-		
+
 		return null;
 	}
 
@@ -104,11 +109,13 @@ public class Context
 				return entry.getValue();
 			}
 		}
+      //  System.out.print("olaGETSIG STRING\n\n");
 
 		if (outer != null)
 		{
 			return outer.getSig(sigTypeName);
 		}
+
 		return null;
 	}
 
@@ -118,6 +125,9 @@ public class Context
 		{
 			this.types.putAll(ctxt.types);
 		}
+      //  System.out.print("Types:***\n"+types.toString()+"\n\n");
+       // System.out.print("Variabbles:***\n"+variables.toString()+"\n\n");
+       // System.out.print("State-Maap:***\n"+stateMap.toString()+"\n\n");
 	}
 
 	public void flatten()
@@ -127,6 +137,7 @@ public class Context
 		{
 			ctxt.outer.merge(ctxt);
 		}
+       // System.out.print("FLATTERN");
 	}
 
 	public void addType(PType type, Sig sig)

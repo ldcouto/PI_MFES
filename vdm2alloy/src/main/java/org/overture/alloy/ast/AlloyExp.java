@@ -18,7 +18,7 @@
  */
 package org.overture.alloy.ast;
 
-public class AlloyExp
+public class AlloyExp//(exemplo do account nao e usado)
 {
 	public String exp;
 

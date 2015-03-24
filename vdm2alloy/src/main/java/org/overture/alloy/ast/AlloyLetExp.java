@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.overture.ast.types.PType;
 
-public class AlloyLetExp extends AlloyExp
+public class AlloyLetExp extends AlloyExp //(exemplo do account nao e usado)
 {
 	public Map<String,PType> variables = new HashMap<String, PType>();
 	public AlloyLetExp()
@@ -32,7 +32,8 @@ public class AlloyLetExp extends AlloyExp
 
 	public AlloyLetExp(String exp, Map<String, PType> variables)
 	{
-		super.exp = exp;
-		this.variables.putAll(variables);
+		super.exp = exp; System.out.println(exp);
+
+        this.variables.putAll(variables);
 	}
 }
