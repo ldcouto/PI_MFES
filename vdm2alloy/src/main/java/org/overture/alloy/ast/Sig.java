@@ -169,8 +169,9 @@ public class Sig extends Part
 				+ (this.quotes.isEmpty() ? "" : " in "+ Alloy2VdmAnalysis.toList(quotes, "+")) +
 
                 (this.supers.isEmpty() ? "" : " extends "+ Alloy2VdmAnalysis.toList(getNames(supers), "+"))+ "{";
-        System.out.println(Alloy2VdmAnalysis.toList(quotes, "+"));
+       // System.out.println("EXTENDS:"+Alloy2VdmAnalysis.toList(quotes, "+"));
         //System.out.println("CENA"+Alloy2VdmAnalysis.toList(getNames(supers), "+"));
+        System.out.println("INVE:"+tmp);
 		for (Entry<String, FieldType> entry : this.fields.entrySet())
 		{
 			tmp += "\n\t" + entry.getKey() + ": " + entry.getValue() + ", ";
@@ -213,4 +214,8 @@ public class Sig extends Part
 		this.quotes.clear();
 		this.quotes.addAll(quotes);
 	}
+    public void setInSupers(List<Sig> s){
+        this.supers.clear();
+        this.supers.addAll(s);
+    }
 }

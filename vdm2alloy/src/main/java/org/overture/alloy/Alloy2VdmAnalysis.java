@@ -18,16 +18,9 @@
  */
 package org.overture.alloy;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Vector;
+import org.overture.alloy.AuxiliarMethods;
 
 import org.overture.alloy.ast.AlloyExp;
 import org.overture.alloy.ast.AlloyLetExp;
@@ -127,8 +120,9 @@ public class Alloy2VdmAnalysis
 		extends
 		DepthFirstAnalysisAdaptorQuestionAnswer<Context, Alloy2VdmAnalysis.AlloyPart>
 {
+    public  AuxiliarMethods auxiliar =  new AuxiliarMethods();
 	private static final long serialVersionUID = 1L;
-	final public List<Part> components = new Vector<Part>(); // Part is {Fun+Pred + Sig.....}
+	 public List<Part> components = new Vector<Part>(); // Part is {Fun+Pred + Sig.....}
 
 	public class AlloyPart //
 	{
@@ -302,14 +296,25 @@ public class Alloy2VdmAnalysis
 			}
 		} else if (type instanceof AQuoteType)
 		{
+           // System.out.println("CONTEXTO:\n" + ctxt.toString());
 			AQuoteType qt = (AQuoteType) type;
 			String name = qt.getValue().getValue().toUpperCase();
-            //System.out.println(name);
+
+
 			Sig s = new Sig(name);
+                                                                                    //Sig sS = new Sig(type.parent().parent().toString());
+                                                                                    //ctxt.merge(createType(type.parent().parent(), ctxt));
+                                                                                 //   s.supers.add(ctxt.getSig(namedType.getType()));
+
+                                                                                       //System.out.println("TIPOSem cima" + type.toString());
+                                                                                        //s.supers.add(sS);
+
 			s.isOne = true;
 			ctxt.addType(qt, s);
-			this.components.add(s);
-			return ctxt;
+            this.components.add(s);
+
+
+            return ctxt;
 		} else if (type instanceof SBasicType)
 		{
 			if (type instanceof ABooleanBasicType) //BOOLEANS..................
@@ -318,7 +323,7 @@ public class Alloy2VdmAnalysis
 			} else if (type instanceof ATokenBasicType || type instanceof ACharBasicType)
 			{
 				Sig s = new Sig(getTypeName(type));
-                                                                                                            // System.out.println("NODE->"+s.toString()); print token
+                                                                                                            // System.out.println("NODE->"+s.toString()); //print token
 				ctxt.addType(type, s);
 				this.components.add(s);
 			} else if (type instanceof SNumericBasicType)
@@ -460,19 +465,23 @@ public class Alloy2VdmAnalysis
 	private Context createNamedType(ANamedInvariantType namedType, Context ctxt)
 			throws AnalysisException
 	{
+
+        //System.out.println("NT->"+namedType.toString());//print
+
 		// switch (namedType.getType().kindPType())
 		// {
 		if (namedType.getType() instanceof SBasicType) //basic types , Date, AccNum....
 		{
 			Sig s = new Sig(namedType.getName().getName());
-                                                                                     // System.out.println("Cria Context:"+s.toString());print
+                                                                                    // System.out.println("Cria Context:"+s.toString());//print
                                                                                       // System.out.println("Contexto"+ctxt.toString());//print
 			ctxt.merge(createType(namedType.getType(), ctxt));
 			s.supers.add(ctxt.getSig(namedType.getType()));
-                                                                                         //System.out.println("Supers->"+s.supers.toString());//print
+                                                                             //System.out.println("Supers->"+s.supers.toString()+"\t\tADD::::"+namedType.getType().toString()+"VARIAVEL i:"+i+"\n\n");//print
 			ctxt.addType(namedType, s);
                                                                                   //System.out.println("NAMETYPE::::"+namedType+"\nSIG:::::"+s.toString());
            this.components.add(s);
+
 			// break;
 		}
 
@@ -495,14 +504,24 @@ public class Alloy2VdmAnalysis
 		// case QUOTE:
 		//
 		// break;
-		if (namedType.getType() instanceof AQuoteType)
+		if (namedType.getType() instanceof AQuoteType) //all new--------------------------------------------------------------------------------------
 		{
-		}
+            AQuoteType ut = (AQuoteType) namedType.getType();
+            String name = ut.getValue().getValue().toUpperCase();
+            createType(ut, ctxt);
+            System.out.println("ENTRA AQUI" + namedType.getName().getName());
 
-		// case UNION:
+            Sig s = new Sig(namedType.getName().getName());
+            ctxt.addType(ut,s);
+            this.components=auxiliar.insertSuperQuotes(name,components,s);
+       }
+
+
+        // case UNION:
 		if (namedType.getType() instanceof AUnionType)
 		{
 			AUnionType ut = (AUnionType) namedType.getType();
+            List<String> sup = new Vector<String>();
 			List<String> quotes = new Vector<String>();
 			for (PType ute : ut.getTypes())
 			{
@@ -511,26 +530,25 @@ public class Alloy2VdmAnalysis
 					AQuoteType qt = (AQuoteType) ute;
 					String name = qt.getValue().getValue().toUpperCase();
 					quotes.add(name);
-                                                                                                                 System.out.println("QUOTES"+quotes.toString());
-                   createType(ute, ctxt);
-                   // System.out.println("UTE->"+ute.toString()+"     ctx->"+ctxt.toString());//novo
-				} else if (ute instanceof ANamedInvariantType)
+                    sup.add(name);//new
+                    createType(ute, ctxt);
+
+             	} else if (ute instanceof ANamedInvariantType)
 				{
 					ANamedInvariantType nit = (ANamedInvariantType) ute;
 					quotes.add(nit.getName().getName());
                   //  System.out.println("Quotes-> --->  "+quotes.toString());//dont print
 				}
 			}
+
 			Sig s = new Sig(namedType.getName().getName());
-                                                                                                                System.out.println("Sig"+s.toString());
-			s.setInTypes(quotes);
-			ctxt.addType(ut, s);
-                                                      //System.out.println("SIG\t\t->"+ s.toString()+" \n\n    contexto->"+ctxt.toString());//ADICIONADO...
-			this.components.add(s);
+        	ctxt.addType(ut, s);
+            this.components=auxiliar.insertSuperQuotesFromList(sup, components, s); //new--------------------------------------------------------------------------------------
+
 		}
 		// break;
 
-		// case SEQ:
+        // case SEQ:
 		if (namedType.getType() instanceof SSeqType)
 		{
 			SSeqType stype = (SSeqType) namedType.getType();
@@ -558,7 +576,9 @@ public class Alloy2VdmAnalysis
 			{
 				Sig superSig = ctxt.getSig(stype.getSetof());
 				s.supers.add(superSig);
+                //System.out.println("SUPERS"+s.toString().toString());//ADICIONADO..
 				s.isWrapper = superSig.isWrapper;
+
 			} else
 			{
 				s.addField("x", getFieldType(stype));
@@ -739,6 +759,7 @@ public class Alloy2VdmAnalysis
 			ctxt.merge(createType(node.getType(), ctxt));
 			// System.out.println("Type is: "+ node.getType()+" Found sig: "+ctxt.getSig(node.getType()).name);
 			s.supers.add(ctxt.getSig(node.getType()));
+                //System.out.println("SUPERS"+ctxt.toString());//ADICIONADO..
 			s.isOne = true;
 			ctxt.addVariable(name, node.getType());
 			this.components.add(s);
