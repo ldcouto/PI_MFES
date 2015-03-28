@@ -18,16 +18,9 @@
  */
 package org.overture.alloy;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Vector;
+import org.overture.alloy.AuxiliarMethods;
 
 import org.overture.alloy.ast.AlloyExp;
 import org.overture.alloy.ast.AlloyLetExp;
@@ -127,19 +120,23 @@ public class Alloy2VdmAnalysis
 		extends
 		DepthFirstAnalysisAdaptorQuestionAnswer<Context, Alloy2VdmAnalysis.AlloyPart>
 {
+    public  AuxiliarMethods auxiliar =  new AuxiliarMethods();
 	private static final long serialVersionUID = 1L;
-	final public List<Part> components = new Vector<Part>();
+	 public List<Part> components = new Vector<Part>(); // Part is {Fun+Pred + Sig.....}
 
-	public class AlloyPart
+	public class AlloyPart //
 	{
 		public String exp = "";
-		public Queue<AlloyExp> predicates = new LinkedList<AlloyExp>();
+		public Queue<AlloyExp> predicates = new LinkedList<AlloyExp>(); // AlloyExp is basically just a string , where alloyExp is saved .
 		public Queue<AlloyExp> topLevel = new LinkedList<AlloyExp>();
 		public Queue<AlloyTypeBind> typeBindings = new LinkedList<AlloyTypeBind>();
 
 		public AlloyPart(String exp)
 		{
 			this.exp = exp;
+           // System.out.println("Predicates: "+predicates.toString());
+           // System.out.println("Predicates1: "+topLevel.toString());
+           // System.out.println("Predicates: "+typeBindings.toString());
 		}
 
 		public AlloyPart()
@@ -164,6 +161,9 @@ public class Alloy2VdmAnalysis
 			{
 				this.exp += " " + predicates;
 			}
+            //System.out.println("Predicates: "+predicates.toString());
+           //System.out.println("Predicates1: "+topLevel.toString());
+            //System.out.println("Predicates: "+typeBindings.toString());
 			this.predicates.clear();
 		}
 
@@ -174,6 +174,9 @@ public class Alloy2VdmAnalysis
 			{
 				tmp += "\n\t" + expression;
 			}
+           // System.out.println("Predicates: "+predicates.toString());
+           // System.out.println("Predicates1: "+topLevel.toString());
+            //System.out.println("Predicates: "+typeBindings.toString());
 			return tmp;
 		}
 	}
@@ -190,23 +193,28 @@ public class Alloy2VdmAnalysis
 	}
 
 	@Override
-	public AlloyPart caseAModuleModules(AModuleModules node, Context question)
+	public AlloyPart caseAModuleModules(AModuleModules node, Context question)// return a alloypart and receive a context and a vdm class
 			throws AnalysisException
 	{
 		// result.add("module " + moduleName + "\n");
 		// result.add("open util/relation\n");
-		this.components.add(new ModuleHeader(moduleName, "util/relation", "vdmutil"));
+		this.components.add(new ModuleHeader(moduleName, "util/relation", "vdmutil")); // components is a Parts vector
 
 		BasicTokenSearch basicTokens = new BasicTokenSearch();
 		node.apply(basicTokens);
+        //System.out.println(basicTokens.toString()); dont print
+        //System.out.println(node.toString()); print
 		for (Entry<String, INode> entry : basicTokens.mkbasicToken.entrySet())
 		{
-			Sig s = new Sig(entry.getKey());
+           Sig s = new Sig(entry.getKey());
 			s.isOne = true;
 			this.components.add(s);
-		}
+          // System.out.println("NODE->"+s.toString()); //dont print
+            //System.out.println("NODEZZZ->"+entry);
 
-		return super.caseAModuleModules(node, question);
+        }
+
+		return super.caseAModuleModules(node, question); // recursive
 	}
 
 	@Override
@@ -218,25 +226,27 @@ public class Alloy2VdmAnalysis
 			return null;
 		}
 		trnaslated.add(node);
-
+        //System.out.println("Predicates: "+trnaslated.toString()); //print ... TransactionType = TransactionType , AccNum = AccNum
 		ctxt.merge(createType(node.getType(), ctxt));
-
+          //System.out.println("PredicatesXXX: "+ctxt.toString());//print ...- AccNum -> AccNum,Details -> Details,(<Deposit> | <Withdrawal>) -> TransactionType
 		return null;
 	}
 
 	private void createTypeInvariant(ATypeDefinition def, Sig sig, Context ctxt)
 			throws AnalysisException
 	{
-		if (def.getInvdef() != null)
+		if (def.getInvdef() != null) // if ATypeDefinition has an invariant, make and add a fact in components (set of Parts)
 		{
 			String body = "all ";
 			AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
 			body += pattern.exp + " : " + sig.name + " | ";
 			Context invCtxt = new Context(ctxt);
-			invCtxt.addVariable(pattern.exp, def.getType());
+            invCtxt.addVariable(pattern.exp, def.getType());
 			body += def.getInvExpression().apply(this, invCtxt).exp;
 			Fact f = new Fact(sig.name + "Inv", body);
 			this.components.add(f);
+           // System.out.println("Body: "+body.toString());dont print
+
 		}
 	}
 
@@ -244,7 +254,7 @@ public class Alloy2VdmAnalysis
 			throws AnalysisException
 	{
 		Context ctxt = new Context();
-		if (outer.getSig(getTypeName(type)) != null)
+		if (outer.getSig(getTypeName(type)) != null)// getSig is a method which return a sig of structure "types" in the class Context.If the Sig already exists, return the context, dont make
 		{
 			return ctxt;
 		}
@@ -255,6 +265,7 @@ public class Alloy2VdmAnalysis
 			if (invType instanceof ANamedInvariantType)
 			{
 				ctxt.merge(createNamedType((ANamedInvariantType) invType, outer));
+                //System.out.println("Context:");
 				return ctxt;
 			} else if (invType instanceof ARecordInvariantType)
 			{
@@ -285,21 +296,34 @@ public class Alloy2VdmAnalysis
 			}
 		} else if (type instanceof AQuoteType)
 		{
+           // System.out.println("CONTEXTO:\n" + ctxt.toString());
 			AQuoteType qt = (AQuoteType) type;
 			String name = qt.getValue().getValue().toUpperCase();
+
+
 			Sig s = new Sig(name);
+                                                                                    //Sig sS = new Sig(type.parent().parent().toString());
+                                                                                    //ctxt.merge(createType(type.parent().parent(), ctxt));
+                                                                                 //   s.supers.add(ctxt.getSig(namedType.getType()));
+
+                                                                                       //System.out.println("TIPOSem cima" + type.toString());
+                                                                                        //s.supers.add(sS);
+
 			s.isOne = true;
 			ctxt.addType(qt, s);
-			this.components.add(s);
-			return ctxt;
+            this.components.add(s);
+
+
+            return ctxt;
 		} else if (type instanceof SBasicType)
 		{
-			if (type instanceof ABooleanBasicType)
+			if (type instanceof ABooleanBasicType) //BOOLEANS..................
 			{
 
 			} else if (type instanceof ATokenBasicType || type instanceof ACharBasicType)
 			{
 				Sig s = new Sig(getTypeName(type));
+                                                                                                            // System.out.println("NODE->"+s.toString()); //print token
 				ctxt.addType(type, s);
 				this.components.add(s);
 			} else if (type instanceof SNumericBasicType)
@@ -441,15 +465,23 @@ public class Alloy2VdmAnalysis
 	private Context createNamedType(ANamedInvariantType namedType, Context ctxt)
 			throws AnalysisException
 	{
+
+        //System.out.println("NT->"+namedType.toString());//print
+
 		// switch (namedType.getType().kindPType())
 		// {
-		if (namedType.getType() instanceof SBasicType)
+		if (namedType.getType() instanceof SBasicType) //basic types , Date, AccNum....
 		{
 			Sig s = new Sig(namedType.getName().getName());
+                                                                                    // System.out.println("Cria Context:"+s.toString());//print
+                                                                                      // System.out.println("Contexto"+ctxt.toString());//print
 			ctxt.merge(createType(namedType.getType(), ctxt));
 			s.supers.add(ctxt.getSig(namedType.getType()));
+                                                                             //System.out.println("Supers->"+s.supers.toString()+"\t\tADD::::"+namedType.getType().toString()+"VARIAVEL i:"+i+"\n\n");//print
 			ctxt.addType(namedType, s);
-			this.components.add(s);
+                                                                                  //System.out.println("NAMETYPE::::"+namedType+"\nSIG:::::"+s.toString());
+           this.components.add(s);
+
 			// break;
 		}
 
@@ -472,14 +504,24 @@ public class Alloy2VdmAnalysis
 		// case QUOTE:
 		//
 		// break;
-		if (namedType.getType() instanceof AQuoteType)
+		if (namedType.getType() instanceof AQuoteType) //all new--------------------------------------------------------------------------------------
 		{
-		}
+            AQuoteType ut = (AQuoteType) namedType.getType();
+            String name = ut.getValue().getValue().toUpperCase();
+            createType(ut, ctxt);
+            System.out.println("ENTRA AQUI" + namedType.getName().getName());
 
-		// case UNION:
+            Sig s = new Sig(namedType.getName().getName());
+            ctxt.addType(ut,s);
+            this.components=auxiliar.insertSuperQuotes(name,components,s);
+       }
+
+
+        // case UNION:
 		if (namedType.getType() instanceof AUnionType)
 		{
 			AUnionType ut = (AUnionType) namedType.getType();
+            List<String> sup = new Vector<String>();
 			List<String> quotes = new Vector<String>();
 			for (PType ute : ut.getTypes())
 			{
@@ -488,21 +530,25 @@ public class Alloy2VdmAnalysis
 					AQuoteType qt = (AQuoteType) ute;
 					String name = qt.getValue().getValue().toUpperCase();
 					quotes.add(name);
-					createType(ute, ctxt);
-				} else if (ute instanceof ANamedInvariantType)
+                    sup.add(name);//new
+                    createType(ute, ctxt);
+
+             	} else if (ute instanceof ANamedInvariantType)
 				{
 					ANamedInvariantType nit = (ANamedInvariantType) ute;
 					quotes.add(nit.getName().getName());
+                  //  System.out.println("Quotes-> --->  "+quotes.toString());//dont print
 				}
 			}
+
 			Sig s = new Sig(namedType.getName().getName());
-			s.setInTypes(quotes);
-			ctxt.addType(ut, s);
-			this.components.add(s);
+        	ctxt.addType(ut, s);
+            this.components=auxiliar.insertSuperQuotesFromList(sup, components, s); //new--------------------------------------------------------------------------------------
+
 		}
 		// break;
 
-		// case SEQ:
+        // case SEQ:
 		if (namedType.getType() instanceof SSeqType)
 		{
 			SSeqType stype = (SSeqType) namedType.getType();
@@ -530,7 +576,9 @@ public class Alloy2VdmAnalysis
 			{
 				Sig superSig = ctxt.getSig(stype.getSetof());
 				s.supers.add(superSig);
+                //System.out.println("SUPERS"+s.toString().toString());//ADICIONADO..
 				s.isWrapper = superSig.isWrapper;
+
 			} else
 			{
 				s.addField("x", getFieldType(stype));
@@ -711,6 +759,7 @@ public class Alloy2VdmAnalysis
 			ctxt.merge(createType(node.getType(), ctxt));
 			// System.out.println("Type is: "+ node.getType()+" Found sig: "+ctxt.getSig(node.getType()).name);
 			s.supers.add(ctxt.getSig(node.getType()));
+                //System.out.println("SUPERS"+ctxt.toString());//ADICIONADO..
 			s.isOne = true;
 			ctxt.addVariable(name, node.getType());
 			this.components.add(s);
@@ -789,6 +838,7 @@ public class Alloy2VdmAnalysis
 
 	public static String toList(List<String> quotes, String seperator)
 	{
+        //System.out.println("QUOTES:" + quotes.toString());
 		StringBuilder sb = new StringBuilder();
 		for (Iterator<String> itr = quotes.iterator(); itr.hasNext();)
 		{
@@ -798,6 +848,7 @@ public class Alloy2VdmAnalysis
 				sb.append(" " + seperator + " ");
 			}
 		}
+       // System.out.println("QUOTES:"+sb.toString());
 		return sb.toString();
 	}
 
@@ -916,6 +967,7 @@ public class Alloy2VdmAnalysis
 			i++;
 		}
 
+
 		if (!(node.getType().getResult() instanceof ABooleanBasicType))
 		{
 			String returnName = node.getResult().getPattern().toString();
@@ -929,6 +981,7 @@ public class Alloy2VdmAnalysis
 				arguments += ", " + returnName + " : " + returnType;
 			}
 		}
+
 
 		question.clearState();
 		StringBuilder sb = new StringBuilder();
@@ -960,6 +1013,7 @@ public class Alloy2VdmAnalysis
 			return null;
 		}
 		Context ctxt = new Context(question);
+
 		String arguments = "";
 
 		List<String> lets = new Vector<String>();
@@ -1093,6 +1147,7 @@ public class Alloy2VdmAnalysis
 
 				}
 				p.exp += toList(fields, "->") + " ";
+                //System.out.println("QUOTES11:"+fields.toString());dont print
 
 			}
 			return p;
@@ -1189,7 +1244,7 @@ public class Alloy2VdmAnalysis
 			throws AnalysisException
 	{
 		String name = BasicTokenSearch.getName(node);
-		for (Part p : this.components)
+        for (Part p : this.components)
 		{
 			if (p instanceof Sig && ((Sig) p).name.equals(name))
 			{

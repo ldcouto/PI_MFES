@@ -29,23 +29,26 @@ public class PredicatContext extends Context
 
 	public PredicatContext(Context outer, String returnName,PType returnType)
 	{
+
 		super(outer);
 		this.returnValue.put(returnName, returnType);
+
 	}
 	
 	public String getReturnName()
 	{
-		return this.returnValue.keySet().iterator().next();
+       return this.returnValue.keySet().iterator().next();
 	}
 	
 	public PType getReturnType()
 	{
-		return this.returnValue.values().iterator().next();
+       return this.returnValue.values().iterator().next();
 	}
 	@Override
 	public String toString()
 	{
 		// TODO Auto-generated method stub
-		return "Return:\n"+getReturnName()+": "+getReturnType()+"\n"+super.toString();
+       return "Return:\n"+getReturnName()+": "+getReturnType()+"\n"+super.toString();
+
 	}
 }

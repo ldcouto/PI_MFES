@@ -29,5 +29,6 @@ public class AlloyTypeBind extends AlloyExp
 		super(var + " : " + type.name);
 		this.var = var;
 		this.type = type;
+        //System.out.println("ESTA CENA\n\n");
 	}
 }

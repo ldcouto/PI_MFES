@@ -34,6 +34,7 @@ public class BasicTokenSearch extends DepthFirstAnalysisAdaptor
 	private static final long serialVersionUID = 1L;
 	final Map<String,INode> mkbasicToken = new HashMap<String,INode>();
 
+
 	@Override
 	public void caseAMkBasicExp(AMkBasicExp node) throws AnalysisException
 	{

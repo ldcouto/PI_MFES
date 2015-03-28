@@ -30,7 +30,7 @@ import org.overture.alloy.Formatter;
 
 public class Sig extends Part
 {
-	public static class FieldType
+	public static class FieldType // signature prefix and name (i.e. lone Account)
 	{
 		public String sigTypeName;
 
@@ -69,7 +69,7 @@ public class Sig extends Part
 		}
 	}
 
-	public static class MapFieldType extends FieldType
+	public static class MapFieldType extends FieldType // equals FieldType.it's the relation bettween (A -> prefix Z). variable 'to' is a prefix of domain relation.
 	{
 		public FieldType to;
 
@@ -83,6 +83,8 @@ public class Sig extends Part
 		{
 			super(name, p);
 			this.to = to;
+
+
 		}
 
 		@Override
@@ -98,24 +100,28 @@ public class Sig extends Part
 		}
 	}
 
-	private final Map<String, Sig.FieldType> fields = new HashMap<String, Sig.FieldType>();
-	private final List<String> fieldNames = new Vector<String>();
+	private final Map<String, Sig.FieldType> fields = new HashMap<String, Sig.FieldType>();//keeps name of relation and your range. (i.e) sig X {"ola: one D","ole : set R"}
+
+	private final List<String> fieldNames = new Vector<String>(); // keeps the relation names of one sig , for example : sig Transaction{"date": one Date,"amount": null,"transaction_type":one TransactionType
+
 	public final String name;
+
 	public boolean isOne = false;
 	public boolean isWrapper = false;
-	private List<String> quotes = new Vector<String>();
-	public final List<String> constraints = new Vector<String>();
-	public final List<Sig> supers = new Vector<Sig>();
+	private List<String> quotes = new Vector<String>();//keeps the quotes types
+	public final List<String> constraints = new Vector<String>(); // body of the invariants bellow signature
+	public final List<Sig> supers = new Vector<Sig>();// keeps the super class , number of times that's used (i.e sig token, sig token,sig token )
 
 	public Sig(String typeName)
 	{
-		this.name = typeName;
+		this.name = typeName;//System.out.println("*****\t"+this.name);
 	}
 
 	public void addField(String name, Sig.FieldType type)
 	{
 		this.fieldNames.add(name);
 		this.fields.put(name, type);
+       // System.out.println("*****11111\t"+fields.toString());
 	}
 
 	public FieldType getField(String name)
@@ -134,6 +140,7 @@ public class Sig extends Part
 				break;
 			}
 		}
+        //System.out.println("*****11111\t" + quotes.toString());
 		return ft;
 	}
 	
@@ -149,18 +156,22 @@ public class Sig extends Part
 		{
 			fields.addAll(s.getFieldNames());
 		}
+       // System.out.println("*****222222\t"+quotes.toString());
 		return fields;
 	}
 
 	@Override
 	public String toString()
-	{
+	{//System.out.println("CLASS SIG->  Nome ="+name+" \t\tSupers->"+supers.toString()+"\n");
 		String tmp = (isOne ? "one " : "")
 				+ "sig "
 				+ name
-				+ (this.quotes.isEmpty() ? "" : " in "
-						+ Alloy2VdmAnalysis.toList(quotes, "+")) +(this.supers.isEmpty() ? "" : " extends "
-								+ Alloy2VdmAnalysis.toList(getNames(supers), "+"))+ "{";
+				+ (this.quotes.isEmpty() ? "" : " in "+ Alloy2VdmAnalysis.toList(quotes, "+")) +
+
+                (this.supers.isEmpty() ? "" : " extends "+ Alloy2VdmAnalysis.toList(getNames(supers), "+"))+ "{";
+       // System.out.println("EXTENDS:"+Alloy2VdmAnalysis.toList(quotes, "+"));
+        //System.out.println("CENA"+Alloy2VdmAnalysis.toList(getNames(supers), "+"));
+        System.out.println("INVE:"+tmp);
 		for (Entry<String, FieldType> entry : this.fields.entrySet())
 		{
 			tmp += "\n\t" + entry.getKey() + ": " + entry.getValue() + ", ";
@@ -184,6 +195,7 @@ public class Sig extends Part
 			}
 			tmp += "}\n";
 		}
+        //System.out.println("*****33333\t"+supers.toString());
 		return tmp;
 	}
 
@@ -194,7 +206,7 @@ public class Sig extends Part
 		{
 			names.add((s==null?"null":s.name));
 		}
-		return names;
+      	return names;
 	}
 
 	public void setInTypes(List<String> quotes)
@@ -202,4 +214,8 @@ public class Sig extends Part
 		this.quotes.clear();
 		this.quotes.addAll(quotes);
 	}
+    public void setInSupers(List<Sig> s){
+        this.supers.clear();
+        this.supers.addAll(s);
+    }
 }
