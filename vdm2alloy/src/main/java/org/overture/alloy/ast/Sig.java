@@ -171,7 +171,7 @@ public class Sig extends Part
                 (this.supers.isEmpty() ? "" : " extends "+ Alloy2VdmAnalysis.toList(getNames(supers), "+"))+ "{";
        // System.out.println("EXTENDS:"+Alloy2VdmAnalysis.toList(quotes, "+"));
         //System.out.println("CENA"+Alloy2VdmAnalysis.toList(getNames(supers), "+"));
-        System.out.println("INVE:"+tmp);
+       // System.out.println("INVE:"+tmp);
 		for (Entry<String, FieldType> entry : this.fields.entrySet())
 		{
 			tmp += "\n\t" + entry.getKey() + ": " + entry.getValue() + ", ";

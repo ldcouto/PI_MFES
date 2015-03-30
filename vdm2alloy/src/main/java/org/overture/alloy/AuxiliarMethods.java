@@ -12,6 +12,7 @@ import java.util.Vector;
 public class AuxiliarMethods {
 
     public List<Part> insertSuperQuotesFromList(List<String> sup,List<Part> components,Sig s) {
+        // across the list and check if the parts are sig.. if they are add the sig s in the components and put s in the supers of the x (x extends s)
         List<Part> cloneComponents = new Vector<Part>();
         int j = 0;
         for (Part x : components) {
