@@ -268,7 +268,7 @@ public class Alloy2VdmAnalysis
 			if (invType instanceof ANamedInvariantType) // cria invs : H = A|S \n invX = ...
 			{
 
-                System.out.println("AAAAAAAAA"+((ANamedInvariantType) invType).getType().toString());
+                                                                                            //  System.out.println("AAAAAAAAA"+((ANamedInvariantType) invType).getType().toString());
 
                 //new
                // Sig s = new Sig(invType.toString());
@@ -297,14 +297,21 @@ public class Alloy2VdmAnalysis
 				{
 
 					AlloyPart invPart = recordType.getInvDef().getParamPatternList().get(0).get(0).apply(this, invCtxt);
+                    // System.out.println("LALA: "+invPart.exp);
+                    //System.out.println("LALA: "+recordType.getInvDef().getParamPatternList().get(0).get(0).apply(this,invCtxt).exp);
 					boolean hasLet = !invPart.exp.isEmpty();
 					invPart.merge(recordType.getInvDef().getBody().apply(this, invCtxt));
+                    System.out.println("inv: " + invPart.toString());
+                    System.out.println("Contexto: "+recordType.getInvDef().getBody());
+                    System.out.println("Record type: "+recordType.getInvDef().getBody().apply(this, invCtxt));
 					if (hasLet)
 					{
 						invPart.exp = "( " + invPart.exp + ")"; //System.out.println("LALA: "+invPart.exp);
 					}
+                    //System.out.println("inv part apenas: " + invPart.toString());
+                   // System.out.println("inv part exp: " + invPart.exp);
 					s.constraints.add(invPart.exp);
-                                   // System.out.println("LALA: "+s.constraints.toString());
+                                    //System.out.println("LALA: "+s.constraints.toString());
 				}
 				ctxt.addType(recordType, s);
 				this.components.add(s);
@@ -527,7 +534,7 @@ public class Alloy2VdmAnalysis
         // break;
         if (namedType.getType() instanceof AQuoteType) //all new--------------------------------------------------------------------------------------
         {
-            System.out.println("NT2->" + namedType.toString());//print
+            //System.out.println("NT2->" + namedType.toString());//print
             AQuoteType ut = (AQuoteType) namedType.getType();
             String name = ut.getValue().getValue().toUpperCase();
             createType(ut, ctxt);
@@ -558,7 +565,7 @@ public class Alloy2VdmAnalysis
                 } else if (ute instanceof ANamedInvariantType) {//System.out.println("Named typoe-> --->  " + namedType.getName().getName());
                     // System.out.println("NT4->"+namedType.toString());//print
                     //System.out.println("NT4->"+namedType.toString());
-                    System.out.println("ENTRAAAAAAAAAAAAAA");
+                   // System.out.println("ENTRAAAAAAAAAAAAAA");
                     ANamedInvariantType nit = (ANamedInvariantType) ute;
                     //System.out.println("NT4->"+nit.getName().getName());
                     sup.add(nit.getName().getName());
@@ -568,7 +575,7 @@ public class Alloy2VdmAnalysis
             }
 
             Sig s = new Sig(namedType.getName().getName());
-            System.out.println("Na-> --->  " + s.toString());
+           // System.out.println("Na-> --->  " + s.toString());
             ctxt.addType(ut, s);
             //System.out.println("cena " + ctxt.getSig(namedType.getName().getName()).toString());
             this.components = auxiliar.insertSuperQuotesFromList(sup, components, s); //new--------------------------------------------------------------------------------------
