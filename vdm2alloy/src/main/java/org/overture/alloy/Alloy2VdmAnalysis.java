@@ -50,47 +50,7 @@ import org.overture.ast.definitions.AStateDefinition;
 import org.overture.ast.definitions.ATypeDefinition;
 import org.overture.ast.definitions.AValueDefinition;
 import org.overture.ast.definitions.PDefinition;
-import org.overture.ast.expressions.AAndBooleanBinaryExp;
-import org.overture.ast.expressions.AApplyExp;
-import org.overture.ast.expressions.ACompBinaryExp;
-import org.overture.ast.expressions.ADistUnionUnaryExp;
-import org.overture.ast.expressions.ADomainResByBinaryExp;
-import org.overture.ast.expressions.ADomainResToBinaryExp;
-import org.overture.ast.expressions.AEqualsBinaryExp;
-import org.overture.ast.expressions.AEquivalentBooleanBinaryExp;
-import org.overture.ast.expressions.AFieldExp;
-import org.overture.ast.expressions.AForAllExp;
-import org.overture.ast.expressions.AImpliesBooleanBinaryExp;
-import org.overture.ast.expressions.AInSetBinaryExp;
-import org.overture.ast.expressions.ALetBeStExp;
-import org.overture.ast.expressions.AMapDomainUnaryExp;
-import org.overture.ast.expressions.AMapEnumMapExp;
-import org.overture.ast.expressions.AMapInverseUnaryExp;
-import org.overture.ast.expressions.AMapUnionBinaryExp;
-import org.overture.ast.expressions.AMapletExp;
-import org.overture.ast.expressions.AMkBasicExp;
-import org.overture.ast.expressions.AMkTypeExp;
-import org.overture.ast.expressions.ANotEqualBinaryExp;
-import org.overture.ast.expressions.ANotInSetBinaryExp;
-import org.overture.ast.expressions.AOrBooleanBinaryExp;
-import org.overture.ast.expressions.APlusPlusBinaryExp;
-import org.overture.ast.expressions.AProperSubsetBinaryExp;
-import org.overture.ast.expressions.AQuoteLiteralExp;
-import org.overture.ast.expressions.ARangeResByBinaryExp;
-import org.overture.ast.expressions.ARangeResToBinaryExp;
-import org.overture.ast.expressions.ASeqConcatBinaryExp;
-import org.overture.ast.expressions.ASetCompSetExp;
-import org.overture.ast.expressions.ASetDifferenceBinaryExp;
-import org.overture.ast.expressions.ASetEnumSetExp;
-import org.overture.ast.expressions.ASetIntersectBinaryExp;
-import org.overture.ast.expressions.ASetUnionBinaryExp;
-import org.overture.ast.expressions.AStarStarBinaryExp;
-import org.overture.ast.expressions.ASubsetBinaryExp;
-import org.overture.ast.expressions.AVariableExp;
-import org.overture.ast.expressions.PExp;
-import org.overture.ast.expressions.SBinaryExp;
-import org.overture.ast.expressions.SBooleanBinaryExp;
-import org.overture.ast.expressions.SNumericBinaryExp;
+import org.overture.ast.expressions.*;
 import org.overture.ast.intf.lex.ILexNameToken;
 import org.overture.ast.lex.VDMToken;
 import org.overture.ast.modules.AModuleModules;
@@ -224,21 +184,32 @@ public class Alloy2VdmAnalysis
 		return null;
 	}
 
-	private void createTypeInvariant(ATypeDefinition def, Sig sig, Context ctxt)
+	private void createTypeInvariant(ATypeDefinition def, Sig sig, Context ctxt,PType type) // add param to know sig type.... type of sig  = type
 			throws AnalysisException
 	{
-		if (def.getInvdef() != null)
-		{
-			String body = "all ";
-			AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
-			body += pattern.exp + " : " + sig.name + " | ";
-			Context invCtxt = new Context(ctxt);
-			invCtxt.addVariable(pattern.exp, def.getType());
-			body += def.getInvExpression().apply(this, invCtxt).exp;
-			Fact f = new Fact(sig.name + "Inv", body);
-			this.components.add(f);
-		}
+            if (def.getInvdef() != null) {
+              //  String body = "all ";
+                AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
+                String body = sig.name +" = { " + pattern.exp + " : " + type.toString() + " | ";
+                Context invCtxt = new Context(ctxt);
+                invCtxt.addVariable(pattern.exp, def.getType());
+                body += def.getInvExpression().apply(this, invCtxt).exp + " }";
+                Fact f = new Fact(sig.name + "Inv", body);
+                this.components.add(f);
+            }
+
 	}
+
+    private void createInvariantTypes(Sig sig) // method to create fact in types
+            throws AnalysisException
+    {
+            System.out.println("Invariante: " + sig.getQuotes().toString());
+            Fact f = new Fact(sig.name + "Type",toList(sig.getQuotes(), "+"),sig.name);
+            this.components.add(f);
+
+
+    }
+
 
 	private Context createType(PType type, Context outer)
 			throws AnalysisException
@@ -286,6 +257,7 @@ public class Alloy2VdmAnalysis
 		} else if (type instanceof AQuoteType)
 		{
 			AQuoteType qt = (AQuoteType) type;
+
 			String name = qt.getValue().getValue().toUpperCase();
 			Sig s = new Sig(name);
 			s.isOne = true;
@@ -472,8 +444,18 @@ public class Alloy2VdmAnalysis
 		// case QUOTE:
 		//
 		// break;
-		if (namedType.getType() instanceof AQuoteType)
+		if (namedType.getType() instanceof AQuoteType) // new method to single quote types
 		{
+            AQuoteType qt = (AQuoteType)namedType.getType();
+            createType(qt, ctxt);
+            //System.out.println("CENSA "+namedType.getType().toString());
+            Sig s = new Sig(namedType.getName().getName(),true); // create sig in univ{}
+            List<String> quotes = new Vector<String>();
+            quotes.add(qt.getValue().getValue().toUpperCase());
+            s.setInTypes(quotes);
+            this.components.add(s);
+            createInvariantTypes(s);//fact
+            System.out.println("CENSA "+s.toString());
 		}
 
 		// case UNION:
@@ -495,10 +477,19 @@ public class Alloy2VdmAnalysis
 					quotes.add(nit.getName().getName());
 				}
 			}
-			Sig s = new Sig(namedType.getName().getName());
-			s.setInTypes(quotes);
-			ctxt.addType(ut, s);
-			this.components.add(s);
+//            System.out.println("type: "+namedType.getName().getName()+"   Quotes: "+quotes.toString());
+
+            Sig s = new Sig(namedType.getName().getName());
+            s.setInTypes(quotes);
+            ctxt.addType(ut, s);
+
+            Sig sUniv = new Sig(namedType.getName().getName(),true); // create sig in univ{}
+            this.components.add(sUniv);
+            createInvariantTypes(s);//fact
+            //System.out.println("CENSA1111 "+sUniv.toString());
+
+
+            //this.components.add(s);
 		}
 		// break;
 
@@ -552,7 +543,13 @@ public class Alloy2VdmAnalysis
 			ATypeDefinition def = (ATypeDefinition) namedType.parent();
 			if (ctxt.getSig(namedType) != null)
 			{
-				createTypeInvariant(def, ctxt.getSig(namedType), ctxt);
+               /* Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
+                if(!this.components.contains(sUniv)) {
+                    ctxt.addType(def.getType(), sUniv);
+                    this.components.add(sUniv);
+                }*/
+
+				createTypeInvariant(def, ctxt.getSig(namedType), ctxt,namedType.getType());
 			}
 		}
 		return ctxt;
@@ -1463,10 +1460,12 @@ public class Alloy2VdmAnalysis
 	public AlloyPart defaultInINode(INode node, Context question)
 			throws AnalysisException
 	{
-		if (node instanceof PExp)
+        //System.out.println("Numero "+node.toString());
+
+        if (node instanceof PExp)
 		{
-			return new AlloyPart(" /* NOT Translated("
-					+ node.getClass().getSimpleName() + ")*/");
+          	//return new AlloyPart(" /* NOT Translated("+ node.getClass().getSimpleName() + ")*/");
+            return new AlloyPart(node.toString()+"]");
 		}
 		return null;
 	}
@@ -1475,20 +1474,28 @@ public class Alloy2VdmAnalysis
 			throws AnalysisException
 	{
 		AlloyPart p = new AlloyPart("(");
+       // System.out.println("Numero "+node.getClass().toString());
 		p.merge(node.getLeft().apply(this, question));
-
+       // System.out.println("Numero "+node.toString());
 		if (node instanceof SBinaryExp)
 
 		// switch (node.kindSBinaryExp())
 		{
-			if (node instanceof SBooleanBinaryExp)
+           // System.out.println("Numero "+node.getType().toString()+" name : " +node.toString());
+            if(node instanceof AGreaterEqualNumericBinaryExp){
+                System.out.println("Numero é Este : "+p.predicates.toString());
+                p.exp="gte["+p.exp+",";
+                //p.exp+=" >= ";
+            }else if (node instanceof SBooleanBinaryExp)
 			// case BOOLEAN:
 			{
 				SBooleanBinaryExp exp = (SBooleanBinaryExp) node;
 				// switch (exp.kindSBooleanBinaryExp())
 				// {
 				// case AND:
-				if (node instanceof AAndBooleanBinaryExp)
+
+
+                if (node instanceof AAndBooleanBinaryExp)
 				{
 					p.exp += " and ";
 				}
@@ -1499,7 +1506,7 @@ public class Alloy2VdmAnalysis
 				}
 				// case IMPLIES:
 				else if (node instanceof AImpliesBooleanBinaryExp)
-				{
+				{//System.out.println("Numero "+node.toString());
 					p.exp += " implies ";
 				}
 				// case OR:
@@ -1549,6 +1556,7 @@ public class Alloy2VdmAnalysis
 				// break;
 			} else if (node instanceof SNumericBinaryExp)
 			{
+
 				// case NUMERIC:
 				// break;
 			} else if (node instanceof APlusPlusBinaryExp)
@@ -1960,7 +1968,21 @@ public class Alloy2VdmAnalysis
 		return defaultSBinaryExp(node, question);
 	};
 
-	@Override
+    public AlloyPart caseAIntLiteralExp(
+            org.overture.ast.expressions.AIntLiteralExp node,
+            Context question) throws AnalysisException
+    {
+        return defaultInINode(node, question);
+    };
+
+    public AlloyPart caseAGreaterEqualNumericBinaryExp(AGreaterEqualNumericBinaryExp node,
+                                             Context question) throws AnalysisException
+    {
+        return defaultSBinaryExp(node, question);
+    };
+
+
+    @Override
 	public AlloyPart caseASetUnionBinaryExp(ASetUnionBinaryExp node,
 			Context question) throws AnalysisException
 	{// TODO: not checked
