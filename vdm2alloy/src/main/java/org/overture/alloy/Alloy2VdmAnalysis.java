@@ -203,7 +203,7 @@ public class Alloy2VdmAnalysis
     private void createInvariantTypes(Sig sig) // method to create fact in types
             throws AnalysisException
     {
-            System.out.println("Invariante: " + sig.getQuotes().toString());
+            //System.out.println("Invariante: " + sig.getQuotes().toString());
             Fact f = new Fact(sig.name + "Type",toList(sig.getQuotes(), "+"),sig.name);
             this.components.add(f);
 
@@ -543,11 +543,12 @@ public class Alloy2VdmAnalysis
 			ATypeDefinition def = (ATypeDefinition) namedType.parent();
 			if (ctxt.getSig(namedType) != null)
 			{
-               /* Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
-                if(!this.components.contains(sUniv)) {
+                Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
+                //if() {
+                    System.out.println("ENTRA\n");
                     ctxt.addType(def.getType(), sUniv);
                     this.components.add(sUniv);
-                }*/
+                //}
 
 				createTypeInvariant(def, ctxt.getSig(namedType), ctxt,namedType.getType());
 			}
@@ -1464,8 +1465,8 @@ public class Alloy2VdmAnalysis
 
         if (node instanceof PExp)
 		{
-          	//return new AlloyPart(" /* NOT Translated("+ node.getClass().getSimpleName() + ")*/");
-            return new AlloyPart(node.toString()+"]");
+          	return new AlloyPart(" /* NOT Translated("+ node.getClass().getSimpleName() + ")*/");
+            //return new AlloyPart(node.toString()+"]");
 		}
 		return null;
 	}
@@ -1483,8 +1484,12 @@ public class Alloy2VdmAnalysis
 		{
            // System.out.println("Numero "+node.getType().toString()+" name : " +node.toString());
             if(node instanceof AGreaterEqualNumericBinaryExp){
-                System.out.println("Numero é Este : "+p.predicates.toString());
-                p.exp="gte["+p.exp+",";
+                //System.out.println("Numero é Este : "+p.predicates.toString());
+                if (node.getRight() instanceof  AIntLiteralExp)
+                {
+                    p.exp="gte["+p.exp+","+node.getRight()+"]";
+                }
+
                 //p.exp+=" >= ";
             }else if (node instanceof SBooleanBinaryExp)
 			// case BOOLEAN:
@@ -1613,6 +1618,8 @@ public class Alloy2VdmAnalysis
 
 			}
 		}
+
+
 
 		p.merge(node.getRight().apply(this, question));
 		p.exp += ")";
@@ -1967,13 +1974,6 @@ public class Alloy2VdmAnalysis
 	{
 		return defaultSBinaryExp(node, question);
 	};
-
-    public AlloyPart caseAIntLiteralExp(
-            org.overture.ast.expressions.AIntLiteralExp node,
-            Context question) throws AnalysisException
-    {
-        return defaultInINode(node, question);
-    };
 
     public AlloyPart caseAGreaterEqualNumericBinaryExp(AGreaterEqualNumericBinaryExp node,
                                              Context question) throws AnalysisException
