@@ -1467,535 +1467,511 @@ public class Alloy2VdmAnalysis
 		return new AlloyPart(node.getValue().getValue().toUpperCase());
 	}
 
-	@Override
-	public AlloyPart defaultInINode(INode node, Context question)
-			throws AnalysisException
-	{
-        //System.out.println("Numero "+node.toString());
-
+    @Override
+    public AlloyPart defaultInINode(INode node, Context question)
+            throws AnalysisException
+    {
         if (node instanceof PExp)
-		{
-          	return new AlloyPart(" /* NOT Translated("+ node.getClass().getSimpleName() + ")*/");
-            //return new AlloyPart(node.toString()+"]");
-		}
-		return null;
-	}
+        {
+            return new AlloyPart(" /* NOT Translated("
+                    + node.getClass().getSimpleName() + ")*/");
+        }
+        return null;
+    }
 
-	public AlloyPart defaultSBinaryExp(SBinaryExp node, Context question)
-			throws AnalysisException
-	{
-		AlloyPart p = new AlloyPart("(");
-       // System.out.println("Numero "+node.getClass().toString());
-		p.merge(node.getLeft().apply(this, question));
-       // System.out.println("Numero "+node.toString());
-		if (node instanceof SBinaryExp)
+    public AlloyPart defaultSBinaryExp(SBinaryExp node, Context question)
+            throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart("(");
+        p.merge(node.getLeft().apply(this, question));
 
-		// switch (node.kindSBinaryExp())
-		{
-           // System.out.println("Numero "+node.getType().toString()+" name : " +node.toString());
-            if(node instanceof AGreaterEqualNumericBinaryExp){
-                //System.out.println("Numero é Este : "+p.predicates.toString());
-                if (node.getRight() instanceof  AIntLiteralExp)
+        if (node instanceof SBinaryExp)
+
+        // switch (node.kindSBinaryExp())
+        {
+            if (node instanceof SBooleanBinaryExp)
+            // case BOOLEAN:
+            {
+                SBooleanBinaryExp exp = (SBooleanBinaryExp) node;
+                // switch (exp.kindSBooleanBinaryExp())
+                // {
+                // case AND:
+                if (node instanceof AAndBooleanBinaryExp)
                 {
-                    p.exp="gte["+p.exp+","+node.getRight()+"]";
+                    p.exp += " and ";
+                }
+                // case EQUIVALENT:
+                else if (node instanceof AEquivalentBooleanBinaryExp)
+                {
+                    p.exp += " = ";
+                }
+                // case IMPLIES:
+                else if (node instanceof AImpliesBooleanBinaryExp)
+                {
+                    p.exp += " implies ";
+                }
+                // case OR:
+                else if (node instanceof AOrBooleanBinaryExp)
+                {
+                    p.exp += " or ";
                 }
 
-                //p.exp+=" >= ";
-            }else if (node instanceof SBooleanBinaryExp)
-			// case BOOLEAN:
-			{
-				SBooleanBinaryExp exp = (SBooleanBinaryExp) node;
-				// switch (exp.kindSBooleanBinaryExp())
-				// {
-				// case AND:
+                // }
+            } else if (node instanceof ACompBinaryExp)
+            {
 
+            }
+            // break;
+            // case COMP:
+            // break;
+            // case DOMAINRESBY:
+            // break;
+            else if (node instanceof ADomainResByBinaryExp)
+            {
+            } else if (node instanceof ADomainResToBinaryExp)
+            {
+            }
+            // case DOMAINRESTO:
+            // break;
+            else if (node instanceof AEqualsBinaryExp)
+            // case EQUALS:
+            {
+                p.exp += " = ";
+            } else if (node instanceof AInSetBinaryExp)
+            {
+                // case INSET:
+                // p.exp += " in ";
+                throw new AnalysisException("should not go here");
+            } else if (node instanceof AMapUnionBinaryExp)
+            {
+                // case MAPUNION:
+                // break;
+            }
+            // case NOTEQUAL:
+            else if (node instanceof ANotEqualBinaryExp)
+            {
+                p.exp += " != ";
+            } else if (node instanceof ANotInSetBinaryExp)
+            {
+                // case NOTINSET:
+                // break;
+            } else if (node instanceof SNumericBinaryExp)
+            {
+                // case NUMERIC:
+                // break;
+            } else if (node instanceof APlusPlusBinaryExp)
+            {
+                // case PLUSPLUS:
+                p.exp += " ++ ";
+                // break;
+            }
+            // case PROPERSUBSET:
+            else if (node instanceof AProperSubsetBinaryExp)
+            {
+                // break;
+            }
+            // case RANGERESBY:
+            // break;
+            else if (node instanceof ARangeResByBinaryExp)
+            {
 
-                if (node instanceof AAndBooleanBinaryExp)
-				{
-					p.exp += " and ";
-				}
-				// case EQUIVALENT:
-				else if (node instanceof AEquivalentBooleanBinaryExp)
-				{
-					p.exp += " = ";
-				}
-				// case IMPLIES:
-				else if (node instanceof AImpliesBooleanBinaryExp)
-				{//System.out.println("Numero "+node.toString());
-					p.exp += " implies ";
-				}
-				// case OR:
-				else if (node instanceof AOrBooleanBinaryExp)
-				{
-					p.exp += " or ";
-				}
+            } else if (node instanceof ARangeResToBinaryExp)
+            {
+                // case RANGERESTO:
+                p.exp += " :> ";
+                // break;
+            }
+            // case SEQCONCAT:
+            // break;
+            else if (node instanceof ASeqConcatBinaryExp)
+            {
 
-				// }
-			} else if (node instanceof ACompBinaryExp)
-			{
+            } else if (node instanceof ASetDifferenceBinaryExp)
+            {
 
-			}
-			// break;
-			// case COMP:
-			// break;
-			// case DOMAINRESBY:
-			// break;
-			else if (node instanceof ADomainResByBinaryExp)
-			{
-			} else if (node instanceof ADomainResToBinaryExp)
-			{
-			}
-			// case DOMAINRESTO:
-			// break;
-			else if (node instanceof AEqualsBinaryExp)
-			// case EQUALS:
-			{
-				p.exp += " = ";
-			} else if (node instanceof AInSetBinaryExp)
-			{
-				// case INSET:
-				// p.exp += " in ";
-				throw new AnalysisException("should not go here");
-			} else if (node instanceof AMapUnionBinaryExp)
-			{
-				// case MAPUNION:
-				// break;
-			}
-			// case NOTEQUAL:
-			else if (node instanceof ANotEqualBinaryExp)
-			{
-				p.exp += " != ";
-			} else if (node instanceof ANotInSetBinaryExp)
-			{
-				// case NOTINSET:
-				// break;
-			} else if (node instanceof SNumericBinaryExp)
-			{
+            }
+            // case SETDIFFERENCE:
+            // break;
+            else if (node instanceof ASetIntersectBinaryExp)
+            {
+                // case SETINTERSECT:
+                p.exp += " & ";
+                // break;
+            } else if (node instanceof ASetUnionBinaryExp)
+            {
+                // case SETUNION:
+                p.exp += " + ";
+                // break;
+            } else if (node instanceof AStarStarBinaryExp)
+            {
+                // case STARSTAR:
+                // break;
+            } else if (node instanceof ASubsetBinaryExp)
+            {
+                // case SUBSET:
+                // break;
 
-				// case NUMERIC:
-				// break;
-			} else if (node instanceof APlusPlusBinaryExp)
-			{
-				// case PLUSPLUS:
-				p.exp += " ++ ";
-				// break;
-			}
-			// case PROPERSUBSET:
-			else if (node instanceof AProperSubsetBinaryExp)
-			{
-				// break;
-			}
-			// case RANGERESBY:
-			// break;
-			else if (node instanceof ARangeResByBinaryExp)
-			{
+            }
+        }
 
-			} else if (node instanceof ARangeResToBinaryExp)
-			{
-				// case RANGERESTO:
-				p.exp += " :> ";
-				// break;
-			}
-			// case SEQCONCAT:
-			// break;
-			else if (node instanceof ASeqConcatBinaryExp)
-			{
+        p.merge(node.getRight().apply(this, question));
+        p.exp += ")";
+        return p;
+    };
 
-			} else if (node instanceof ASetDifferenceBinaryExp)
-			{
+    @Override
+    public AlloyPart caseAMapEnumMapExp(AMapEnumMapExp node, Context question)
+            throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart("(");
 
-			}
-			// case SETDIFFERENCE:
-			// break;
-			else if (node instanceof ASetIntersectBinaryExp)
-			{
-				// case SETINTERSECT:
-				p.exp += " & ";
-				// break;
-			} else if (node instanceof ASetUnionBinaryExp)
-			{
-				// case SETUNION:
-				p.exp += " + ";
-				// break;
-			} else if (node instanceof AStarStarBinaryExp)
-			{
-				// case STARSTAR:
-				// break;
-			} else if (node instanceof ASubsetBinaryExp)
-			{
-				// case SUBSET:
-				// break;
+        for (Iterator<AMapletExp> itr = node.getMembers().iterator(); itr.hasNext();)
+        {
+            AMapletExp maplet = itr.next();
 
-			}
-		}
+            p.merge(maplet.getLeft().apply(this, question));
+            p.exp += " -> ";
+            p.merge(maplet.getRight().apply(this, question));
+            if (itr.hasNext())
+            {
+                p.exp += " + ";
+            }
+        }
 
+        p.exp += ")";
+        return p;
+    }
 
+    @Override
+    public AlloyPart caseADomainResByBinaryExp(ADomainResByBinaryExp node,
+                                               Context question) throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart("(");
+        p.exp += "univ -";
+        p.merge(node.getLeft().apply(this, question));
+        p.exp += ")";
+        p.exp += " <: ";
+        p.merge(node.getRight().apply(this, question));
+        return p;
+    }
 
-		p.merge(node.getRight().apply(this, question));
-		p.exp += ")";
-		return p;
-	};
+    @Override
+    public AlloyPart caseAApplyExp(AApplyExp node, Context question)
+            throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart();
+        if (node.getRoot().getType() instanceof SMapType
+                && node.getAncestor(AStateDefinition.class) == null)
+        {
+            AlloyPart p1 = new AlloyPart();
+            p1.merge(node.getArgs().get(0).apply(this, question));
+            p1.exp += " in dom[";
+            p1.merge(node.getRoot().apply(this, question));
+            p1.exp += "]";
+            p.topLevel.add(new AlloyExp(" and /*Map domain pre condition */ \n\t"
+                    + p1.exp));
+        }
 
-	@Override
-	public AlloyPart caseAMapEnumMapExp(AMapEnumMapExp node, Context question)
-			throws AnalysisException
-	{
-		AlloyPart p = new AlloyPart("(");
+        p.merge(node.getRoot().apply(this, question));
+        p.exp += "[";
+        for (Iterator<PExp> itr = node.getArgs().iterator(); itr.hasNext();)
+        {
+            p.merge(itr.next().apply(this, question));
+            if (itr.hasNext())
+            {
+                p.exp += ", ";
+            }
+        }
+        p.exp += "] ";
+        return p;
+    }
 
-		for (Iterator<AMapletExp> itr = node.getMembers().iterator(); itr.hasNext();)
-		{
-			AMapletExp maplet = itr.next();
+    @Override
+    public AlloyPart caseAMapInverseUnaryExp(AMapInverseUnaryExp node,
+                                             Context question) throws AnalysisException
+    {
+        // Only supported if directly before an apply
+        AlloyPart p = new AlloyPart("~(");
+        mergeReturns(p, node.getExp().apply(this, question));
+        p.exp += ")";
+        return p;
+    }
 
-			p.merge(maplet.getLeft().apply(this, question));
-			p.exp += " -> ";
-			p.merge(maplet.getRight().apply(this, question));
-			if (itr.hasNext())
-			{
-				p.exp += " + ";
-			}
-		}
+    @Override
+    public AlloyPart caseAForAllExp(AForAllExp node, Context question)
+            throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart("( all ");
+        Context ctxt = new Context(question);
+        AlloyPart bindPart = (node.getBindList().get(0).apply(this, ctxt));// TODO
+        boolean hasTypeBindings = !bindPart.typeBindings.isEmpty();
+        if (bindPart.typeBindings.isEmpty())
+        {
+            p.merge(bindPart);
+            p.exp += " | ";
+        } else
+        {
+            for (Iterator<AlloyTypeBind> itr = bindPart.typeBindings.iterator(); itr.hasNext();)
+            {
+                p.exp += itr.next().exp;
+                if (itr.hasNext())
+                {
+                    p.exp += ", ";
+                }
+            }
+            p.exp += " | (";
+            bindPart.typeBindings.clear();
+            p.merge(bindPart);
+            p.exp += " implies ";
+        }
+        boolean hasLet = false;
+        if (!p.predicates.isEmpty())
+        {
 
-		p.exp += ")";
-		return p;
-	}
+            for (AlloyExp exp : p.predicates)
+            {
+                if (exp instanceof AlloyLetExp)
+                {
+                    hasLet = true;
+                    break;
+                }
+            }
 
-	@Override
-	public AlloyPart caseADomainResByBinaryExp(ADomainResByBinaryExp node,
-			Context question) throws AnalysisException
-	{
-		AlloyPart p = new AlloyPart("(");
-		p.exp += "univ -";
-		p.merge(node.getLeft().apply(this, question));
-		p.exp += ")";
-		p.exp += " <: ";
-		p.merge(node.getRight().apply(this, question));
-		return p;
-	}
+            p.appendPredicates();
+            if (!hasLet)
+            {
+                p.exp += " and ";
+            }
+        }
 
-	@Override
-	public AlloyPart caseAApplyExp(AApplyExp node, Context question)
-			throws AnalysisException
-	{
-		AlloyPart p = new AlloyPart();
-		if (node.getRoot().getType() instanceof SMapType
-				&& node.getAncestor(AStateDefinition.class) == null)
-		{
-			AlloyPart p1 = new AlloyPart();
-			p1.merge(node.getArgs().get(0).apply(this, question));
-			p1.exp += " in dom[";
-			p1.merge(node.getRoot().apply(this, question));
-			p1.exp += "]";
-			p.topLevel.add(new AlloyExp(" and /*Map domain pre condition */ \n\t"
-					+ p1.exp));
-		}
+        p.merge(node.getPredicate().apply(this, ctxt));
+        if (hasLet)
+        {
+            p.exp += ")";
+        }
+        p.exp += ")";
+        if (hasTypeBindings)
+        {
+            p.exp += ")";
+        }
+        return p;
+    }
 
-		p.merge(node.getRoot().apply(this, question));
-		p.exp += "[";
-		for (Iterator<PExp> itr = node.getArgs().iterator(); itr.hasNext();)
-		{
-			p.merge(itr.next().apply(this, question));
-			if (itr.hasNext())
-			{
-				p.exp += ", ";
-			}
-		}
-		p.exp += "] ";
-		return p;
-	}
+    public AlloyPart caseAExistsExp(
+            org.overture.ast.expressions.AExistsExp node, Context question)
+            throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart("some ");
+        mergeReturns(p, node.getBindList().get(0).apply(this, question));// TODO
+        p.exp += " | ";
+        mergeReturns(p, node.getPredicate().apply(this, question));
+        return p;
+    };
 
-	@Override
-	public AlloyPart caseAMapInverseUnaryExp(AMapInverseUnaryExp node,
-			Context question) throws AnalysisException
-	{
-		// Only supported if directly before an apply
-		AlloyPart p = new AlloyPart("~(");
-		mergeReturns(p, node.getExp().apply(this, question));
-		p.exp += ")";
-		return p;
-	}
+    @Override
+    public AlloyPart caseASetMultipleBind(ASetMultipleBind node,
+                                          Context question) throws AnalysisException
+    {
+        AlloyPart p = createNewReturnValue(node, question);
 
-	@Override
-	public AlloyPart caseAForAllExp(AForAllExp node, Context question)
-			throws AnalysisException
-	{
-		AlloyPart p = new AlloyPart("( all ");
-		Context ctxt = new Context(question);
-		AlloyPart bindPart = (node.getBindList().get(0).apply(this, ctxt));// TODO
-		boolean hasTypeBindings = !bindPart.typeBindings.isEmpty();
-		if (bindPart.typeBindings.isEmpty())
-		{
-			p.merge(bindPart);
-			p.exp += " | ";
-		} else
-		{
-			for (Iterator<AlloyTypeBind> itr = bindPart.typeBindings.iterator(); itr.hasNext();)
-			{
-				p.exp += itr.next().exp;
-				if (itr.hasNext())
-				{
-					p.exp += ", ";
-				}
-			}
-			p.exp += " | (";
-			bindPart.typeBindings.clear();
-			p.merge(bindPart);
-			p.exp += " implies ";
-		}
-		boolean hasLet = false;
-		if (!p.predicates.isEmpty())
-		{
+        for (Iterator<PPattern> iterator = node.getPlist().iterator(); iterator.hasNext();)
+        {
+            PPattern e = iterator.next();
+            if (!_visitedNodes.contains(e))
+            {
+                AlloyPart sp = e.apply(this, question);
+                p.merge(sp);
+                question.addVariable(sp.exp, getBoundType(node.getSet().getType()));
+                for (AlloyExp sub : sp.predicates)
+                {
+                    if (sub instanceof AlloyLetExp)
+                    {
+                        question.addVariables(((AlloyLetExp) sub).variables);
+                    }
+                }
+                if (iterator.hasNext())
+                {
+                    p.merge(new AlloyPart(", "));
+                }
+            }
+        }
+        boolean isTupeBind = false;
+        for (PPattern pattern : node.getPlist())
+        {
+            if (pattern instanceof ATuplePattern)
+            {
+                isTupeBind = true;
+                break;
+            }
+        }
 
-			for (AlloyExp exp : p.predicates)
-			{
-				if (exp instanceof AlloyLetExp)
-				{
-					hasLet = true;
-					break;
-				}
-			}
+        if (isTupeBind)
+        {
+            p.exp += " in ";
+        } else
+        {
+            p.exp += " : ";
+        }
+        if (node.getSet() != null && !_visitedNodes.contains(node.getSet()))
+        {
+            p.merge(getBind(node.getSet(), question));// node.getSet().apply(this, question));
+        }
+        return p;
+    }
 
-			p.appendPredicates();
-			if (!hasLet)
-			{
-				p.exp += " and ";
-			}
-		}
+    AlloyPart getBind(PExp bindto, Context ctxt) throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart();
+        p.merge(bindto.apply(this, ctxt));
 
-		p.merge(node.getPredicate().apply(this, ctxt));
-		if (hasLet)
-		{
-			p.exp += ")";
-		}
-		p.exp += ")";
-		if (hasTypeBindings)
-		{
-			p.exp += ")";
-		}
-		return p;
-	}
+        Sig s = ctxt.getSig(bindto.getType());
+        if (s != null && bindto instanceof AVariableExp && s.isWrapper)
+        {
+            p.exp += "." + s.getFieldNames().get(0);
+        }
+        return p;
+    }
 
-	public AlloyPart caseAExistsExp(
-			org.overture.ast.expressions.AExistsExp node, Context question)
-			throws AnalysisException
-	{
-		AlloyPart p = new AlloyPart("some ");
-		mergeReturns(p, node.getBindList().get(0).apply(this, question));// TODO
-		p.exp += " | ";
-		mergeReturns(p, node.getPredicate().apply(this, question));
-		return p;
-	};
+    public PType getBoundType(PType type)
+    {
+        if (type instanceof ASetType)
+        {
+            return ((ASetType) type).getSetof();
+        } else if (type instanceof SSeqType)
+        {
+            return ((SSeqType) type).getSeqof();
+        }
+        return type;
+    }
 
-	@Override
-	public AlloyPart caseASetMultipleBind(ASetMultipleBind node,
-			Context question) throws AnalysisException
-	{
-		AlloyPart p = createNewReturnValue(node, question);
+    @Override
+    public AlloyPart caseAIdentifierPattern(AIdentifierPattern node,
+                                            Context question) throws AnalysisException
+    {
+        return new AlloyPart(node.getName().getName());
+    }
 
-		for (Iterator<PPattern> iterator = node.getPlist().iterator(); iterator.hasNext();)
-		{
-			PPattern e = iterator.next();
-			if (!_visitedNodes.contains(e))
-			{
-				AlloyPart sp = e.apply(this, question);
-				p.merge(sp);
-				question.addVariable(sp.exp, getBoundType(node.getSet().getType()));
-				for (AlloyExp sub : sp.predicates)
-				{
-					if (sub instanceof AlloyLetExp)
-					{
-						question.addVariables(((AlloyLetExp) sub).variables);
-					}
-				}
-				if (iterator.hasNext())
-				{
-					p.merge(new AlloyPart(", "));
-				}
-			}
-		}
-		boolean isTupeBind = false;
-		for (PPattern pattern : node.getPlist())
-		{
-			if (pattern instanceof ATuplePattern)
-			{
-				isTupeBind = true;
-				break;
-			}
-		}
+    @Override
+    public AlloyPart mergeReturns(AlloyPart original, AlloyPart new_)
+    {
+        if (original == null || new_ == null)
+        {
+            return null;
+        }
+        original.exp += new_.exp;
+        original.predicates.addAll(new_.predicates);
+        original.topLevel.addAll(new_.topLevel);
+        original.typeBindings.addAll(new_.typeBindings);
+        return original;
+    }
 
-		if (isTupeBind)
-		{
-			p.exp += " in ";
-		} else
-		{
-			p.exp += " : ";
-		}
-		if (node.getSet() != null && !_visitedNodes.contains(node.getSet()))
-		{
-			p.merge(getBind(node.getSet(), question));// node.getSet().apply(this, question));
-		}
-		return p;
-	}
+    @Override
+    public AlloyPart createNewReturnValue(INode node, Context question)
+    {
+        return new AlloyPart();
+    }
 
-	AlloyPart getBind(PExp bindto, Context ctxt) throws AnalysisException
-	{
-		AlloyPart p = new AlloyPart();
-		p.merge(bindto.apply(this, ctxt));
+    @Override
+    public AlloyPart createNewReturnValue(Object node, Context question)
+    {
+        return new AlloyPart();
+    }
 
-		Sig s = ctxt.getSig(bindto.getType());
-		if (s != null && bindto instanceof AVariableExp && s.isWrapper)
-		{
-			p.exp += "." + s.getFieldNames().get(0);
-		}
-		return p;
-	}
+    /**/
+    public AlloyPart caseAPlusPlusBinaryExp(
+            org.overture.ast.expressions.APlusPlusBinaryExp node,
+            Context question) throws AnalysisException
+    {
+        return defaultSBinaryExp(node, question);
+    };
 
-	public PType getBoundType(PType type)
-	{
-		if (type instanceof ASetType)
-		{
-			return ((ASetType) type).getSetof();
-		} else if (type instanceof SSeqType)
-		{
-			return ((SSeqType) type).getSeqof();
-		}
-		return type;
-	}
+    public AlloyPart caseAEqualsBinaryExp(
+            org.overture.ast.expressions.AEqualsBinaryExp node, Context question)
+            throws AnalysisException
+    {
+        if (node.getRight() instanceof ASetEnumSetExp
+                && ((ASetEnumSetExp) node.getRight()).getMembers().isEmpty())
+        {
+            AlloyPart p = new AlloyPart("no ");
+            p.merge(node.getLeft().apply(this, question));
+            return p;
+        } else if (node.getLeft() instanceof ASetEnumSetExp
+                && ((ASetEnumSetExp) node.getLeft()).getMembers().isEmpty())
+        {
+            AlloyPart p = new AlloyPart("no ");
+            p.merge(node.getRight().apply(this, question));
+            return p;
+        }
+        return defaultSBinaryExp(node, question);
+    };
 
-	@Override
-	public AlloyPart caseAIdentifierPattern(AIdentifierPattern node,
-			Context question) throws AnalysisException
-	{
-		return new AlloyPart(node.getName().getName());
-	}
+    public AlloyPart caseARangeResToBinaryExp(
+            org.overture.ast.expressions.ARangeResToBinaryExp node,
+            Context question) throws AnalysisException
+    {
+        return defaultSBinaryExp(node, question);
+    };
 
-	@Override
-	public AlloyPart mergeReturns(AlloyPart original, AlloyPart new_)
-	{
-		if (original == null || new_ == null)
-		{
-			return null;
-		}
-		original.exp += new_.exp;
-		original.predicates.addAll(new_.predicates);
-		original.topLevel.addAll(new_.topLevel);
-		original.typeBindings.addAll(new_.typeBindings);
-		return original;
-	}
+    public AlloyPart caseAImpliesBooleanBinaryExp(
+            org.overture.ast.expressions.AImpliesBooleanBinaryExp node,
+            Context question) throws AnalysisException
+    {
+        return defaultSBinaryExp(node, question);
+    };
 
-	@Override
-	public AlloyPart createNewReturnValue(INode node, Context question)
-	{
-		return new AlloyPart();
-	}
+    public AlloyPart caseAInSetBinaryExp(
+            org.overture.ast.expressions.AInSetBinaryExp node, Context question)
+            throws AnalysisException
+    {
 
-	@Override
-	public AlloyPart createNewReturnValue(Object node, Context question)
-	{
-		return new AlloyPart();
-	}
+        AlloyPart p = new AlloyPart("(");
+        String bind = "";
 
-	/**/
-	public AlloyPart caseAPlusPlusBinaryExp(
-			org.overture.ast.expressions.APlusPlusBinaryExp node,
-			Context question) throws AnalysisException
-	{
-		return defaultSBinaryExp(node, question);
-	};
+        bind = " in ";
 
-	public AlloyPart caseAEqualsBinaryExp(
-			org.overture.ast.expressions.AEqualsBinaryExp node, Context question)
-			throws AnalysisException
-	{
-		if (node.getRight() instanceof ASetEnumSetExp
-				&& ((ASetEnumSetExp) node.getRight()).getMembers().isEmpty())
-		{
-			AlloyPart p = new AlloyPart("no ");
-			p.merge(node.getLeft().apply(this, question));
-			return p;
-		} else if (node.getLeft() instanceof ASetEnumSetExp
-				&& ((ASetEnumSetExp) node.getLeft()).getMembers().isEmpty())
-		{
-			AlloyPart p = new AlloyPart("no ");
-			p.merge(node.getRight().apply(this, question));
-			return p;
-		}
-		return defaultSBinaryExp(node, question);
-	};
+        p.merge(node.getLeft().apply(this, question));
+        p.exp += bind;
+        p.merge(getBind(node.getRight(), question));
+        if (!p.predicates.isEmpty())
+        {
+            p.exp += " |";
+        }
+        p.appendPredicates();
+        p.exp += ")";
+        return p;
+    };
 
-	public AlloyPart caseARangeResToBinaryExp(
-			org.overture.ast.expressions.ARangeResToBinaryExp node,
-			Context question) throws AnalysisException
-	{
-		return defaultSBinaryExp(node, question);
-	};
+    public AlloyPart caseAAndBooleanBinaryExp(
+            org.overture.ast.expressions.AAndBooleanBinaryExp node,
+            Context question) throws AnalysisException
+    {
+        return defaultSBinaryExp(node, question);
+    };
 
-	public AlloyPart caseAImpliesBooleanBinaryExp(
-			org.overture.ast.expressions.AImpliesBooleanBinaryExp node,
-			Context question) throws AnalysisException
-	{
-		return defaultSBinaryExp(node, question);
-	};
-
-	public AlloyPart caseAInSetBinaryExp(
-			org.overture.ast.expressions.AInSetBinaryExp node, Context question)
-			throws AnalysisException
-	{
-
-		AlloyPart p = new AlloyPart("(");
-		String bind = "";
-
-		bind = " in ";
-
-		p.merge(node.getLeft().apply(this, question));
-		p.exp += bind;
-		p.merge(getBind(node.getRight(), question));
-		if (!p.predicates.isEmpty())
-		{
-			p.exp += " |";
-		}
-		p.appendPredicates();
-		p.exp += ")";
-		return p;
-	};
-
-	public AlloyPart caseAAndBooleanBinaryExp(
-			org.overture.ast.expressions.AAndBooleanBinaryExp node,
-			Context question) throws AnalysisException
-	{
-		return defaultSBinaryExp(node, question);
-	};
-
-	public AlloyPart caseAOrBooleanBinaryExp(AOrBooleanBinaryExp node,
-			Context question) throws AnalysisException
-	{
-		return defaultSBinaryExp(node, question);
-	};
-
-	public AlloyPart caseANotEqualBinaryExp(
-			org.overture.ast.expressions.ANotEqualBinaryExp node,
-			Context question) throws AnalysisException
-	{
-		return defaultSBinaryExp(node, question);
-	};
-
-	public AlloyPart caseASetIntersectBinaryExp(
-			org.overture.ast.expressions.ASetIntersectBinaryExp node,
-			Context question) throws AnalysisException
-	{
-		return defaultSBinaryExp(node, question);
-	};
-
-    public AlloyPart caseAGreaterEqualNumericBinaryExp(AGreaterEqualNumericBinaryExp node,
+    public AlloyPart caseAOrBooleanBinaryExp(AOrBooleanBinaryExp node,
                                              Context question) throws AnalysisException
     {
         return defaultSBinaryExp(node, question);
     };
 
+    public AlloyPart caseANotEqualBinaryExp(
+            org.overture.ast.expressions.ANotEqualBinaryExp node,
+            Context question) throws AnalysisException
+    {
+        return defaultSBinaryExp(node, question);
+    };
+
+    public AlloyPart caseASetIntersectBinaryExp(
+            org.overture.ast.expressions.ASetIntersectBinaryExp node,
+            Context question) throws AnalysisException
+    {
+        return defaultSBinaryExp(node, question);
+    };
 
     @Override
-	public AlloyPart caseASetUnionBinaryExp(ASetUnionBinaryExp node,
-			Context question) throws AnalysisException
-	{// TODO: not checked
-		return defaultSBinaryExp(node, question);
-	}
+    public AlloyPart caseASetUnionBinaryExp(ASetUnionBinaryExp node,
+                                            Context question) throws AnalysisException
+    {// TODO: not checked
+        return defaultSBinaryExp(node, question);
+    }
 }
