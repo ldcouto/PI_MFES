@@ -47,10 +47,10 @@
       <file leaf-file-name="Alloy2VdmAnalysis.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.7748344" vertical-offset="23921" max-vertical-offset="29955">
-              <caret line="1483" column="9" selection-start-line="1483" selection-start-column="9" selection-end-line="1483" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.2831126" vertical-offset="8004" max-vertical-offset="30105">
+              <caret line="545" column="9" selection-start-line="545" selection-start-column="9" selection-end-line="545" selection-end-column="9" />
               <folding>
-                <element signature="e#0#52786#0" expanded="true" />
+                <element signature="e#0#53162#0" expanded="true" />
                 <element signature="imports" expanded="true" />
                 <element signature="e#3686#3692#0" expanded="true" />
                 <element signature="e#3802#3812#0" expanded="true" />
@@ -67,23 +67,35 @@
                 <element signature="e#4608#4615#0" expanded="true" />
                 <element signature="e#4717#4718#0" expanded="true" />
                 <element signature="e#4746#4747#0" expanded="true" />
-                <element signature="e#13081#13089#0" expanded="true" />
-                <element signature="e#13488#13496#0" expanded="true" />
-                <element signature="e#19001#19009#0" expanded="true" />
-                <element signature="e#23076#23084#0" expanded="true" />
-                <element signature="e#23793#23801#0" expanded="true" />
-                <element signature="e#26944#26952#0" expanded="true" />
-                <element signature="e#30028#30029#0" expanded="true" />
-                <element signature="e#30062#30063#0" expanded="true" />
-                <element signature="e#30484#30492#0" expanded="true" />
-                <element signature="e#31578#31593#0" expanded="true" />
-                <element signature="e#33690#33698#0" expanded="true" />
-                <element signature="e#33820#33828#0" expanded="true" />
-                <element signature="e#34546#34561#0" expanded="true" />
-                <element signature="e#49728#49729#0" expanded="true" />
-                <element signature="e#49757#49758#0" expanded="true" />
-                <element signature="e#49842#49843#0" expanded="true" />
-                <element signature="e#49871#49872#0" expanded="true" />
+                <element signature="e#13115#13123#0" expanded="true" />
+                <element signature="e#13522#13530#0" expanded="true" />
+                <element signature="e#19377#19385#0" expanded="true" />
+                <element signature="e#23452#23460#0" expanded="true" />
+                <element signature="e#24169#24177#0" expanded="true" />
+                <element signature="e#27320#27328#0" expanded="true" />
+                <element signature="e#30404#30405#0" expanded="true" />
+                <element signature="e#30438#30439#0" expanded="true" />
+                <element signature="e#30860#30868#0" expanded="true" />
+                <element signature="e#31954#31969#0" expanded="true" />
+                <element signature="e#34066#34074#0" expanded="true" />
+                <element signature="e#34196#34204#0" expanded="true" />
+                <element signature="e#34922#34937#0" expanded="true" />
+                <element signature="e#50104#50105#0" expanded="true" />
+                <element signature="e#50133#50134#0" expanded="true" />
+                <element signature="e#50218#50219#0" expanded="true" />
+                <element signature="e#50247#50248#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="311" max-vertical-offset="2730">
+              <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -654,7 +666,13 @@
       <option name="project" value="LOCAL" />
       <updated>1428102115691</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="types and Not translated">
+      <created>1428103683605</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1428103683605</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -978,13 +996,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2730">
-          <caret line="33" column="35" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Formatter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1110">
@@ -1147,12 +1158,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="311" max-vertical-offset="2730">
+          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.7748344" vertical-offset="23921" max-vertical-offset="29955">
-          <caret line="1483" column="9" selection-start-line="1483" selection-start-column="9" selection-end-line="1483" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.2831126" vertical-offset="8004" max-vertical-offset="30105">
+          <caret line="545" column="9" selection-start-line="545" selection-start-column="9" selection-end-line="545" selection-end-column="9" />
           <folding>
-            <element signature="e#0#52786#0" expanded="true" />
+            <element signature="e#0#53162#0" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="e#3686#3692#0" expanded="true" />
             <element signature="e#3802#3812#0" expanded="true" />
@@ -1169,23 +1190,23 @@
             <element signature="e#4608#4615#0" expanded="true" />
             <element signature="e#4717#4718#0" expanded="true" />
             <element signature="e#4746#4747#0" expanded="true" />
-            <element signature="e#13081#13089#0" expanded="true" />
-            <element signature="e#13488#13496#0" expanded="true" />
-            <element signature="e#19001#19009#0" expanded="true" />
-            <element signature="e#23076#23084#0" expanded="true" />
-            <element signature="e#23793#23801#0" expanded="true" />
-            <element signature="e#26944#26952#0" expanded="true" />
-            <element signature="e#30028#30029#0" expanded="true" />
-            <element signature="e#30062#30063#0" expanded="true" />
-            <element signature="e#30484#30492#0" expanded="true" />
-            <element signature="e#31578#31593#0" expanded="true" />
-            <element signature="e#33690#33698#0" expanded="true" />
-            <element signature="e#33820#33828#0" expanded="true" />
-            <element signature="e#34546#34561#0" expanded="true" />
-            <element signature="e#49728#49729#0" expanded="true" />
-            <element signature="e#49757#49758#0" expanded="true" />
-            <element signature="e#49842#49843#0" expanded="true" />
-            <element signature="e#49871#49872#0" expanded="true" />
+            <element signature="e#13115#13123#0" expanded="true" />
+            <element signature="e#13522#13530#0" expanded="true" />
+            <element signature="e#19377#19385#0" expanded="true" />
+            <element signature="e#23452#23460#0" expanded="true" />
+            <element signature="e#24169#24177#0" expanded="true" />
+            <element signature="e#27320#27328#0" expanded="true" />
+            <element signature="e#30404#30405#0" expanded="true" />
+            <element signature="e#30438#30439#0" expanded="true" />
+            <element signature="e#30860#30868#0" expanded="true" />
+            <element signature="e#31954#31969#0" expanded="true" />
+            <element signature="e#34066#34074#0" expanded="true" />
+            <element signature="e#34196#34204#0" expanded="true" />
+            <element signature="e#34922#34937#0" expanded="true" />
+            <element signature="e#50104#50105#0" expanded="true" />
+            <element signature="e#50133#50134#0" expanded="true" />
+            <element signature="e#50218#50219#0" expanded="true" />
+            <element signature="e#50247#50248#0" expanded="true" />
           </folding>
         </state>
       </provider>

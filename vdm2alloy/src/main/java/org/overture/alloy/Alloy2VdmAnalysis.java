@@ -422,6 +422,7 @@ public class Alloy2VdmAnalysis
 			s.supers.add(ctxt.getSig(namedType.getType()));
 			ctxt.addType(namedType, s);
 			this.components.add(s);
+
 			// break;
 		}
 
@@ -450,6 +451,7 @@ public class Alloy2VdmAnalysis
             createType(qt, ctxt);
             //System.out.println("CENSA "+namedType.getType().toString());
             Sig s = new Sig(namedType.getName().getName(),true); // create sig in univ{}
+            ctxt.addType(qt, s);
             List<String> quotes = new Vector<String>();
             quotes.add(qt.getValue().getValue().toUpperCase());
             s.setInTypes(quotes);
@@ -485,8 +487,10 @@ public class Alloy2VdmAnalysis
 
             Sig sUniv = new Sig(namedType.getName().getName(),true); // create sig in univ{}
             this.components.add(sUniv);
+            ctxt.addType(ut, sUniv);
             createInvariantTypes(s);//fact
-            //System.out.println("CENSA1111 "+sUniv.toString());
+
+
 
 
             //this.components.add(s);
@@ -537,22 +541,28 @@ public class Alloy2VdmAnalysis
 			// break;
 		}
 		// }
-
+        System.out.println("ENTRAAAAAAAA"+namedType.getType());
 		if (namedType.parent() instanceof ATypeDefinition)
 		{
 			ATypeDefinition def = (ATypeDefinition) namedType.parent();
 			if (ctxt.getSig(namedType) != null)
 			{
                 Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
-                //if() {
-                    System.out.println("ENTRA\n");
+                if(ctxt.getSig(sUniv.name)==null) {
+                   System.out.println("ENTR1A"+def.getType().toString());
                     ctxt.addType(def.getType(), sUniv);
                     this.components.add(sUniv);
-                //}
+                }
 
-				createTypeInvariant(def, ctxt.getSig(namedType), ctxt,namedType.getType());
+                if(def.getInvPattern()==null){ //has no inv,it's just an atrib
+                    //createInvariantTypes(sUniv);//fact
+                } else {
+                    createTypeInvariant(def, ctxt.getSig(namedType), ctxt,namedType.getType());
+                }
 			}
+
 		}
+       // System.out.println("CM : "+components.toString());
 		return ctxt;
 	}
 
