@@ -50,47 +50,7 @@ import org.overture.ast.definitions.AStateDefinition;
 import org.overture.ast.definitions.ATypeDefinition;
 import org.overture.ast.definitions.AValueDefinition;
 import org.overture.ast.definitions.PDefinition;
-import org.overture.ast.expressions.AAndBooleanBinaryExp;
-import org.overture.ast.expressions.AApplyExp;
-import org.overture.ast.expressions.ACompBinaryExp;
-import org.overture.ast.expressions.ADistUnionUnaryExp;
-import org.overture.ast.expressions.ADomainResByBinaryExp;
-import org.overture.ast.expressions.ADomainResToBinaryExp;
-import org.overture.ast.expressions.AEqualsBinaryExp;
-import org.overture.ast.expressions.AEquivalentBooleanBinaryExp;
-import org.overture.ast.expressions.AFieldExp;
-import org.overture.ast.expressions.AForAllExp;
-import org.overture.ast.expressions.AImpliesBooleanBinaryExp;
-import org.overture.ast.expressions.AInSetBinaryExp;
-import org.overture.ast.expressions.ALetBeStExp;
-import org.overture.ast.expressions.AMapDomainUnaryExp;
-import org.overture.ast.expressions.AMapEnumMapExp;
-import org.overture.ast.expressions.AMapInverseUnaryExp;
-import org.overture.ast.expressions.AMapUnionBinaryExp;
-import org.overture.ast.expressions.AMapletExp;
-import org.overture.ast.expressions.AMkBasicExp;
-import org.overture.ast.expressions.AMkTypeExp;
-import org.overture.ast.expressions.ANotEqualBinaryExp;
-import org.overture.ast.expressions.ANotInSetBinaryExp;
-import org.overture.ast.expressions.AOrBooleanBinaryExp;
-import org.overture.ast.expressions.APlusPlusBinaryExp;
-import org.overture.ast.expressions.AProperSubsetBinaryExp;
-import org.overture.ast.expressions.AQuoteLiteralExp;
-import org.overture.ast.expressions.ARangeResByBinaryExp;
-import org.overture.ast.expressions.ARangeResToBinaryExp;
-import org.overture.ast.expressions.ASeqConcatBinaryExp;
-import org.overture.ast.expressions.ASetCompSetExp;
-import org.overture.ast.expressions.ASetDifferenceBinaryExp;
-import org.overture.ast.expressions.ASetEnumSetExp;
-import org.overture.ast.expressions.ASetIntersectBinaryExp;
-import org.overture.ast.expressions.ASetUnionBinaryExp;
-import org.overture.ast.expressions.AStarStarBinaryExp;
-import org.overture.ast.expressions.ASubsetBinaryExp;
-import org.overture.ast.expressions.AVariableExp;
-import org.overture.ast.expressions.PExp;
-import org.overture.ast.expressions.SBinaryExp;
-import org.overture.ast.expressions.SBooleanBinaryExp;
-import org.overture.ast.expressions.SNumericBinaryExp;
+import org.overture.ast.expressions.*;
 import org.overture.ast.intf.lex.ILexNameToken;
 import org.overture.ast.lex.VDMToken;
 import org.overture.ast.modules.AModuleModules;
@@ -663,7 +623,7 @@ public class Alloy2VdmAnalysis
 
 			// }
 			// }
-		} 
+		}
 		return null;
 	}
 
@@ -731,7 +691,7 @@ public class Alloy2VdmAnalysis
 
 	@Override
 	public AlloyPart caseAStateDefinition(AStateDefinition node,
-			Context question) throws AnalysisException
+										  Context question) throws AnalysisException
 	{
 		if (trnaslated.contains(node))
 		{
@@ -1071,7 +1031,7 @@ public class Alloy2VdmAnalysis
 	}
 
 	public AlloyPart caseATupleExp(org.overture.ast.expressions.ATupleExp node,
-			Context question) throws AnalysisException
+								   Context question) throws AnalysisException
 	{
 		if (node.getAncestor(AInSetBinaryExp.class) != null)
 		{
@@ -1255,16 +1215,16 @@ public class Alloy2VdmAnalysis
 			}
 			for (int i = 0; i < fieldNames.size(); i++)
 			{
-                //LETSSSSS
-                if(!fieldNames.get(i).equals("-")) {//ACRESCENTEI ISTO
-                    p.exp += fieldNames.get(i) + " = "
-                            + (!parentIsDef ? varName + "." : "")
-                            + tfieldNames.get(i);
-                    question.addVariable(fieldNames.get(i), ((ARecordInvariantType) node.getType()).getFields().get(i).getType());
-                    if (i < fieldNames.size() - 1) {
-                        p.exp += ", ";
-                    }
-                }
+				//LETSSSSS
+				if(!fieldNames.get(i).equals("-")) {//ACRESCENTEI ISTO
+					p.exp += fieldNames.get(i) + " = "
+							+ (!parentIsDef ? varName + "." : "")
+							+ tfieldNames.get(i);
+					question.addVariable(fieldNames.get(i), ((ARecordInvariantType) node.getType()).getFields().get(i).getType());
+					if (i < fieldNames.size() - 1) {
+						p.exp += ", ";
+					}
+				}
 			}
 			p.exp += " | ";
 			return p;
@@ -1320,7 +1280,7 @@ public class Alloy2VdmAnalysis
 
 	@Override
 	public AlloyPart caseAMapDomainUnaryExp(AMapDomainUnaryExp node,
-			Context question) throws AnalysisException
+											Context question) throws AnalysisException
 	{
 		// AlloyPart p = new AlloyPart("(");
 		// p.merge(node.getExp().apply(this, question));
@@ -1353,7 +1313,7 @@ public class Alloy2VdmAnalysis
 
 	@Override
 	public AlloyPart caseADistUnionUnaryExp(ADistUnionUnaryExp node,
-			Context question) throws AnalysisException
+											Context question) throws AnalysisException
 	{
 
 		if (node.getExp() instanceof ASetCompSetExp)
@@ -1454,7 +1414,7 @@ public class Alloy2VdmAnalysis
 
 	@Override
 	public AlloyPart caseAQuoteLiteralExp(AQuoteLiteralExp node,
-			Context question) throws AnalysisException
+										  Context question) throws AnalysisException
 	{
 		return new AlloyPart(node.getValue().getValue().toUpperCase());
 	}
@@ -1463,10 +1423,12 @@ public class Alloy2VdmAnalysis
 	public AlloyPart defaultInINode(INode node, Context question)
 			throws AnalysisException
 	{
+		//System.out.println("Numero "+node.toString());
+
 		if (node instanceof PExp)
 		{
-			return new AlloyPart(" /* NOT Translated("
-					+ node.getClass().getSimpleName() + ")*/");
+			return new AlloyPart(" /* NOT Translated("+ node.getClass().getSimpleName() + ")*/");
+			//return new AlloyPart(node.toString()+"]");
 		}
 		return null;
 	}
@@ -1475,12 +1437,14 @@ public class Alloy2VdmAnalysis
 			throws AnalysisException
 	{
 		AlloyPart p = new AlloyPart("(");
+		// System.out.println("Numero "+node.getClass().toString());
 		p.merge(node.getLeft().apply(this, question));
-
+		// System.out.println("Numero "+node.toString());
 		if (node instanceof SBinaryExp)
 
 		// switch (node.kindSBinaryExp())
 		{
+			// System.out.println("Numero "+node.getType().toString()+" name : " +node.toString());
 			if (node instanceof SBooleanBinaryExp)
 			// case BOOLEAN:
 			{
@@ -1488,6 +1452,8 @@ public class Alloy2VdmAnalysis
 				// switch (exp.kindSBooleanBinaryExp())
 				// {
 				// case AND:
+
+
 				if (node instanceof AAndBooleanBinaryExp)
 				{
 					p.exp += " and ";
@@ -1499,7 +1465,7 @@ public class Alloy2VdmAnalysis
 				}
 				// case IMPLIES:
 				else if (node instanceof AImpliesBooleanBinaryExp)
-				{
+				{//System.out.println("Numero "+node.toString());
 					p.exp += " implies ";
 				}
 				// case OR:
@@ -1549,6 +1515,7 @@ public class Alloy2VdmAnalysis
 				// break;
 			} else if (node instanceof SNumericBinaryExp)
 			{
+
 				// case NUMERIC:
 				// break;
 			} else if (node instanceof APlusPlusBinaryExp)
@@ -1606,6 +1573,8 @@ public class Alloy2VdmAnalysis
 			}
 		}
 
+
+
 		p.merge(node.getRight().apply(this, question));
 		p.exp += ")";
 		return p;
@@ -1636,7 +1605,7 @@ public class Alloy2VdmAnalysis
 
 	@Override
 	public AlloyPart caseADomainResByBinaryExp(ADomainResByBinaryExp node,
-			Context question) throws AnalysisException
+											   Context question) throws AnalysisException
 	{
 		AlloyPart p = new AlloyPart("(");
 		p.exp += "univ -";
@@ -1680,7 +1649,7 @@ public class Alloy2VdmAnalysis
 
 	@Override
 	public AlloyPart caseAMapInverseUnaryExp(AMapInverseUnaryExp node,
-			Context question) throws AnalysisException
+											 Context question) throws AnalysisException
 	{
 		// Only supported if directly before an apply
 		AlloyPart p = new AlloyPart("~(");
@@ -1701,8 +1670,7 @@ public class Alloy2VdmAnalysis
 		{
 			p.merge(bindPart);
 			p.exp += " | ";
-		} else
-		{
+		} else {
 			for (Iterator<AlloyTypeBind> itr = bindPart.typeBindings.iterator(); itr.hasNext();)
 			{
 				p.exp += itr.next().exp;
@@ -1762,7 +1730,7 @@ public class Alloy2VdmAnalysis
 
 	@Override
 	public AlloyPart caseASetMultipleBind(ASetMultipleBind node,
-			Context question) throws AnalysisException
+										  Context question) throws AnalysisException
 	{
 		AlloyPart p = createNewReturnValue(node, question);
 
@@ -1838,7 +1806,7 @@ public class Alloy2VdmAnalysis
 
 	@Override
 	public AlloyPart caseAIdentifierPattern(AIdentifierPattern node,
-			Context question) throws AnalysisException
+											Context question) throws AnalysisException
 	{
 		return new AlloyPart(node.getName().getName());
 	}
@@ -1941,7 +1909,7 @@ public class Alloy2VdmAnalysis
 	};
 
 	public AlloyPart caseAOrBooleanBinaryExp(AOrBooleanBinaryExp node,
-			Context question) throws AnalysisException
+											 Context question) throws AnalysisException
 	{
 		return defaultSBinaryExp(node, question);
 	};
@@ -1962,8 +1930,69 @@ public class Alloy2VdmAnalysis
 
 	@Override
 	public AlloyPart caseASetUnionBinaryExp(ASetUnionBinaryExp node,
-			Context question) throws AnalysisException
+											Context question) throws AnalysisException
 	{// TODO: not checked
 		return defaultSBinaryExp(node, question);
+	}
+
+	public AlloyPart caseAGreaterNumericBinaryExp(AGreaterNumericBinaryExp node,
+													   Context question) throws AnalysisException
+	{
+		AlloyPart p = new AlloyPart("gt[");
+
+		p.merge(node.getLeft().apply(this, question));
+		p.exp += ',';
+		p.merge(getBind(node.getRight(), question));
+		p.exp += ']';
+		return p;
+	};
+
+	public AlloyPart caseALessNumericBinaryExp(ALessNumericBinaryExp node,
+													Context question) throws AnalysisException
+	{
+		AlloyPart p = new AlloyPart("lt[");
+
+		p.merge(node.getLeft().apply(this, question));
+		p.exp += ',';
+		p.merge(getBind(node.getRight(), question));
+		p.exp += ']';
+		return p;
+	};
+
+	public AlloyPart caseAGreaterEqualNumericBinaryExp(AGreaterEqualNumericBinaryExp node,
+													   Context question) throws AnalysisException
+	{
+		AlloyPart p = new AlloyPart("gte[");
+
+		p.merge(node.getLeft().apply(this, question));
+		p.exp += ',';
+		p.merge(getBind(node.getRight(), question));
+		p.exp += ']';
+		return p;
+	};
+
+	public AlloyPart caseALessEqualNumericBinaryExp(ALessEqualNumericBinaryExp node,
+													   Context question) throws AnalysisException
+	{
+		AlloyPart p = new AlloyPart("lte[");
+
+		p.merge(node.getLeft().apply(this, question));
+		p.exp += ',';
+		p.merge(getBind(node.getRight(), question));
+		p.exp += ']';
+		return p;
+	};
+
+	public AlloyPart caseALenUnaryExp (ALenUnaryExp node, Context question) throws AnalysisException {
+		AlloyPart p = new AlloyPart("#(");
+
+		p.merge(node.getExp().apply(this, question));
+
+		p.exp += ')';
+		return p;
+	}
+
+	public AlloyPart caseAIntLiteralExp (AIntLiteralExp node, Context question) throws AnalysisException {
+		return new AlloyPart(node.getValue().toString());
 	}
 }
