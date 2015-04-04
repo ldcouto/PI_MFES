@@ -101,7 +101,8 @@ public class Sig extends Part
 	private final Map<String, Sig.FieldType> fields = new HashMap<String, Sig.FieldType>();
 	private final List<String> fieldNames = new Vector<String>();
 	public final String name;
-	public boolean isOne = false;
+    public boolean isFact = false;
+    public boolean isOne = false;
 	public boolean isWrapper = false;
     public boolean inUniv = false;
 	private List<String> quotes = new Vector<String>();
@@ -116,6 +117,11 @@ public class Sig extends Part
     public Sig(String name,boolean inUniv){
         this.name=name;
         this.inUniv=inUniv;
+    }
+    public Sig(String name,boolean inUniv,boolean fact){
+        this.name=name;
+        this.inUniv=inUniv;
+        this.isFact=fact;
     }
 
     public List getQuotes(){
@@ -174,7 +180,7 @@ public class Sig extends Part
                     + (this.quotes.isEmpty() ? "" : " in "
                     + Alloy2VdmAnalysis.toList(quotes, "+")) + (this.supers.isEmpty() ? "" : " extends "
                     + Alloy2VdmAnalysis.toList(getNames(supers), "+")) + "{";
-           // System.out.println("String \n" + tmp);
+            //System.out.println( tmp);
             for (Entry<String, FieldType> entry : this.fields.entrySet()) {
                 tmp += "\n\t" + entry.getKey() + ": " + entry.getValue() + ", ";
             }

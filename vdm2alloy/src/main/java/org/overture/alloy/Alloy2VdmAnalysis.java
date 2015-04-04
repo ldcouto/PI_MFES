@@ -200,13 +200,17 @@ public class Alloy2VdmAnalysis
 
 	}
 
-    private void createInvariantTypes(Sig sig) // method to create fact in types
+    private void createInvariantTypes(Sig sig,String type) // method to create fact in types
             throws AnalysisException
     {
-            //System.out.println("Invariante: " + sig.getQuotes().toString());
-            Fact f = new Fact(sig.name + "Type",toList(sig.getQuotes(), "+"),sig.name);
-            this.components.add(f);
-
+           if(type==null) {
+               Fact f = new Fact(sig.name + "Type", toList(sig.getQuotes(), "+"), sig.name);
+               this.components.add(f);
+           }
+        else{
+               Fact f = new Fact(sig.name + "Type", type, sig.name);
+               this.components.add(f);
+           }
 
     }
 
@@ -449,16 +453,15 @@ public class Alloy2VdmAnalysis
 		{
             AQuoteType qt = (AQuoteType)namedType.getType();
             createType(qt, ctxt);
-            //System.out.println("CENSA "+namedType.getType().toString());
             Sig s = new Sig(namedType.getName().getName(),true); // create sig in univ{}
             ctxt.addType(qt, s);
             List<String> quotes = new Vector<String>();
             quotes.add(qt.getValue().getValue().toUpperCase());
             s.setInTypes(quotes);
             this.components.add(s);
-            createInvariantTypes(s);//fact
-            System.out.println("CENSA "+s.toString());
-		}
+            createInvariantTypes(s,null);//fact
+
+        }
 
 		// case UNION:
 		if (namedType.getType() instanceof AUnionType)
@@ -479,22 +482,20 @@ public class Alloy2VdmAnalysis
 					quotes.add(nit.getName().getName());
 				}
 			}
-//            System.out.println("type: "+namedType.getName().getName()+"   Quotes: "+quotes.toString());
 
-            Sig s = new Sig(namedType.getName().getName());
-            s.setInTypes(quotes);
-            ctxt.addType(ut, s);
+           // Sig s = new Sig(namedType.getName().getName());
+           // s.setInTypes(quotes);
+            //ctxt.addType(ut, s);
+            //this.components.add(s);
 
             Sig sUniv = new Sig(namedType.getName().getName(),true); // create sig in univ{}
+            sUniv.setInTypes(quotes);
             this.components.add(sUniv);
             ctxt.addType(ut, sUniv);
-            createInvariantTypes(s);//fact
+            createInvariantTypes(sUniv,null);//fact
 
 
-
-
-            //this.components.add(s);
-		}
+        }
 		// break;
 
 		// case SEQ:
@@ -541,29 +542,27 @@ public class Alloy2VdmAnalysis
 			// break;
 		}
 		// }
-        System.out.println("ENTRAAAAAAAA"+namedType.getType());
+
 		if (namedType.parent() instanceof ATypeDefinition)
 		{
+
 			ATypeDefinition def = (ATypeDefinition) namedType.parent();
-			if (ctxt.getSig(namedType) != null)
+            if (ctxt.getSig(namedType) != null)
 			{
                 Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
-                if(ctxt.getSig(sUniv.name)==null) {
-                   System.out.println("ENTR1A"+def.getType().toString());
+                if(def.getInvPattern()==null && ctxt.getSig(sUniv.name)==null) { //A = A'
+                   System.out.println("ENTR1A"+namedType.getType());
                     ctxt.addType(def.getType(), sUniv);
                     this.components.add(sUniv);
-                }
-
-                if(def.getInvPattern()==null){ //has no inv,it's just an atrib
-                    //createInvariantTypes(sUniv);//fact
-                } else {
-                    createTypeInvariant(def, ctxt.getSig(namedType), ctxt,namedType.getType());
+                    createInvariantTypes(sUniv,namedType.getType().toString());
+                }else  if(def.getInvPattern()!=null){// A = A'  \n  inv x = E <> ...
+                    ctxt.addType(def.getType(), sUniv);
+                    this.components.add(sUniv);
+                    createTypeInvariant(def, sUniv, ctxt,namedType.getType());
                 }
 			}
-
-		}
-       // System.out.println("CM : "+components.toString());
-		return ctxt;
+        }
+      	return ctxt;
 	}
 
 	String getTypeName(PType type)
