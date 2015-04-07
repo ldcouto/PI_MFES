@@ -106,6 +106,7 @@ public class Sig extends Part
 	public boolean isWrapper = false;
     public boolean inUniv = false;
 	private List<String> quotes = new Vector<String>();
+    private List<String> qts = new Vector<String>();
 	public final List<String> constraints = new Vector<String>();
 	public final List<Sig> supers = new Vector<Sig>();
 

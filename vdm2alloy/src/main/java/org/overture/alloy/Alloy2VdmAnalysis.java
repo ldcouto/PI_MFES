@@ -18,16 +18,8 @@
  */
 package org.overture.alloy;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Vector;
 
 import org.overture.alloy.ast.AlloyExp;
 import org.overture.alloy.ast.AlloyLetExp;
@@ -82,6 +74,8 @@ import org.overture.ast.types.SInvariantType;
 import org.overture.ast.types.SMapType;
 import org.overture.ast.types.SNumericBasicType;
 import org.overture.ast.types.SSeqType;
+
+import javax.lang.model.type.UnionType;
 
 public class Alloy2VdmAnalysis
 		extends
@@ -186,11 +180,22 @@ public class Alloy2VdmAnalysis
 
 	private void createTypeInvariant(ATypeDefinition def, Sig sig, Context ctxt,PType type) // add param to know sig type.... type of sig  = type
 			throws AnalysisException
-	{
+	{       String nType ;
+
+
+            if(type instanceof AUnionType){
+                nType  = type.toString();
+                nType=nType.replace("(","");
+                nType=nType.replace(")","");
+                List<String> items = Arrays.asList(nType.split("\\|"));
+                nType=toList(items,"+");
+            }
+            else{nType=type.toString();}
+
             if (def.getInvdef() != null) {
               //  String body = "all ";
                 AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
-                String body = sig.name +" = { " + pattern.exp + " : " + type.toString() + " | ";
+                String body = sig.name +" = { " + pattern.exp + " : " + nType+ " | ";
                 Context invCtxt = new Context(ctxt);
                 invCtxt.addVariable(pattern.exp, def.getType());
                 body += def.getInvExpression().apply(this, invCtxt).exp + " }";
@@ -421,11 +426,12 @@ public class Alloy2VdmAnalysis
 		// {
 		if (namedType.getType() instanceof SBasicType)
 		{
-			Sig s = new Sig(namedType.getName().getName());
-			ctxt.merge(createType(namedType.getType(), ctxt));
-			s.supers.add(ctxt.getSig(namedType.getType()));
+			Sig s = new Sig(namedType.getName().getName(),true);
+            ctxt.merge(createType(namedType.getType(), ctxt));
+			//s.supers.add(ctxt.getSig(namedType.getType()));
 			ctxt.addType(namedType, s);
-			this.components.add(s);
+            this.components.add(s);
+            createInvariantTypes(s,namedType.getType().toString());
 
 			// break;
 		}
@@ -468,6 +474,7 @@ public class Alloy2VdmAnalysis
 		{
 			AUnionType ut = (AUnionType) namedType.getType();
 			List<String> quotes = new Vector<String>();
+            List<String> qts = new Vector<String>();
 			for (PType ute : ut.getTypes())
 			{
 				if (ute instanceof AQuoteType)
@@ -475,11 +482,12 @@ public class Alloy2VdmAnalysis
 					AQuoteType qt = (AQuoteType) ute;
 					String name = qt.getValue().getValue().toUpperCase();
 					quotes.add(name);
-					createType(ute, ctxt);
+                   createType(ute, ctxt);
 				} else if (ute instanceof ANamedInvariantType)
 				{
 					ANamedInvariantType nit = (ANamedInvariantType) ute;
 					quotes.add(nit.getName().getName());
+
 				}
 			}
 
@@ -488,11 +496,19 @@ public class Alloy2VdmAnalysis
             //ctxt.addType(ut, s);
             //this.components.add(s);
 
-            Sig sUniv = new Sig(namedType.getName().getName(),true); // create sig in univ{}
-            sUniv.setInTypes(quotes);
-            this.components.add(sUniv);
-            ctxt.addType(ut, sUniv);
-            createInvariantTypes(sUniv,null);//fact
+
+            if(namedType.parent() instanceof ATypeDefinition){
+                ATypeDefinition def = (ATypeDefinition) namedType.parent();
+                if(def.getInvPattern()==null){
+                    Sig sUniv = new Sig(namedType.getName().getName(),true); // create sig in univ{}
+                    sUniv.setInTypes(quotes);
+                    this.components.add(sUniv);
+                    ctxt.addType(ut, sUniv);
+                    createInvariantTypes(sUniv,null);//fact
+                }
+            }
+
+
 
 
         }
@@ -551,7 +567,6 @@ public class Alloy2VdmAnalysis
 			{
                 Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
                 if(def.getInvPattern()==null && ctxt.getSig(sUniv.name)==null) { //A = A'
-                   System.out.println("ENTR1A"+namedType.getType());
                     ctxt.addType(def.getType(), sUniv);
                     this.components.add(sUniv);
                     createInvariantTypes(sUniv,namedType.getType().toString());
@@ -560,6 +575,7 @@ public class Alloy2VdmAnalysis
                     this.components.add(sUniv);
                     createTypeInvariant(def, sUniv, ctxt,namedType.getType());
                 }
+
 			}
         }
       	return ctxt;
