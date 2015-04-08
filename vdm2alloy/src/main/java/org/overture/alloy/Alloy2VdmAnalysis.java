@@ -21,16 +21,7 @@ package org.overture.alloy;
 import java.util.*;
 import java.util.Map.Entry;
 
-import org.overture.alloy.ast.AlloyExp;
-import org.overture.alloy.ast.AlloyLetExp;
-import org.overture.alloy.ast.AlloyTypeBind;
-import org.overture.alloy.ast.Fact;
-import org.overture.alloy.ast.Fun;
-import org.overture.alloy.ast.ModuleHeader;
-import org.overture.alloy.ast.Part;
-import org.overture.alloy.ast.Pred;
-import org.overture.alloy.ast.Run;
-import org.overture.alloy.ast.Sig;
+import org.overture.alloy.ast.*;
 import org.overture.alloy.ast.Sig.FieldType;
 import org.overture.alloy.ast.Sig.FieldType.Prefix;
 import org.overture.ast.analysis.AnalysisException;
@@ -55,25 +46,7 @@ import org.overture.ast.patterns.ATuplePattern;
 import org.overture.ast.patterns.PMultipleBind;
 import org.overture.ast.patterns.PPattern;
 import org.overture.ast.statements.AExternalClause;
-import org.overture.ast.types.ABooleanBasicType;
-import org.overture.ast.types.ACharBasicType;
-import org.overture.ast.types.AFieldField;
-import org.overture.ast.types.AFunctionType;
-import org.overture.ast.types.AInMapMapType;
-import org.overture.ast.types.AMapMapType;
-import org.overture.ast.types.ANamedInvariantType;
-import org.overture.ast.types.AProductType;
-import org.overture.ast.types.AQuoteType;
-import org.overture.ast.types.ARecordInvariantType;
-import org.overture.ast.types.ASetType;
-import org.overture.ast.types.ATokenBasicType;
-import org.overture.ast.types.AUnionType;
-import org.overture.ast.types.PType;
-import org.overture.ast.types.SBasicType;
-import org.overture.ast.types.SInvariantType;
-import org.overture.ast.types.SMapType;
-import org.overture.ast.types.SNumericBasicType;
-import org.overture.ast.types.SSeqType;
+import org.overture.ast.types.*;
 
 import javax.lang.model.type.UnionType;
 
@@ -83,6 +56,9 @@ public class Alloy2VdmAnalysis
 {
 	private static final long serialVersionUID = 1L;
 	final public List<Part> components = new Vector<Part>();
+    boolean nat= false;
+    AuxiliarMethods aux=new AuxiliarMethods();
+    Comment cm;
 
 	public class AlloyPart
 	{
@@ -275,6 +251,7 @@ public class Alloy2VdmAnalysis
 			return ctxt;
 		} else if (type instanceof SBasicType)
 		{
+
 			if (type instanceof ABooleanBasicType)
 			{
 
@@ -283,11 +260,18 @@ public class Alloy2VdmAnalysis
 				Sig s = new Sig(getTypeName(type));
 				ctxt.addType(type, s);
 				this.components.add(s);
-			} else if (type instanceof SNumericBasicType)
-			{
+			} //else if (type instanceof SNumericBasicType)
+			//{
 
-			}
-			return ctxt;
+			//}
+            else if (type instanceof ANatNumericBasicType)
+            {
+                if(!nat) {
+                    aux.createNats(getTypeName(type),type,ctxt,this.components);
+                    nat=true;
+                }
+            }
+            return ctxt;
 		} else if (type instanceof SSeqType)
 		{
 			// SSeqType stype = (SSeqType) type;
@@ -422,16 +406,23 @@ public class Alloy2VdmAnalysis
 	private Context createNamedType(ANamedInvariantType namedType, Context ctxt)
 			throws AnalysisException
 	{
+           // aux.addCommnt(namedType.toString(),this.components); // just add comments
+        //Comment cm = new Comment("OLALALALALAL");
+        //cm.addComment(this.components);
 		// switch (namedType.getType().kindPType())
 		// {
-		if (namedType.getType() instanceof SBasicType)
+        cm=new Comment(namedType.toString());
+        this.components.add(cm);
+
+        if (namedType.getType() instanceof SBasicType)
 		{
-			Sig s = new Sig(namedType.getName().getName(),true);
+            Sig s = new Sig(namedType.getName().getName(),true);
             ctxt.merge(createType(namedType.getType(), ctxt));
 			//s.supers.add(ctxt.getSig(namedType.getType()));
 			ctxt.addType(namedType, s);
             this.components.add(s);
             createInvariantTypes(s,namedType.getType().toString());
+            System.out.println("Cria :"+namedType.toString());
 
 			// break;
 		}
@@ -477,7 +468,8 @@ public class Alloy2VdmAnalysis
             List<String> qts = new Vector<String>();
 			for (PType ute : ut.getTypes())
 			{
-				if (ute instanceof AQuoteType)
+                if(!nat && ute.toString().equals("nat")){aux.createNats(ute.toString(),ute,ctxt,this.components);nat=true;}
+                if (ute instanceof AQuoteType)
 				{
 					AQuoteType qt = (AQuoteType) ute;
 					String name = qt.getValue().getValue().toUpperCase();
@@ -566,14 +558,18 @@ public class Alloy2VdmAnalysis
             if (ctxt.getSig(namedType) != null)
 			{
                 Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
-                if(def.getInvPattern()==null && ctxt.getSig(sUniv.name)==null) { //A = A'
+                if(def.getInvPattern()==null && ctxt.getSig(namedType.getName().getName())==null) { //A = A'
                     ctxt.addType(def.getType(), sUniv);
                     this.components.add(sUniv);
                     createInvariantTypes(sUniv,namedType.getType().toString());
+
                 }else  if(def.getInvPattern()!=null){// A = A'  \n  inv x = E <> ...
-                    ctxt.addType(def.getType(), sUniv);
-                    this.components.add(sUniv);
-                    createTypeInvariant(def, sUniv, ctxt,namedType.getType());
+                    if(ctxt.getSig(namedType).toString()!=null && namedType.getType().toString().equals("nat")){createTypeInvariant(def, ctxt.getSig(namedType), ctxt,namedType.getType());}
+                    else {
+                        ctxt.addType(def.getType(), sUniv);
+                        this.components.add(sUniv);
+                        createTypeInvariant(def, sUniv, ctxt, namedType.getType());
+                    }
                 }
 
 			}
@@ -1989,4 +1985,68 @@ public class Alloy2VdmAnalysis
     {// TODO: not checked
         return defaultSBinaryExp(node, question);
     }
+
+
+    public AlloyPart caseAGreaterNumericBinaryExp(AGreaterNumericBinaryExp node,
+                                                  Context question) throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart("gt[");
+
+        p.merge(node.getLeft().apply(this, question));
+        p.exp += ',';
+        p.merge(getBind(node.getRight(), question));
+        p.exp += ']';
+        return p;
+    };
+
+    public AlloyPart caseALessNumericBinaryExp(ALessNumericBinaryExp node,
+                                               Context question) throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart("lt[");
+
+        p.merge(node.getLeft().apply(this, question));
+        p.exp += ',';
+        p.merge(getBind(node.getRight(), question));
+        p.exp += ']';
+        return p;
+    };
+
+    public AlloyPart caseAGreaterEqualNumericBinaryExp(AGreaterEqualNumericBinaryExp node,
+                                                       Context question) throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart("gte[");
+
+        p.merge(node.getLeft().apply(this, question));
+        p.exp += ',';
+        p.merge(getBind(node.getRight(), question));
+        p.exp += ']';
+        return p;
+    };
+
+    public AlloyPart caseALessEqualNumericBinaryExp(ALessEqualNumericBinaryExp node,
+                                                    Context question) throws AnalysisException
+    {
+        AlloyPart p = new AlloyPart("lte[");
+
+        p.merge(node.getLeft().apply(this, question));
+        p.exp += ',';
+        p.merge(getBind(node.getRight(), question));
+        p.exp += ']';
+        return p;
+    };
+
+    public AlloyPart caseALenUnaryExp (ALenUnaryExp node, Context question) throws AnalysisException {
+        AlloyPart p = new AlloyPart("#(");
+
+        p.merge(node.getExp().apply(this, question));
+
+        p.exp += ')';
+        return p;
+    }
+
+    public AlloyPart caseAIntLiteralExp (AIntLiteralExp node, Context question) throws AnalysisException {
+        return new AlloyPart(node.getValue().toString());
+    }
 }
+
+

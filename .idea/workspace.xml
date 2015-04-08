@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d2b3c4-4b03-4305-96a9-71eb43d73b8e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/AuxiliarMethods.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Comment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Sig.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Sig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="alloy.iws" />
@@ -45,23 +46,85 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Alloy2VdmAnalysis.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Alloy2VdmAnalysis.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5358209" vertical-offset="2461" max-vertical-offset="29685">
-              <caret line="203" column="13" selection-start-line="203" selection-start-column="13" selection-end-line="203" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="5869" max-vertical-offset="30870">
+              <caret line="415" column="0" selection-start-line="415" selection-start-column="0" selection-end-line="415" selection-end-column="0" />
               <folding>
-                <element signature="e#0#56354#0" expanded="true" />
+                <element signature="e#0#58336#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#32452#32467#0" expanded="true" />
-                <element signature="e#34564#34572#0" expanded="true" />
-                <element signature="e#34694#34702#0" expanded="true" />
-                <element signature="e#35420#35435#0" expanded="true" />
-                <element signature="e#52951#52952#0" expanded="true" />
-                <element signature="e#52989#52990#0" expanded="true" />
-                <element signature="e#53083#53084#0" expanded="true" />
-                <element signature="e#53121#53122#0" expanded="true" />
+                <element signature="e#2361#2367#0" expanded="true" />
+                <element signature="e#2564#2574#0" expanded="true" />
+                <element signature="e#2628#2638#0" expanded="true" />
+                <element signature="e#2701#2716#0" expanded="true" />
+                <element signature="e#2754#2755#0" expanded="true" />
+                <element signature="e#2777#2778#0" expanded="true" />
+                <element signature="e#2803#2804#0" expanded="true" />
+                <element signature="e#2825#2826#0" expanded="true" />
+                <element signature="e#2863#2864#0" expanded="true" />
+                <element signature="e#2893#2894#0" expanded="true" />
+                <element signature="e#2937#2938#0" expanded="true" />
+                <element signature="e#2956#2957#0" expanded="true" />
+                <element signature="e#3370#3377#0" expanded="true" />
+                <element signature="e#3479#3480#0" expanded="true" />
+                <element signature="e#3508#3509#0" expanded="true" />
+                <element signature="e#12967#12975#0" expanded="true" />
+                <element signature="e#13331#13339#0" expanded="true" />
+                <element signature="e#13384#13392#0" expanded="true" />
+                <element signature="e#19806#19814#0" expanded="true" />
+                <element signature="e#23881#23889#0" expanded="true" />
+                <element signature="e#24598#24606#0" expanded="true" />
+                <element signature="e#27749#27757#0" expanded="true" />
+                <element signature="e#30833#30834#0" expanded="true" />
+                <element signature="e#30867#30868#0" expanded="true" />
+                <element signature="e#31289#31297#0" expanded="true" />
+                <element signature="e#32383#32398#0" expanded="true" />
+                <element signature="e#34495#34503#0" expanded="true" />
+                <element signature="e#34625#34633#0" expanded="true" />
+                <element signature="e#35351#35366#0" expanded="true" />
+                <element signature="e#52882#52883#0" expanded="true" />
+                <element signature="e#52920#52921#0" expanded="true" />
+                <element signature="e#53014#53015#0" expanded="true" />
+                <element signature="e#53052#53053#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuxiliarMethods.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/AuxiliarMethods.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Comment.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Comment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.48387095" vertical-offset="0" max-vertical-offset="620">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding>
+                <element signature="e#190#191#0" expanded="true" />
+                <element signature="e#221#222#0" expanded="true" />
+                <element signature="e#271#272#0" expanded="true" />
+                <element signature="e#363#364#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Fact.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Fact.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
+              <caret line="49" column="5" selection-start-line="40" selection-start-column="3" selection-end-line="49" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -69,7 +132,7 @@
       <file leaf-file-name="Sig.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Sig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="1575">
+            <state vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1575">
               <caret line="170" column="0" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
               <folding>
                 <element signature="class#FieldType#0;class#Sig#0" expanded="false" />
@@ -86,24 +149,9 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="2415">
-              <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#5633#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Fact.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Fact.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="600">
-              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#1318#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="1795" max-vertical-offset="2415">
+              <caret line="150" column="0" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -111,26 +159,9 @@
       <file leaf-file-name="Context.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Context.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="2475">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2475">
               <caret line="65" column="18" selection-start-line="65" selection-start-column="18" selection-end-line="65" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#4045#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#1261#1262#0" expanded="false" />
-                <element signature="e#1278#1279#0" expanded="false" />
-                <element signature="e#1313#1314#0" expanded="false" />
-                <element signature="e#1336#1337#0" expanded="false" />
-                <element signature="e#2931#2932#0" expanded="false" />
-                <element signature="e#2963#2964#0" expanded="false" />
-                <element signature="e#2993#2994#0" expanded="false" />
-                <element signature="e#3021#3022#0" expanded="false" />
-                <element signature="e#3185#3186#0" expanded="false" />
-                <element signature="e#3220#3221#0" expanded="false" />
-                <element signature="e#3277#3278#0" expanded="false" />
-                <element signature="e#3317#3318#0" expanded="false" />
-                <element signature="e#3378#3379#0" expanded="false" />
-                <element signature="e#3417#3418#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -140,14 +171,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="465">
               <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#1452#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#1138#1139#0" expanded="false" />
-                <element signature="e#1195#1196#0" expanded="false" />
-                <element signature="e#1230#1231#0" expanded="false" />
-                <element signature="e#1287#1288#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -158,7 +182,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="types" />
       </map>
     </option>
   </component>
@@ -168,13 +192,14 @@
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
         <option value="$PROJECT_DIR$/alloyextension/pom.xml" />
         <option value="$PROJECT_DIR$/alloyextension/src/main/java/edu/mit/csail/sdg/alloy4/Terminal.java" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/AuxiliarMethods.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/HelloG.g4" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/vdm2alloy/pom.xml" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Fact.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Sig.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/AuxiliarMethods.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Comment.java" />
       </list>
     </option>
   </component>
@@ -186,10 +211,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1920" />
+    <option name="x" value="-1913" />
     <option name="y" value="-109" />
-    <option name="width" value="1920" />
-    <option name="height" value="1045" />
+    <option name="width" value="1907" />
+    <option name="height" value="1057" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -214,6 +239,9 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -373,9 +401,6 @@
             </PATH_ELEMENT>
           </PATH>
         </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane />
       </pane>
       <pane id="Scope">
         <subPane subId="Problems" />
@@ -697,7 +722,13 @@
       <option name="project" value="LOCAL" />
       <updated>1428338923145</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="types">
+      <created>1428369863369</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1428369863369</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -721,7 +752,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1920" y="-109" width="1920" height="1045" extended-state="6" />
+    <frame x="-1913" y="-109" width="1907" height="1057" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Code Iris" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -732,26 +763,26 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34615386" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Code explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928178" sideWeight="0.5002701" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20208333" sideWeight="0.27077365" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1651809" sideWeight="0.27314815" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917318" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32889345" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32793522" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299595" sideWeight="0.49972987" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21372855" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20208333" sideWeight="0.72922635" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28483605" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1651809" sideWeight="0.7268519" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34412956" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17223382" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34632683" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -808,7 +839,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -817,20 +848,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Sig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="975" max-vertical-offset="2580">
-          <caret line="100" column="26" selection-start-line="100" selection-start-column="23" selection-end-line="100" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Context.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1605" max-vertical-offset="2475">
-          <caret line="142" column="5" selection-start-line="142" selection-start-column="5" selection-end-line="142" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Sig.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="955" max-vertical-offset="2700">
@@ -1107,43 +1124,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Context.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="2475">
-          <caret line="65" column="18" selection-start-line="65" selection-start-column="18" selection-end-line="65" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#4045#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#1261#1262#0" expanded="false" />
-            <element signature="e#1278#1279#0" expanded="false" />
-            <element signature="e#1313#1314#0" expanded="false" />
-            <element signature="e#1336#1337#0" expanded="false" />
-            <element signature="e#2931#2932#0" expanded="false" />
-            <element signature="e#2963#2964#0" expanded="false" />
-            <element signature="e#2993#2994#0" expanded="false" />
-            <element signature="e#3021#3022#0" expanded="false" />
-            <element signature="e#3185#3186#0" expanded="false" />
-            <element signature="e#3220#3221#0" expanded="false" />
-            <element signature="e#3277#3278#0" expanded="false" />
-            <element signature="e#3317#3318#0" expanded="false" />
-            <element signature="e#3378#3379#0" expanded="false" />
-            <element signature="e#3417#3418#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/PredicatContext.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
           <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#1452#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#1138#1139#0" expanded="false" />
-            <element signature="e#1195#1196#0" expanded="false" />
-            <element signature="e#1230#1231#0" expanded="false" />
-            <element signature="e#1287#1288#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1152,27 +1137,6 @@
         <state vertical-scroll-proportion="0.33333334" vertical-offset="2994" max-vertical-offset="10725">
           <caret line="237" column="12" selection-start-line="237" selection-start-column="12" selection-end-line="237" selection-end-column="12" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Fact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#1318#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="311" max-vertical-offset="2730">
-          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#5633#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1197,9 +1161,25 @@
         <state vertical-scroll-proportion="0.33283582" vertical-offset="55682" max-vertical-offset="75420">
           <caret line="3798" column="30" selection-start-line="3798" selection-start-column="30" selection-end-line="3798" selection-end-column="36" />
           <folding>
-            <element signature="e#177013#177014#0" expanded="true" />
-            <element signature="e#177054#177055#0" expanded="true" />
+            <element signature="e#177013#177014#0" expanded="false" />
+            <element signature="e#177054#177055#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Context.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="2475">
+          <caret line="65" column="18" selection-start-line="65" selection-start-column="18" selection-end-line="65" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1474" max-vertical-offset="2415">
+          <caret line="150" column="0" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1218,21 +1198,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Fact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
+          <caret line="49" column="5" selection-start-line="40" selection-start-column="3" selection-end-line="49" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5358209" vertical-offset="2461" max-vertical-offset="29685">
-          <caret line="203" column="13" selection-start-line="203" selection-start-column="13" selection-end-line="203" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="5869" max-vertical-offset="30870">
+          <caret line="415" column="0" selection-start-line="415" selection-start-column="0" selection-end-line="415" selection-end-column="0" />
           <folding>
-            <element signature="e#0#56354#0" expanded="true" />
+            <element signature="e#0#58336#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#32452#32467#0" expanded="true" />
-            <element signature="e#34564#34572#0" expanded="true" />
-            <element signature="e#34694#34702#0" expanded="true" />
-            <element signature="e#35420#35435#0" expanded="true" />
-            <element signature="e#52951#52952#0" expanded="true" />
-            <element signature="e#52989#52990#0" expanded="true" />
-            <element signature="e#53083#53084#0" expanded="true" />
-            <element signature="e#53121#53122#0" expanded="true" />
+            <element signature="e#2361#2367#0" expanded="true" />
+            <element signature="e#2564#2574#0" expanded="true" />
+            <element signature="e#2628#2638#0" expanded="true" />
+            <element signature="e#2701#2716#0" expanded="true" />
+            <element signature="e#2754#2755#0" expanded="true" />
+            <element signature="e#2777#2778#0" expanded="true" />
+            <element signature="e#2803#2804#0" expanded="true" />
+            <element signature="e#2825#2826#0" expanded="true" />
+            <element signature="e#2863#2864#0" expanded="true" />
+            <element signature="e#2893#2894#0" expanded="true" />
+            <element signature="e#2937#2938#0" expanded="true" />
+            <element signature="e#2956#2957#0" expanded="true" />
+            <element signature="e#3370#3377#0" expanded="true" />
+            <element signature="e#3479#3480#0" expanded="true" />
+            <element signature="e#3508#3509#0" expanded="true" />
+            <element signature="e#12967#12975#0" expanded="true" />
+            <element signature="e#13331#13339#0" expanded="true" />
+            <element signature="e#13384#13392#0" expanded="true" />
+            <element signature="e#19806#19814#0" expanded="true" />
+            <element signature="e#23881#23889#0" expanded="true" />
+            <element signature="e#24598#24606#0" expanded="true" />
+            <element signature="e#27749#27757#0" expanded="true" />
+            <element signature="e#30833#30834#0" expanded="true" />
+            <element signature="e#30867#30868#0" expanded="true" />
+            <element signature="e#31289#31297#0" expanded="true" />
+            <element signature="e#32383#32398#0" expanded="true" />
+            <element signature="e#34495#34503#0" expanded="true" />
+            <element signature="e#34625#34633#0" expanded="true" />
+            <element signature="e#35351#35366#0" expanded="true" />
+            <element signature="e#52882#52883#0" expanded="true" />
+            <element signature="e#52920#52921#0" expanded="true" />
+            <element signature="e#53014#53015#0" expanded="true" />
+            <element signature="e#53052#53053#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/AuxiliarMethods.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Comment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48387095" vertical-offset="0" max-vertical-offset="620">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="e#190#191#0" expanded="true" />
+            <element signature="e#221#222#0" expanded="true" />
+            <element signature="e#271#272#0" expanded="true" />
+            <element signature="e#363#364#0" expanded="true" />
           </folding>
         </state>
       </provider>
