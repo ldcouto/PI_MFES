@@ -101,9 +101,12 @@ public class Sig extends Part
 	private final Map<String, Sig.FieldType> fields = new HashMap<String, Sig.FieldType>();
 	private final List<String> fieldNames = new Vector<String>();
 	public final String name;
-	public boolean isOne = false;
+    public boolean isFact = false;
+    public boolean isOne = false;
 	public boolean isWrapper = false;
+    public boolean inUniv = false;
 	private List<String> quotes = new Vector<String>();
+    private List<String> qts = new Vector<String>();
 	public final List<String> constraints = new Vector<String>();
 	public final List<Sig> supers = new Vector<Sig>();
 
@@ -111,6 +114,20 @@ public class Sig extends Part
 	{
 		this.name = typeName;
 	}
+
+    public Sig(String name,boolean inUniv){
+        this.name=name;
+        this.inUniv=inUniv;
+    }
+    public Sig(String name,boolean inUniv,boolean fact){
+        this.name=name;
+        this.inUniv=inUniv;
+        this.isFact=fact;
+    }
+
+    public List getQuotes(){
+        return quotes;
+    }
 
 	public void addField(String name, Sig.FieldType type)
 	{
@@ -155,36 +172,37 @@ public class Sig extends Part
 	@Override
 	public String toString()
 	{
-		String tmp = (isOne ? "one " : "")
-				+ "sig "
-				+ name
-				+ (this.quotes.isEmpty() ? "" : " in "
-						+ Alloy2VdmAnalysis.toList(quotes, "+")) +(this.supers.isEmpty() ? "" : " extends "
-								+ Alloy2VdmAnalysis.toList(getNames(supers), "+"))+ "{";
-		for (Entry<String, FieldType> entry : this.fields.entrySet())
-		{
-			tmp += "\n\t" + entry.getKey() + ": " + entry.getValue() + ", ";
-		}
-		if (!this.fields.isEmpty())
-		{
-			tmp = tmp.substring(0, tmp.length() - 2);
-			tmp+="\n";
-		}
-		tmp += "}";
-		if (!constraints.isEmpty())
-		{
-			tmp += "{";
-			for (Iterator<String> itr = constraints.iterator(); itr.hasNext();)
-			{
-				tmp +=   Formatter.format(0,itr.next());
-				if (itr.hasNext())
-				{
-					tmp += " and";
-				}
-			}
-			tmp += "}\n";
-		}
+        String tmp;
+        if(this.inUniv){tmp="sig "+name+" in univ{}";}
+        else {
+            tmp = (isOne ? "one " : "")
+                    + "sig "
+                    + name
+                    + (this.quotes.isEmpty() ? "" : " in "
+                    + Alloy2VdmAnalysis.toList(quotes, "+")) + (this.supers.isEmpty() ? "" : " extends "
+                    + Alloy2VdmAnalysis.toList(getNames(supers), "+")) + "{";
+            //System.out.println( tmp);
+            for (Entry<String, FieldType> entry : this.fields.entrySet()) {
+                tmp += "\n\t" + entry.getKey() + ": " + entry.getValue() + ", ";
+            }
+            if (!this.fields.isEmpty()) {
+                tmp = tmp.substring(0, tmp.length() - 2);
+                tmp += "\n";
+            }
+            tmp += "}";
+            if (!constraints.isEmpty()) {
+                tmp += "{";
+                for (Iterator<String> itr = constraints.iterator(); itr.hasNext(); ) {
+                    tmp += Formatter.format(0, itr.next());
+                    if (itr.hasNext()) {
+                        tmp += " and";
+                    }
+                }
+                tmp += "}\n";
+            }
+        }
 		return tmp;
+
 	}
 
 	private static List<String> getNames(List<Sig> supers2)
