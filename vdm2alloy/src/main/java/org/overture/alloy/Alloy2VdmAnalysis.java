@@ -21,6 +21,7 @@ package org.overture.alloy;
 import java.util.*;
 import java.util.Map.Entry;
 
+
 import org.overture.alloy.ast.*;
 import org.overture.alloy.ast.Sig.FieldType;
 import org.overture.alloy.ast.Sig.FieldType.Prefix;
@@ -142,7 +143,7 @@ public class Alloy2VdmAnalysis
 	@Override
 	public AlloyPart caseATypeDefinition(ATypeDefinition node, Context ctxt)
 			throws AnalysisException
-	{
+	{System.out.println();
 		if (trnaslated.contains(node))
 		{
 			return null;

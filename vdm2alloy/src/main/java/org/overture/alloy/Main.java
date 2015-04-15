@@ -138,6 +138,8 @@ public class Main
 
 			Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
 			result.result.get(0).apply(analysis, new Context());
+            //System.out.println(analysis.);
+
 
 			// Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0,
 			// tmpFile.getName().indexOf(".")));
