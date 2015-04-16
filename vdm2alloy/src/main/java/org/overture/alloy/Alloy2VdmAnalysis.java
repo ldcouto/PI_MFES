@@ -34,6 +34,7 @@ import org.overture.ast.definitions.AStateDefinition;
 import org.overture.ast.definitions.ATypeDefinition;
 import org.overture.ast.definitions.AValueDefinition;
 import org.overture.ast.definitions.PDefinition;
+//import org.overture.ast.definitions.
 import org.overture.ast.expressions.*;
 import org.overture.ast.intf.lex.ILexNameToken;
 import org.overture.ast.lex.VDMToken;
@@ -49,13 +50,20 @@ import org.overture.ast.patterns.PPattern;
 import org.overture.ast.statements.AExternalClause;
 import org.overture.ast.types.*;
 
+
 import javax.lang.model.type.UnionType;
 
 public class Alloy2VdmAnalysis
 		extends
 		DepthFirstAnalysisAdaptorQuestionAnswer<Context, Alloy2VdmAnalysis.AlloyPart>
 {
-	private static final long serialVersionUID = 1L;
+    NotAllowedTypes notAllowedTypes=new NotAllowedTypes(new HashMap<String, Integer>(){{
+        put("bool",0);
+        put("real",0);
+        put("map",0);
+    }});
+
+    private static final long serialVersionUID = 1L;
 	final public List<Part> components = new Vector<Part>();
     boolean nat= false;
     AuxiliarMethods aux=new AuxiliarMethods();
@@ -112,6 +120,7 @@ public class Alloy2VdmAnalysis
 	// public List<String> result = new Vector<String>();
 	Set<INode> trnaslated = new HashSet<INode>();
 
+
 	// String expression = "";
 	private String moduleName;
 
@@ -143,8 +152,7 @@ public class Alloy2VdmAnalysis
 	@Override
 	public AlloyPart caseATypeDefinition(ATypeDefinition node, Context ctxt)
 			throws AnalysisException
-	{System.out.println();
-		if (trnaslated.contains(node))
+	{	if (trnaslated.contains(node))
 		{
 			return null;
 		}
@@ -198,8 +206,8 @@ public class Alloy2VdmAnalysis
 
 
 	private Context createType(PType type, Context outer)
-			throws AnalysisException
-	{
+			throws AnalysisException {
+        //System.out.println("Tipo: "+getTypeName(type)+"   "+type.getClass().toString());
 		Context ctxt = new Context();
 		if (outer.getSig(getTypeName(type)) != null)
 		{
@@ -412,6 +420,17 @@ public class Alloy2VdmAnalysis
         //cm.addComment(this.components);
 		// switch (namedType.getType().kindPType())
 		// {
+       // System.out.println("Tipo: "+namedType.getType().getClass().getSimpleName());
+      //  System.out.println("Tipo: "+namedType.getLocation().getStartLine());
+        //notAllowedTypes.addType();
+
+
+        String simpleName =namedType.getType().getClass().getSimpleName();
+        if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
+            notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+        }
+        //System.out.println(notAllowedTypes.toString());
+
         cm=new Comment(namedType.toString());
         this.components.add(cm);
 
@@ -423,7 +442,7 @@ public class Alloy2VdmAnalysis
 			ctxt.addType(namedType, s);
             this.components.add(s);
             createInvariantTypes(s,namedType.getType().toString());
-            System.out.println("Cria :"+namedType.toString());
+            //System.out.println("Cria :"+namedType.toString());
 
 			// break;
 		}
