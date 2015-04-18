@@ -9,28 +9,39 @@ import java.util.List;
  */
 public class NotAllowedTypes {
     //List<String> types ;//= new ArrayList<String>() ;
-    public HashMap<String,Integer> types;//=  new HashMap<String,Integer>();
+    public HashMap<String,ArrayList<Integer>> types;//=  new HashMap<String,Integer>();
 
-    public NotAllowedTypes(HashMap<String,Integer> types){
-        HashMap<String,Integer> t=  new HashMap<String,Integer>();
+    public NotAllowedTypes(HashMap<String,ArrayList<Integer>> types){
+        HashMap<String,ArrayList<Integer>> t=  new HashMap<String,ArrayList<Integer>>();
         for (String s : types.keySet()){
-            t.put(translation(s), -1);
+            ArrayList<Integer> x =  new ArrayList<Integer>();
+            t.put(translation(s), x);
         }
         this.types=t;
     }
 
-    public void addType(String type,Integer line){
-        this.types.put(this.translation(type), line);
+    public void addType(String type,Integer i){
+        ArrayList<Integer> x;
+        if(this.types.get(type).isEmpty()){ //if is empty
+            x=new ArrayList<Integer>();
+            x.add(i);
+            this.types.put(type,x);
+        }
+        else {
+            x=this.types.get(type);
+            x.add(i);
+            this.types.put(type,x);
+        }
     }
 
-    public HashMap<String,Integer> getTypes() {
+    public HashMap<String,ArrayList<Integer>> getTypes() {
         return types;
     }
 
     public boolean hasnoAllowedType(){//true- has type not allowed types
-        for (Integer i : this.types.values()){
-            if(i!=-1){
-                return true;
+        for (String s : this.types.keySet()){
+            for(Integer i : types.get(s)){
+                if(i==0){return true;}
             }
         }
         return false;
@@ -64,10 +75,24 @@ public class NotAllowedTypes {
 
     @Override
     public String toString() {
-        return "NotAllowedTypes{" +
-                "types=" + types +
-                '}';
+        String s = "";
+        for(String st : this.types.keySet()) {
+            if(!this.types.get(st).isEmpty()){
+                s +="Not Allowed type "+translationToName(st)+" on the line: ";
+                int it=0;
+                for(Integer i : this.types.get(st)){
+                    if(it==0){
+                        s +=i;
+                    }else{
+                        s +=" , "+i;
+                    }
+                    it++;
+                }
+                s+="\n";
+            }
+
+        }
+        return s;
+
     }
-
-
 }

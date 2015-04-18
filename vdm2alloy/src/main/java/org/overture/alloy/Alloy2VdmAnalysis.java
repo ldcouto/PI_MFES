@@ -34,7 +34,6 @@ import org.overture.ast.definitions.AStateDefinition;
 import org.overture.ast.definitions.ATypeDefinition;
 import org.overture.ast.definitions.AValueDefinition;
 import org.overture.ast.definitions.PDefinition;
-//import org.overture.ast.definitions.
 import org.overture.ast.expressions.*;
 import org.overture.ast.intf.lex.ILexNameToken;
 import org.overture.ast.lex.VDMToken;
@@ -57,10 +56,10 @@ public class Alloy2VdmAnalysis
 		extends
 		DepthFirstAnalysisAdaptorQuestionAnswer<Context, Alloy2VdmAnalysis.AlloyPart>
 {
-    NotAllowedTypes notAllowedTypes=new NotAllowedTypes(new HashMap<String, Integer>(){{
-        put("bool",0);
-        put("real",0);
-        put("map",0);
+    NotAllowedTypes notAllowedTypes=new NotAllowedTypes(new HashMap<String, ArrayList<Integer>>(){{
+        put("bool",null);
+        put("real",null);
+        put("map",null);
     }});
 
     private static final long serialVersionUID = 1L;
@@ -189,6 +188,7 @@ public class Alloy2VdmAnalysis
             }
 
 	}
+
 
     private void createInvariantTypes(Sig sig,String type) // method to create fact in types
             throws AnalysisException
@@ -415,7 +415,7 @@ public class Alloy2VdmAnalysis
 	private Context createNamedType(ANamedInvariantType namedType, Context ctxt)
 			throws AnalysisException
 	{
-           // aux.addCommnt(namedType.toString(),this.components); // just add comments
+          // aux.addCommnt(namedType.toString(),this.components); // just add comments
         //Comment cm = new Comment("OLALALALALAL");
         //cm.addComment(this.components);
 		// switch (namedType.getType().kindPType())
@@ -427,9 +427,12 @@ public class Alloy2VdmAnalysis
 
         String simpleName =namedType.getType().getClass().getSimpleName();
         if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
-            notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+            notAllowedTypes.addType(simpleName,namedType.getLocation().getStartLine());
+            //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
         }
-        //System.out.println(notAllowedTypes.toString());
+        //namedType.getLocation().toShortString();
+        System.out.println(notAllowedTypes.toString());
+//System.out.println(notAllowedTypes.getTypes().toString());
 
         cm=new Comment(namedType.toString());
         this.components.add(cm);
