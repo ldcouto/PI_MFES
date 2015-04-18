@@ -28,6 +28,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="alloy" target="1.5" />
       <module name="alloyextension" target="1.7" />
       <module name="vdm2alloy" target="1.7" />
     </bytecodeTargetLevel>
