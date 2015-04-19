@@ -1,0 +1,1 @@
+"module typequote.vdmsl\n\nopen util/relation\nopen vdmutil\n\n/************************   A   ************************/\none sig B{}\nsig A in univ{}\nfact AType{\nA = { y : B}\n}\n\n"
