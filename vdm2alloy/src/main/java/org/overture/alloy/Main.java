@@ -99,7 +99,7 @@ public class Main
 			System.err.println("Unexpected exception:" + exp.getMessage());
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("vdm2alloy", options);
-			return 1;
+			 return 1;
 		}
 
 		File input = null;
@@ -125,66 +125,66 @@ public class Main
 		Settings.dialect = Dialect.VDM_SL;
 		TypeCheckResult<List<AModuleModules>> result = TypeCheckerUtil.typeCheckSl(input);
 
-		if (result.errors.isEmpty())
-		{
-			File tmpFile = null;
-			if (output == null)
-			{
-				tmpFile = File.createTempFile("vdm2alloy", ".als");
-			} else
-			{
-				tmpFile = output;
-			}
-
-			Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-			result.result.get(0).apply(analysis, new Context());
-            //System.out.println(analysis.);
+		if (result.errors.isEmpty()) {
+            File tmpFile = null;
+            if (output == null) {
+                tmpFile = File.createTempFile("vdm2alloy", ".als");
+            } else {
+                tmpFile = output;
+            }
 
 
-			// Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0,
-			// tmpFile.getName().indexOf(".")));
-			// result.result.get(0).apply(analysis);
+            Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+            result.result.get(0).apply(analysis, new Context());
 
-			analysis.components.add(new Pred("show", "", ""));
-			analysis.components.add(new Run("show"));
+            NotAllowedTypes notA = new NotAllowedTypes(analysis.getNotAllowedTypes(),0);
+            if (notA.hasnoAllowedType()) {
+                System.out.println("There are some problems on the file "+input+"\n\n"+notA.toString());
+            } else {
 
-			FileWriter outFile = new FileWriter(tmpFile);
-			PrintWriter out = new PrintWriter(outFile);
-			for (Part string : analysis.components)
-			{
-				if (verbose)
-				{
-					System.out.println(string);
-				}
-				out.println(string);
-			}
+                //System.out.println(analysis.);
 
-			out.close();
 
-			if (!line.hasOption(suppressAlloyCheckOpt.getOpt()))
-			{
-				System.out.println("\n------------------------------------");
-				System.out.println("Running Alloy...\n");
-				System.out.println("Temp file: " + tmpFile.getAbsolutePath());
+                // Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0,
+                // tmpFile.getName().indexOf(".")));
+                // result.result.get(0).apply(analysis);
 
-				System.out.println("Running Alloy on file: "
-						+ tmpFile.getName());
-				int exitCode = Terminal.execute(new String[] { "-alloy",
-						tmpFile.getAbsolutePath(), "-a","-s","SAT4J" });
-				if (exitCode != 0)
-				{
-					return exitCode;
-				}
+                analysis.components.add(new Pred("show", "", ""));
+                analysis.components.add(new Run("show"));
 
-				if (line.hasOption(extraAlloyTest.getOpt()))
-				{
-					String testInputPath = line.getOptionValue(extraAlloyTest.getOpt());
-					System.out.println("Running Alloy on file: "
-							+ testInputPath);
-					Terminal.main(new String[]{"-alloy", testInputPath, "-a", "-s", "SAT4J"});
-				}
-			}
-		} else
+                FileWriter outFile = new FileWriter(tmpFile);
+                PrintWriter out = new PrintWriter(outFile);
+                for (Part string : analysis.components) {
+                    if (verbose) {
+                        System.out.println(string);
+                    }
+                    out.println(string);
+                }
+
+                out.close();
+
+                if (!line.hasOption(suppressAlloyCheckOpt.getOpt())) {
+                    System.out.println("\n------------------------------------");
+                    System.out.println("Running Alloy...\n");
+                    System.out.println("Temp file: " + tmpFile.getAbsolutePath());
+
+                    System.out.println("Running Alloy on file: "
+                            + tmpFile.getName());
+                    int exitCode = Terminal.execute(new String[]{"-alloy",
+                            tmpFile.getAbsolutePath(), "-a", "-s", "SAT4J"});
+                    if (exitCode != 0) {
+                        return exitCode;
+                    }
+
+                    if (line.hasOption(extraAlloyTest.getOpt())) {
+                        String testInputPath = line.getOptionValue(extraAlloyTest.getOpt());
+                        System.out.println("Running Alloy on file: "
+                                + testInputPath);
+                        Terminal.main(new String[]{"-alloy", testInputPath, "-a", "-s", "SAT4J"});
+                    }
+                }
+            }
+        }else
 		{
 			System.err.println("Errors in input VDM model");
 			return 1;
