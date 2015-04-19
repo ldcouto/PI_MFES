@@ -28,7 +28,7 @@ public class NotAllowedTypes {
       this.types =   new HashMap<String,ArrayList<Integer>>();
     }
 
-    public void addType(String type,Integer i){
+     public void addType(String type,Integer i){
         ArrayList<Integer> x;
         if(this.types.get(type).isEmpty()){ //if is empty
             x=new ArrayList<Integer>();
