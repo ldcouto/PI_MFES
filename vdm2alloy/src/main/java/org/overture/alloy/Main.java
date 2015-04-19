@@ -139,9 +139,9 @@ public class Main
 
 
             NotAllowedTypes notA = new NotAllowedTypes(analysis.getNotAllowedTypes(),0);
-          //  if (notA.hasnoAllowedType()) {
-            //    System.out.println("There are some problems on the file "+input+"\n\n"+notA.toString());
-            //} else {
+            if (notA.hasnoAllowedType()) {
+                System.out.println("There are some problems on the file "+input+"\n\n"+notA.toString());
+            } else {
 
                 //System.out.println(analysis.);
 
@@ -184,7 +184,7 @@ public class Main
                         Terminal.main(new String[]{"-alloy", testInputPath, "-a", "-s", "SAT4J"});
                     }
                 }
-            //}
+            }
         }else
 		{
 			System.err.println("Errors in input VDM model");
