@@ -8,16 +8,24 @@ import java.util.List;
  * Created by macbookpro on 16/04/15.
  */
 public class NotAllowedTypes {
-    //List<String> types ;//= new ArrayList<String>() ;
+
     public HashMap<String,ArrayList<Integer>> types;//=  new HashMap<String,Integer>();
 
-    public NotAllowedTypes(HashMap<String,ArrayList<Integer>> types){
-        HashMap<String,ArrayList<Integer>> t=  new HashMap<String,ArrayList<Integer>>();
-        for (String s : types.keySet()){
-            ArrayList<Integer> x =  new ArrayList<Integer>();
-            t.put(translation(s), x);
+    public NotAllowedTypes(HashMap<String,ArrayList<Integer>> types,int flag){
+        if(flag==1) {
+            HashMap<String, ArrayList<Integer>> t = new HashMap<String, ArrayList<Integer>>();
+            for (String s : types.keySet()) {
+                ArrayList<Integer> x = new ArrayList<Integer>();
+                t.put(translation(s), x);
+            }
+            this.types=t;
+        }else{
+            this.types=types;
         }
-        this.types=t;
+    }
+
+    public NotAllowedTypes(){
+      this.types =   new HashMap<String,ArrayList<Integer>>();
     }
 
     public void addType(String type,Integer i){
@@ -40,9 +48,7 @@ public class NotAllowedTypes {
 
     public boolean hasnoAllowedType(){//true- has type not allowed types
         for (String s : this.types.keySet()){
-            for(Integer i : types.get(s)){
-                if(i==0){return true;}
-            }
+            if(this.types.get(s).size()>0){return true;}
         }
         return false;
     }

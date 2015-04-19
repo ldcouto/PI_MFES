@@ -50,6 +50,8 @@ import org.overture.ast.statements.AExternalClause;
 import org.overture.ast.types.*;
 
 
+
+
 import javax.lang.model.type.UnionType;
 
 public class Alloy2VdmAnalysis
@@ -60,13 +62,22 @@ public class Alloy2VdmAnalysis
         put("bool",null);
         put("real",null);
         put("map",null);
-    }});
+    }},1);
 
     private static final long serialVersionUID = 1L;
 	final public List<Part> components = new Vector<Part>();
     boolean nat= false;
     AuxiliarMethods aux=new AuxiliarMethods();
     Comment cm;
+
+    public void p(String s){
+        System.out.println(s);
+    }
+
+    public HashMap getNotAllowedTypes(){
+
+        return notAllowedTypes.getTypes();
+    }
 
 	public class AlloyPart
 	{
@@ -208,7 +219,9 @@ public class Alloy2VdmAnalysis
 	private Context createType(PType type, Context outer)
 			throws AnalysisException {
         //System.out.println("Tipo: "+getTypeName(type)+"   "+type.getClass().toString());
-		Context ctxt = new Context();
+        //String simpleName =namedType.getType().getClass().getSimpleName();
+       // p(type.toString());
+        Context ctxt = new Context();
 		if (outer.getSig(getTypeName(type)) != null)
 		{
 			return ctxt;
@@ -223,15 +236,23 @@ public class Alloy2VdmAnalysis
 				return ctxt;
 			} else if (invType instanceof ARecordInvariantType)
 			{
+
 				ARecordInvariantType recordType = (ARecordInvariantType) type;
 				Sig s = new Sig(recordType.getName().getName());
 
 				for (AFieldField f : recordType.getFields())
 				{
-					ctxt.merge(createType(f.getType(), outer));
-					s.addField(f.getTag(), getFieldType(f.getType()));
-					s.constraints.addAll(getFieldConstraints(f, s.name));
+                    String simpleName = f.getType().getClass().getSimpleName();
+                    if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
+                        notAllowedTypes.addType(simpleName,f.getType().getLocation().getStartLine());
+                    }
+                    //p(f.toString());
+                    //p("CENA"+f.getTag()+"\t"+getFieldType(f.getType()));
+                    ctxt.merge(createType(f.getType(), outer));
+                    s.addField(f.getTag(), getFieldType(f.getType()));
+                    s.constraints.addAll(getFieldConstraints(f, s.name));
 				}
+
 				Context invCtxt = new Context(ctxt);
 				if (recordType.getInvDef() != null)
 				{
@@ -425,15 +446,14 @@ public class Alloy2VdmAnalysis
         //notAllowedTypes.addType();
 
 
+        //allowed types
         String simpleName =namedType.getType().getClass().getSimpleName();
         if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
             notAllowedTypes.addType(simpleName,namedType.getLocation().getStartLine());
             //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
         }
-        //namedType.getLocation().toShortString();
-        System.out.println(notAllowedTypes.toString());
-//System.out.println(notAllowedTypes.getTypes().toString());
 
+        //comments
         cm=new Comment(namedType.toString());
         this.components.add(cm);
 
@@ -705,7 +725,12 @@ public class Alloy2VdmAnalysis
 
 			// }
 			// }
-		} 
+		}
+        if(t instanceof ANatNumericBasicType){
+            ANatNumericBasicType nt = (ANatNumericBasicType) t;
+            return new Sig.FieldType(((ANatNumericBasicType) nt).toString());
+        }
+
 		return null;
 	}
 

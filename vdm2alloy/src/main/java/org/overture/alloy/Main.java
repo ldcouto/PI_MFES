@@ -40,7 +40,7 @@ import org.overture.config.Settings;
 import org.overture.typechecker.util.TypeCheckerUtil;
 import org.overture.typechecker.util.TypeCheckerUtil.TypeCheckResult;
 import edu.mit.csail.sdg.alloy4.Terminal;
-
+import org.overture.ast.preview.*;
 
 public class Main
 {
@@ -99,7 +99,7 @@ public class Main
 			System.err.println("Unexpected exception:" + exp.getMessage());
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("vdm2alloy", options);
-			 return 1;
+			return 1;
 		}
 
 		File input = null;
@@ -137,10 +137,11 @@ public class Main
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
             result.result.get(0).apply(analysis, new Context());
 
+
             NotAllowedTypes notA = new NotAllowedTypes(analysis.getNotAllowedTypes(),0);
-            if (notA.hasnoAllowedType()) {
-                System.out.println("There are some problems on the file "+input+"\n\n"+notA.toString());
-            } else {
+          //  if (notA.hasnoAllowedType()) {
+            //    System.out.println("There are some problems on the file "+input+"\n\n"+notA.toString());
+            //} else {
 
                 //System.out.println(analysis.);
 
@@ -183,7 +184,7 @@ public class Main
                         Terminal.main(new String[]{"-alloy", testInputPath, "-a", "-s", "SAT4J"});
                     }
                 }
-            }
+            //}
         }else
 		{
 			System.err.println("Errors in input VDM model");
