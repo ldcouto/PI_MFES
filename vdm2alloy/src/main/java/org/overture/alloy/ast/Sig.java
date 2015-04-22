@@ -105,6 +105,7 @@ public class Sig extends Part
     public boolean isOne = false;
 	public boolean isWrapper = false;
     public boolean inUniv = false;
+    public boolean isRecordType = false;//var to fix inv in record types..if  true  isn't print the vector constraints because is a fact.
 	private List<String> quotes = new Vector<String>();
     private List<String> qts = new Vector<String>();
 	public final List<String> constraints = new Vector<String>();
@@ -114,6 +115,10 @@ public class Sig extends Part
 	{
 		this.name = typeName;
 	}
+
+    public void setRecordType(boolean isRecordType) {
+        this.isRecordType = isRecordType;
+    }
 
     public Sig(String name,boolean inUniv){
         this.name=name;
@@ -190,7 +195,7 @@ public class Sig extends Part
                 tmp += "\n";
             }
             tmp += "}";
-            if (!constraints.isEmpty()) {
+            if (!constraints.isEmpty() && !this.isRecordType) {
                 tmp += "{";
                 for (Iterator<String> itr = constraints.iterator(); itr.hasNext(); ) {
                     tmp += Formatter.format(0, itr.next());

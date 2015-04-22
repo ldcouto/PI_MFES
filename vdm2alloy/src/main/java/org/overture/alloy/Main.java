@@ -24,6 +24,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -40,7 +41,6 @@ import org.overture.config.Settings;
 import org.overture.typechecker.util.TypeCheckerUtil;
 import org.overture.typechecker.util.TypeCheckerUtil.TypeCheckResult;
 import edu.mit.csail.sdg.alloy4.Terminal;
-import org.overture.ast.preview.*;
 
 public class Main
 {
@@ -134,8 +134,12 @@ public class Main
             }
 
 
+
+
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
             result.result.get(0).apply(analysis, new Context());
+
+
 
 
             NotAllowedTypes notA = new NotAllowedTypes(analysis.getNotAllowedTypes(),0);

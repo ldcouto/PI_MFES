@@ -5,16 +5,16 @@
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
- * 
+ *
  */
 package org.overture.alloy;
 
@@ -215,12 +215,20 @@ public class Alloy2VdmAnalysis
 
     }
 
+    private  void createInvariantRecordType(String var,String type,String body){
+
+        Fact f = new Fact(true,var,type,body);
+        this.components.add(f);
+    }
+
 
 	private Context createType(PType type, Context outer)
 			throws AnalysisException {
-        //System.out.println("Tipo: "+getTypeName(type)+"   "+type.getClass().toString());
-        //String simpleName =namedType.getType().getClass().getSimpleName();
-       // p(type.toString());
+
+
+
+
+
         Context ctxt = new Context();
 		if (outer.getSig(getTypeName(type)) != null)
 		{
@@ -236,16 +244,22 @@ public class Alloy2VdmAnalysis
 				return ctxt;
 			} else if (invType instanceof ARecordInvariantType)
 			{
+                //comments
+                cm=new Comment(invType.toString());
+                this.components.add(cm);
+
+                String simpleName = type.getClass().getSimpleName();
+                if (this.notAllowedTypes.getTypes().containsKey(simpleName)) {//if type isn't allowed
+                    notAllowedTypes.addType(simpleName, type.getLocation().getStartLine());
+                    //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+                }
 
 				ARecordInvariantType recordType = (ARecordInvariantType) type;
 				Sig s = new Sig(recordType.getName().getName());
 
 				for (AFieldField f : recordType.getFields())
 				{
-                    String simpleName = f.getType().getClass().getSimpleName();
-                    if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
-                        notAllowedTypes.addType(simpleName,f.getType().getLocation().getStartLine());
-                    }
+
                     //p(f.toString());
                     //p("CENA"+f.getTag()+"\t"+getFieldType(f.getType()));
                     ctxt.merge(createType(f.getType(), outer));
@@ -254,20 +268,42 @@ public class Alloy2VdmAnalysis
 				}
 
 				Context invCtxt = new Context(ctxt);
-				if (recordType.getInvDef() != null)
+                if (recordType.getInvDef() != null)
 				{
-					AlloyPart invPart = recordType.getInvDef().getParamPatternList().get(0).get(0).apply(this, invCtxt);
-					boolean hasLet = !invPart.exp.isEmpty();
-					invPart.merge(recordType.getInvDef().getBody().apply(this, invCtxt));
-					if (hasLet)
-					{
-						invPart.exp = "( " + invPart.exp + ")";
-					}
-					s.constraints.add(invPart.exp);
-				}
-				ctxt.addType(recordType, s);
-				this.components.add(s);
+                    //add this to fix 'ex'gt[ex.quali,0];
+                    //AlloyPart invPart;
+                   // if(recordType.getInvDef().getParamPatternList().get(0).get(0).getClass().getSimpleName().equals("AIdentifierPattern")) {
+                    if(recordType.getInvDef().getParamPatternList().get(0).get(0).toString().startsWith("mk_")){//2 types inv's in record types
+                        AlloyPart  invPart = recordType.getInvDef().getParamPatternList().get(0).get(0).apply(this, invCtxt);
+                    //}else{
+
+                    //}
+                      //  p(recordType.getInvDef().getParamPatternList().get(0).get(0).getClass().getSimpleName());
+                        boolean hasLet = !invPart.exp.isEmpty();
+					    invPart.merge(recordType.getInvDef().getBody().apply(this, invCtxt));
+
+                        if (hasLet)
+					    {
+						    invPart.exp = "( " + invPart.exp + ")";
+					    }
+					    s.constraints.add(invPart.exp);
+                        this.components.add(s);
+
+                    }else{
+                        s.setRecordType(true);
+                        AlloyPart  invPart = recordType.getInvDef().getParamPatternList().get(0).get(0).apply(this, invCtxt);
+                        String var=invPart.toString();
+                        boolean hasLet = !invPart.exp.isEmpty();
+                        String body = recordType.getInvDef().getBody().apply(this, invCtxt).toString();
+                        invPart.merge(recordType.getInvDef().getBody().apply(this, invCtxt));
+                        s.constraints.add(invPart.exp);
+                        this.components.add(s);
+                        createInvariantRecordType(var,recordType.getName().getName(),body);
+                    }
+                }
+                ctxt.addType(recordType, s);
 				return ctxt;
+
 			}
 		} else if (type instanceof AQuoteType)
 		{
@@ -279,13 +315,27 @@ public class Alloy2VdmAnalysis
 			ctxt.addType(qt, s);
 			this.components.add(s);
 			return ctxt;
-		} else if (type instanceof SBasicType)
+		}
+        else if (type instanceof SBasicType)
 		{
+            if(type instanceof ARealNumericBasicType){
 
-			if (type instanceof ABooleanBasicType)
+                String simpleName = type.getClass().getSimpleName();
+                if (this.notAllowedTypes.getTypes().containsKey(simpleName)) {//if type isn't allowed
+                    notAllowedTypes.addType(simpleName, type.getLocation().getStartLine());
+                    //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+                }
+
+            }
+			else if (type instanceof ABooleanBasicType)
 			{
+                String simpleName = type.getClass().getSimpleName();
+                if (this.notAllowedTypes.getTypes().containsKey(simpleName)) {//if type isn't allowed
+                    notAllowedTypes.addType(simpleName, type.getLocation().getStartLine());
+                    //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+                }
 
-			} else if (type instanceof ATokenBasicType || type instanceof ACharBasicType)
+            } else if (type instanceof ATokenBasicType || type instanceof ACharBasicType)
 			{
 				Sig s = new Sig(getTypeName(type));
 				ctxt.addType(type, s);
@@ -306,8 +356,23 @@ public class Alloy2VdmAnalysis
 		{
 			// SSeqType stype = (SSeqType) type;
 			// result.add("sig "+getTypeName(type))
+            String simpleName = ((SSeqType) type).getSeqof().getClass().getSimpleName();
+            if (this.notAllowedTypes.getTypes().containsKey(simpleName)) {//if type isn't allowed
+                notAllowedTypes.addType(simpleName, type.getLocation().getStartLine());
+                //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+            }
+
 			return ctxt;
-		} else if (type instanceof AProductType)
+		}else if(type instanceof ASetType){
+
+            String simpleName = ((ASetType) type).getSetof().getClass().getSimpleName();
+            if (this.notAllowedTypes.getTypes().containsKey(simpleName)) {//if type isn't allowed
+                notAllowedTypes.addType(simpleName, type.getLocation().getStartLine());
+                //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+            }
+            return ctxt;
+        }
+        else if (type instanceof AProductType)
 		{
 			Sig s = new Sig(getTypeName(type));
 			Sig.FieldType ftype = null;
@@ -446,11 +511,13 @@ public class Alloy2VdmAnalysis
         //notAllowedTypes.addType();
 
 
-        //allowed types
-        String simpleName =namedType.getType().getClass().getSimpleName();
-        if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
-            notAllowedTypes.addType(simpleName,namedType.getLocation().getStartLine());
-            //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+
+        if(namedType.getType() instanceof AMapMapType){
+            String simpleName =namedType.getType().getClass().getSimpleName();
+            if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
+                notAllowedTypes.addType(simpleName,namedType.getLocation().getStartLine());
+                //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+            }
         }
 
         //comments
@@ -511,6 +578,14 @@ public class Alloy2VdmAnalysis
             List<String> qts = new Vector<String>();
 			for (PType ute : ut.getTypes())
 			{
+                //check allowed types
+                String simpleName =ute.getClass().getSimpleName();
+                if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
+                    notAllowedTypes.addType(simpleName,namedType.getLocation().getStartLine());
+                    //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+                }
+
+
                 if(!nat && ute.toString().equals("nat")){aux.createNats(ute.toString(),ute,ctxt,this.components);nat=true;}
                 if (ute instanceof AQuoteType)
 				{
@@ -554,8 +629,7 @@ public class Alloy2VdmAnalysis
 		{
 			SSeqType stype = (SSeqType) namedType.getType();
 			ctxt.merge(createType(stype.getSeqof(), ctxt));
-
-			Sig s = new Sig(namedType.getName().getName());
+            Sig s = new Sig(namedType.getName().getName());
 			s.addField("x", getFieldType(stype));
 			s.isWrapper = true;
 			ctxt.addType(stype, s);
@@ -693,6 +767,7 @@ public class Alloy2VdmAnalysis
 		if (t instanceof SMapType)
 		{
 			SMapType ftype = (SMapType) t;
+
 			return new Sig.MapFieldType(ftype.getFrom().toString(), (ftype instanceof SMapType ? FieldType.Prefix.undefined
 					: FieldType.Prefix.lone), new Sig.FieldType(ftype.getTo().toString(), FieldType.Prefix.lone));
 		}
@@ -743,17 +818,31 @@ public class Alloy2VdmAnalysis
 			// switch (ftype.kindSMapType())
 			// {
 			// case INMAP:
-			if (ftype instanceof AInMapMapType)
-				constraints.add(" /*" + sig + "." + field.getTag()
-						+ " is an INMAP */ " + "injective[" + field.getTag()
-						+ "," + sig + "] and functional[" + field.getTag()
-						+ "," + sig + "]");
+            String simpleName =ftype.getTo().getClass().getSimpleName();
+            if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
+                notAllowedTypes.addType(simpleName,ftype.getLocation().getStartLine());
+                //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+            }
+            simpleName =ftype.getFrom().getClass().getSimpleName();
+            if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
+                notAllowedTypes.addType(simpleName,ftype.getLocation().getStartLine());
+                //notAllowedTypes.types.put(simpleName,namedType.getLocation().getStartLine());
+            }
+			if (ftype instanceof AInMapMapType) {
+
+                constraints.add(" /*" + sig + "." + field.getTag()
+                        + " is an INMAP */ " + "injective[" + field.getTag()
+                        + "," + sig + "] and functional[" + field.getTag()
+                        + "," + sig + "]");
+            }
 			// break;
 			// case MAP:
-			if (ftype instanceof AMapMapType)
-				constraints.add(" /*" + sig + "." + field.getTag()
-						+ " is a MAP   */ " + "functional[" + field.getTag()
-						+ "," + sig + "]");
+			if (ftype instanceof AMapMapType) {
+
+                constraints.add(" /*" + sig + "." + field.getTag()
+                        + " is a MAP   */ " + "functional[" + field.getTag()
+                        + "," + sig + "]");
+            }
 			// break;
 
 			// }
@@ -1380,8 +1469,12 @@ public class Alloy2VdmAnalysis
 	@Override
 	public AlloyPart caseAFieldExp(AFieldExp node, Context question)
 			throws AnalysisException
-	{
+	{ //p(node.getField()+"\t\t"+node.getObject());
+       // p(node.getType().toString());
+
 		AlloyPart p = new AlloyPart(node.getObject() + "." + node.getField());
+        //add this to fix exgt[ex.qua,o];
+        //AlloyPart p = new AlloyPart(node.getField().getName());
 		return p;
 	}
 
@@ -1883,6 +1976,7 @@ public class Alloy2VdmAnalysis
         AlloyPart p = new AlloyPart();
         p.merge(bindto.apply(this, ctxt));
 
+
         Sig s = ctxt.getSig(bindto.getType());
         if (s != null && bindto instanceof AVariableExp && s.isWrapper)
         {
@@ -1907,7 +2001,8 @@ public class Alloy2VdmAnalysis
     public AlloyPart caseAIdentifierPattern(AIdentifierPattern node,
                                             Context question) throws AnalysisException
     {
-        return new AlloyPart(node.getName().getName());
+            return new AlloyPart(node.getName().getName());
+
     }
 
     @Override
@@ -1921,6 +2016,7 @@ public class Alloy2VdmAnalysis
         original.predicates.addAll(new_.predicates);
         original.topLevel.addAll(new_.topLevel);
         original.typeBindings.addAll(new_.typeBindings);
+
         return original;
     }
 
@@ -2044,6 +2140,7 @@ public class Alloy2VdmAnalysis
         p.exp += ',';
         p.merge(getBind(node.getRight(), question));
         p.exp += ']';
+
         return p;
     };
 
