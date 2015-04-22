@@ -18,11 +18,14 @@
  */
 package org.overture.alloy;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.overture.alloy.ast.Sig;
+import org.overture.ast.node.INode;
 import org.overture.ast.types.PType;
 import org.overture.typechecker.assistant.TypeCheckerAssistantFactory;
 
@@ -32,9 +35,10 @@ public class Context
 	private final Map<String, PType> variables = new HashMap<String, PType>();
 	private final Map<String, String> stateMap = new HashMap<String, String>();
 	private final Context outer;
-	
+    private List<INode> inode =  new ArrayList<INode>();
 
-	public Context()
+
+    public Context()
 	{
 		this(null);
 	}
@@ -199,5 +203,9 @@ public class Context
 		}
 		return null;
 	}
+
+    public void addInode(INode iNode){
+        this.inode.add(iNode);
+    }
 
 }

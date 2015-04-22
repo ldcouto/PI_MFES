@@ -149,6 +149,7 @@ public class Alloy2VdmAnalysis
 
 		BasicTokenSearch basicTokens = new BasicTokenSearch();
 		node.apply(basicTokens);
+
 		for (Entry<String, INode> entry : basicTokens.mkbasicToken.entrySet())
 		{
 			Sig s = new Sig(entry.getKey());

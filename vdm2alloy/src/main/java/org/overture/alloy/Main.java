@@ -125,6 +125,7 @@ public class Main
 		Settings.dialect = Dialect.VDM_SL;
 		TypeCheckResult<List<AModuleModules>> result = TypeCheckerUtil.typeCheckSl(input);
 
+
 		if (result.errors.isEmpty()) {
             File tmpFile = null;
             if (output == null) {
@@ -133,12 +134,13 @@ public class Main
                 tmpFile = output;
             }
 
-
-
+            Slicing slicing = new Slicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+            result.result.get(0).apply(slicing, new Context());
+            System.out.println(slicing.getiNodeListGlobal().toString());
 
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
             result.result.get(0).apply(analysis, new Context());
-
+            //System.out.println( result.result.get(0));
 
 
 
