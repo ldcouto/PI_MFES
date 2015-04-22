@@ -36,6 +36,7 @@ public class Context
 	private final Map<String, String> stateMap = new HashMap<String, String>();
 	private final Context outer;
     private List<INode> inode =  new ArrayList<INode>();
+    private boolean isSlicing  =  false;
 
 
     public Context()
@@ -53,21 +54,23 @@ public class Context
 	@Override
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer();
+        if(!isSlicing) {
+            StringBuffer sb = new StringBuffer();
 
-		sb.append("Types:\n");
-		for (Entry<PType, Sig> entry : types.entrySet())
-		{
-			sb.append(entry.getKey().toString() + " -> "
-					+ entry.getValue().name + "\n");
-		}
-		sb.append("Variables:\n");
-		for (Entry<String, PType> entry : variables.entrySet())
-		{
-			sb.append(entry.getKey().toString() + " -> "
-					+ (entry.getValue()!=null?entry.getValue().toString().replace('\n', ' '):"null") + "\n");
-		}
-		return sb.toString();
+            sb.append("Types:\n");
+            for (Entry<PType, Sig> entry : types.entrySet()) {
+                sb.append(entry.getKey().toString() + " -> "
+                        + entry.getValue().name + "\n");
+            }
+            sb.append("Variables:\n");
+            for (Entry<String, PType> entry : variables.entrySet()) {
+                sb.append(entry.getKey().toString() + " -> "
+                        + (entry.getValue() != null ? entry.getValue().toString().replace('\n', ' ') : "null") + "\n");
+            }
+            return sb.toString();
+        }else{
+            return inode.toString();
+        }
 	}
 
 	public Sig getSig(PType type)
@@ -204,7 +207,9 @@ public class Context
 		return null;
 	}
 
+
     public void addInode(INode iNode){
+        this.isSlicing=true;
         this.inode.add(iNode);
     }
 

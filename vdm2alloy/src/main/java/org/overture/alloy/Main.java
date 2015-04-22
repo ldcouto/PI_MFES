@@ -138,9 +138,10 @@ public class Main
             result.result.get(0).apply(slicing, new Context());
             System.out.println(slicing.getiNodeListGlobal().toString());
 
+
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
             result.result.get(0).apply(analysis, new Context());
-            //System.out.println( result.result.get(0));
+
 
 
 

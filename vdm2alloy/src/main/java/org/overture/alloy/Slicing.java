@@ -67,10 +67,41 @@ public class Slicing  extends QuestionAnswerAdaptor<Context,Slicing.ListNode> {
 
     @Override
     public ListNode caseANamedInvariantType(ANamedInvariantType node, Context question) throws AnalysisException {
-        p(node.toString());
+   // p(node.getType().getClass().toString());
+        if(node.getType() instanceof  ARealNumericBasicType){
+
+        }else if(node.getType() instanceof  ABooleanBasicType){
+
+        }
+        else if(node.getType() instanceof  AUnionType){
+
+            AUnionType ut = (AUnionType) node.getType();
+            for(PType pt : ut.getTypes()) {
+                if(pt instanceof  ARealNumericBasicType) {
+
+                }else if (pt instanceof  ABooleanBasicType){
+
+                }
+            }
+        }else if (node.getType() instanceof SSeqType){
+
+        }else if(node.getType() instanceof ASetType){
+
+        }
         return super.caseANamedInvariantType(node, question);
     }
 
+    @Override
+    public ListNode caseARealLiteralExp(ARealLiteralExp node, Context question) throws AnalysisException {
+
+        return super.caseARealLiteralExp(node, question);
+    }
+
+    @Override
+    public ListNode caseATokenBasicType(ATokenBasicType node, Context question) throws AnalysisException {
+
+        return super.caseATokenBasicType(node, question);
+    }
 
     @Override
     public ListNode defaultPExp(PExp node, Context question) throws AnalysisException {
