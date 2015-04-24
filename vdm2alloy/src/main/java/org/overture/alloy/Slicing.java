@@ -3,14 +3,13 @@ package org.overture.alloy;
 import org.overture.ast.analysis.AnalysisException;
 import org.overture.ast.analysis.QuestionAnswerAdaptor;
 import org.overture.ast.definitions.PDefinition;
-import org.overture.ast.expressions.ADefExp;
-import org.overture.ast.expressions.ARealLiteralExp;
 import org.overture.ast.modules.AModuleModules;
 import org.overture.ast.node.INode;
 import org.overture.ast.node.NodeList;
 import org.overture.ast.types.ABooleanBasicType;
 import org.overture.ast.types.ANamedInvariantType;
 import org.overture.ast.types.ARealNumericBasicType;
+import org.overture.ast.types.ATokenBasicType;
 
 import javax.xml.soap.Node;
 import java.util.ArrayList;
@@ -105,6 +104,11 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     }
 
 
+    @Override
+    public NodeList caseATokenBasicType(ATokenBasicType node, ContextSlicing question) throws AnalysisException {
+        nodeList.add(node);
+        return nodeList;
+    }
 
     @Override
     public NodeList caseARealNumericBasicType(ARealNumericBasicType node, ContextSlicing question) throws AnalysisException {
