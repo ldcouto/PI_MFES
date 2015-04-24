@@ -35,8 +35,8 @@ public class Context
 	private final Map<String, PType> variables = new HashMap<String, PType>();
 	private final Map<String, String> stateMap = new HashMap<String, String>();
 	private final Context outer;
-    private List<INode> inode =  new ArrayList<INode>();
-    private boolean isSlicing  =  false;
+
+
 
 
     public Context()
@@ -54,7 +54,7 @@ public class Context
 	@Override
 	public String toString()
 	{
-        if(!isSlicing) {
+
             StringBuffer sb = new StringBuffer();
 
             sb.append("Types:\n");
@@ -68,9 +68,7 @@ public class Context
                         + (entry.getValue() != null ? entry.getValue().toString().replace('\n', ' ') : "null") + "\n");
             }
             return sb.toString();
-        }else{
-            return inode.toString();
-        }
+
 	}
 
 	public Sig getSig(PType type)
@@ -208,9 +206,6 @@ public class Context
 	}
 
 
-    public void addInode(INode iNode){
-        this.isSlicing=true;
-        this.inode.add(iNode);
-    }
+
 
 }

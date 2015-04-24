@@ -21,8 +21,9 @@ package org.overture.alloy;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Vector;
 
 
 import org.apache.commons.cli.CommandLine;
@@ -135,8 +136,13 @@ public class Main
             }
 
             Slicing slicing = new Slicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-            result.result.get(0).apply(slicing, new Context());
-            System.out.println(slicing.getiNodeListGlobal().toString());
+            List <String> list = new Vector<String>();
+            list.add("real");
+            list.add("bool");
+            result.result.get(0).apply(slicing, new ContextSlicing(list));
+
+
+            //System.out.println(result.result.get(0).apply(slicing, new ContextSlicing()).toString());
 
 
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
