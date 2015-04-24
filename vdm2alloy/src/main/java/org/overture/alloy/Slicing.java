@@ -3,6 +3,7 @@ package org.overture.alloy;
 import org.overture.ast.analysis.AnalysisException;
 import org.overture.ast.analysis.QuestionAnswerAdaptor;
 import org.overture.ast.definitions.PDefinition;
+import org.overture.ast.expressions.ADefExp;
 import org.overture.ast.expressions.ARealLiteralExp;
 import org.overture.ast.modules.AModuleModules;
 import org.overture.ast.node.INode;
@@ -12,9 +13,15 @@ import org.overture.ast.types.ANamedInvariantType;
 import org.overture.ast.types.ARealNumericBasicType;
 
 import javax.xml.soap.Node;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
+
+
+    List<INode> listFinalInode = new ArrayList<INode>();
+    NodeList nodeList;
 
     public String module;
 
@@ -27,49 +34,74 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         return null;
     }
 
+    public NodeList getNodeList() {
+        return nodeList;
+    }
+
     @Override
     public NodeList createNewReturnValue(Object o, ContextSlicing contextSlicing) throws AnalysisException {
         return null;
+
     }
 
 
     @Override
     public NodeList caseAModuleModules(AModuleModules node, ContextSlicing question) throws AnalysisException {
-        NodeList nodeList=new NodeList(node);
+
         //p(node.toString());
         //p(question.toString());
+      /*  NodeList nodeList=new NodeList(node);
+        nodeList.add(node);
+        p(nodeList.toString());*/
+        nodeList = new NodeList(node);
+        nodeList.add(node);
         for (PDefinition p : node.getDefs())
         {
             p.getType().apply(this,question);
            // p(p.getType().getClass().getSimpleName());
             //nodeList.push(new PONameContext(assistantFactory.createPDefnitionAssistant().getVariableNames(p)));
-            //nodeList.addAll(p.apply(this, question));
+           // nodeList=new NodeList(p,p.getType().apply(this, question));
+            //nodeList.addAll(p.getType().apply(this, question));
+           // nodeList.addAll(p.apply(this,question));
           //  p(nodeList.toString());
             //nodeList.add(p);
             //question.pop();
             //question.clearStateContexts();
         }
-       // p(nodeList.toString());
+        p(nodeList.toString());
         return nodeList;
     }
 
     @Override
     public NodeList caseANamedInvariantType(ANamedInvariantType node, ContextSlicing question) throws AnalysisException {
-        //  p(node.toString());
-       // p(node.getType().getClass().getSimpleName());
-        node.getType().apply(this,question);
+       //   p(node.parent().toString());
+       // p("node: "+node.toString()+"   "+node.getType().getClass().getSimpleName());
+        //NodeList nodeList1 = new NodeList(node);
+        //nodeList1.add(node);
+        nodeList.add()
+
+
+        question.getNodes().add(node.toString());
+        p("-----------------------\n" + question.toString());
+        node.getType().apply(this, question);
+        /*if(node.getInvDef()!=null){
+            p("Invariant é:"+node.getInvDef().toString() );
+        }*/
         return super.caseANamedInvariantType(node, question);
     }
 
+
+
     @Override
     public NodeList caseARealNumericBasicType(ARealNumericBasicType node, ContextSlicing question) throws AnalysisException {
-        p("Aqui esta o numeor"+node.toString());
+        //nodeList.add(node);
+        question.getNodes().add(node.toString());
+        p("-----------------------\n"+question.toString());
         return super.caseARealNumericBasicType(node, question);
     }
 
     @Override
     public NodeList caseABooleanBasicType(ABooleanBasicType node, ContextSlicing question) throws AnalysisException {
-        p("Aqui esta o Boolean"+node.toString());
         return super.caseABooleanBasicType(node, question);
     }
 

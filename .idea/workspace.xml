@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d2b3c4-4b03-4305-96a9-71eb43d73b8e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Slicing.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Slicing.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="alloy.iws" />
@@ -66,10 +68,10 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1790" max-vertical-offset="3225">
-              <caret line="141" column="42" selection-start-line="141" selection-start-column="42" selection-end-line="141" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1880" max-vertical-offset="3225">
+              <caret line="141" column="64" selection-start-line="141" selection-start-column="64" selection-end-line="141" selection-end-column="64" />
               <folding>
-                <element signature="e#0#6986#0" expanded="true" />
+                <element signature="e#0#6932#0" expanded="true" />
                 <element signature="imports" expanded="true" />
                 <element signature="e#4298#4306#0" expanded="true" />
               </folding>
@@ -77,34 +79,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Slicing.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Slicing.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Slicing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="1275">
-              <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.54532576" vertical-offset="440" max-vertical-offset="1755">
+              <caret line="55" column="38" selection-start-line="55" selection-start-column="38" selection-end-line="55" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#686#687#0" expanded="true" />
-                <element signature="e#720#721#0" expanded="true" />
-                <element signature="e#2692#2693#0" expanded="true" />
-                <element signature="e#2734#2735#0" expanded="true" />
+                <element signature="e#769#776#0" expanded="true" />
+                <element signature="e#864#865#0" expanded="true" />
+                <element signature="e#898#899#0" expanded="true" />
+                <element signature="e#1089#1090#0" expanded="true" />
+                <element signature="e#1120#1121#0" expanded="true" />
+                <element signature="e#3621#3622#0" expanded="true" />
+                <element signature="e#3663#3664#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ContextSlicing.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ContextSlicing.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42492917" vertical-offset="0" max-vertical-offset="706">
-              <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+              <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#274#275#0" expanded="true" />
-                <element signature="e#302#303#0" expanded="true" />
-                <element signature="e#494#495#0" expanded="true" />
-                <element signature="e#528#529#0" expanded="true" />
+                <element signature="e#347#348#0" expanded="true" />
+                <element signature="e#375#376#0" expanded="true" />
+                <element signature="e#610#618#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NotAllowedTypes.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowedTypes.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="1560">
+              <caret line="55" column="39" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -153,16 +167,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NotAllowedTypes.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowedTypes.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="1560">
-              <caret line="61" column="34" selection-start-line="61" selection-start-column="34" selection-end-line="61" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="Git.Settings">
@@ -190,10 +194,10 @@
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ast/Fact.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ListNode.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Context.java" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Slicing.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Slicing.java" />
       </list>
     </option>
   </component>
@@ -884,7 +888,13 @@
       <option name="project" value="LOCAL" />
       <updated>1429894584610</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Slicing">
+      <created>1429894678358</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1429894678358</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -909,7 +919,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="-132" width="1920" height="1080" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Code Iris" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -932,7 +942,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.234375" sideWeight="0.80653954" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.234375" sideWeight="0.80653954" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2894482" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12864584" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1345,14 +1355,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowedTypes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="1560">
-          <caret line="61" column="34" selection-start-line="61" selection-start-column="34" selection-end-line="61" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="29310">
@@ -1372,51 +1374,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1790" max-vertical-offset="3225">
-          <caret line="141" column="42" selection-start-line="141" selection-start-column="42" selection-end-line="141" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1880" max-vertical-offset="3225">
+          <caret line="141" column="64" selection-start-line="141" selection-start-column="64" selection-end-line="141" selection-end-column="64" />
           <folding>
-            <element signature="e#0#6986#0" expanded="true" />
+            <element signature="e#0#6932#0" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="e#4298#4306#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/overturetool/core/ast/2.2.2/ast-2.2.2.jar!/org/overture/ast/node/NodeList.class">
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowedTypes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39647576" vertical-offset="0" max-vertical-offset="3660">
-          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-          <folding>
-            <element signature="e#597#598#0" expanded="true" />
-            <element signature="e#631#632#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Slicing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="1275">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#686#687#0" expanded="true" />
-            <element signature="e#720#721#0" expanded="true" />
-            <element signature="e#2692#2693#0" expanded="true" />
-            <element signature="e#2734#2735#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="1560">
+          <caret line="55" column="39" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42492917" vertical-offset="0" max-vertical-offset="706">
-          <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+          <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#274#275#0" expanded="true" />
-            <element signature="e#302#303#0" expanded="true" />
-            <element signature="e#494#495#0" expanded="true" />
-            <element signature="e#528#529#0" expanded="true" />
+            <element signature="e#347#348#0" expanded="true" />
+            <element signature="e#375#376#0" expanded="true" />
+            <element signature="e#610#618#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/overturetool/core/ast/2.2.2/ast-2.2.2.jar!/org/overture/ast/node/NodeList.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.50660795" vertical-offset="90" max-vertical-offset="3630">
+          <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Slicing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54532576" vertical-offset="440" max-vertical-offset="1755">
+          <caret line="55" column="38" selection-start-line="55" selection-start-column="38" selection-end-line="55" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#769#776#0" expanded="true" />
+            <element signature="e#864#865#0" expanded="true" />
+            <element signature="e#898#899#0" expanded="true" />
+            <element signature="e#1089#1090#0" expanded="true" />
+            <element signature="e#1120#1121#0" expanded="true" />
+            <element signature="e#3621#3622#0" expanded="true" />
+            <element signature="e#3663#3664#0" expanded="true" />
           </folding>
         </state>
       </provider>
