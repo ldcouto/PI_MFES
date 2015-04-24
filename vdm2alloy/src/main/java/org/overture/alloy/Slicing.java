@@ -21,7 +21,7 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
 
     List<INode> listFinalInode = new ArrayList<INode>();
-    NodeList nodeList;
+    NodeList<INode> nodeList =  new NodeList(null);
 
     public String module;
 
@@ -53,16 +53,19 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
       /*  NodeList nodeList=new NodeList(node);
         nodeList.add(node);
         p(nodeList.toString());*/
-        nodeList = new NodeList(node);
-        nodeList.add(node);
+      //  nodeList = new NodeList(node);
+       // nodeList.add(node);
+
+        NodeList<INode> nodeList =  new NodeList(null);
         for (PDefinition p : node.getDefs())
         {
-            p.getType().apply(this,question);
+                //   p.getType().apply(this,question);
            // p(p.getType().getClass().getSimpleName());
             //nodeList.push(new PONameContext(assistantFactory.createPDefnitionAssistant().getVariableNames(p)));
            // nodeList=new NodeList(p,p.getType().apply(this, question));
             //nodeList.addAll(p.getType().apply(this, question));
-           // nodeList.addAll(p.apply(this,question));
+
+            nodeList.addAll(p.getType().apply(this, question));
           //  p(nodeList.toString());
             //nodeList.add(p);
             //question.pop();
@@ -78,16 +81,24 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
        // p("node: "+node.toString()+"   "+node.getType().getClass().getSimpleName());
         //NodeList nodeList1 = new NodeList(node);
         //nodeList1.add(node);
-        nodeList.add()
+       // nodeList.add()
 
 
         question.getNodes().add(node.toString());
         p("-----------------------\n" + question.toString());
+//        nodeList.addAll(node.getType().apply(this, question));
+
+        nodeList.add(node);
+        p(nodeList.toString());
         node.getType().apply(this, question);
         /*if(node.getInvDef()!=null){
             p("Invariant é:"+node.getInvDef().toString() );
         }*/
-        return super.caseANamedInvariantType(node, question);
+        //return super.caseANamedInvariantType(node, question);
+       // nodeList=new NodeList(node);
+
+
+        return nodeList;
     }
 
 
@@ -97,7 +108,10 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         //nodeList.add(node);
         question.getNodes().add(node.toString());
         p("-----------------------\n"+question.toString());
-        return super.caseARealNumericBasicType(node, question);
+       // return super.caseARealNumericBasicType(node, question);
+        nodeList.add(node);
+        //return new NodeList(node);
+        return nodeList;
     }
 
     @Override
