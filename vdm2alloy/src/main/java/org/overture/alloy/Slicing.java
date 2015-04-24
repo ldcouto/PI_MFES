@@ -56,16 +56,17 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
       //  nodeList = new NodeList(node);
        // nodeList.add(node);
 
-        NodeList<INode> nodeList =  new NodeList(null);
+       // NodeList<INode> nodeList =  new NodeList(null);
         for (PDefinition p : node.getDefs())
         {
-                //   p.getType().apply(this,question);
+                  // p.getType().apply(this,question);
            // p(p.getType().getClass().getSimpleName());
             //nodeList.push(new PONameContext(assistantFactory.createPDefnitionAssistant().getVariableNames(p)));
            // nodeList=new NodeList(p,p.getType().apply(this, question));
             //nodeList.addAll(p.getType().apply(this, question));
 
             nodeList.addAll(p.getType().apply(this, question));
+
           //  p(nodeList.toString());
             //nodeList.add(p);
             //question.pop();
@@ -86,11 +87,13 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         question.getNodes().add(node.toString());
         p("-----------------------\n" + question.toString());
-//        nodeList.addAll(node.getType().apply(this, question));
-
         nodeList.add(node);
+        nodeList.addAll(node.getType().apply(this, question));
+        //node.getType().apply(this, question);
+
+       /* nodeList.add(node);
         p(nodeList.toString());
-        node.getType().apply(this, question);
+        node.getType().apply(this, question);*/
         /*if(node.getInvDef()!=null){
             p("Invariant é:"+node.getInvDef().toString() );
         }*/
@@ -109,7 +112,7 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         question.getNodes().add(node.toString());
         p("-----------------------\n"+question.toString());
        // return super.caseARealNumericBasicType(node, question);
-        nodeList.add(node);
+       // nodeList.add(node);
         //return new NodeList(node);
         return nodeList;
     }

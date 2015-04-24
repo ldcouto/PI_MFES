@@ -140,9 +140,8 @@ public class Main
             list.add("real");
             list.add("bool");
             result.result.get(0).apply(slicing, new ContextSlicing(list));
+            System.out.println(slicing.getNodeList().toString());
 
-
-            //System.out.println(result.result.);
 
 
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
