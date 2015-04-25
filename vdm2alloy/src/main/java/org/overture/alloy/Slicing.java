@@ -6,10 +6,7 @@ import org.overture.ast.definitions.PDefinition;
 import org.overture.ast.modules.AModuleModules;
 import org.overture.ast.node.INode;
 import org.overture.ast.node.NodeList;
-import org.overture.ast.types.ABooleanBasicType;
-import org.overture.ast.types.ANamedInvariantType;
-import org.overture.ast.types.ARealNumericBasicType;
-import org.overture.ast.types.ATokenBasicType;
+import org.overture.ast.types.*;
 
 import javax.xml.soap.Node;
 import java.util.ArrayList;
@@ -47,29 +44,9 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     @Override
     public NodeList caseAModuleModules(AModuleModules node, ContextSlicing question) throws AnalysisException {
 
-        //p(node.toString());
-        //p(question.toString());
-      /*  NodeList nodeList=new NodeList(node);
-        nodeList.add(node);
-        p(nodeList.toString());*/
-      //  nodeList = new NodeList(node);
-       // nodeList.add(node);
-
-       // NodeList<INode> nodeList =  new NodeList(null);
-        for (PDefinition p : node.getDefs())
+         for (PDefinition p : node.getDefs())
         {
-                  // p.getType().apply(this,question);
-           // p(p.getType().getClass().getSimpleName());
-            //nodeList.push(new PONameContext(assistantFactory.createPDefnitionAssistant().getVariableNames(p)));
-           // nodeList=new NodeList(p,p.getType().apply(this, question));
-            //nodeList.addAll(p.getType().apply(this, question));
-
             nodeList.addAll(p.getType().apply(this, question));
-
-          //  p(nodeList.toString());
-            //nodeList.add(p);
-            //question.pop();
-            //question.clearStateContexts();
         }
         p(nodeList.toString());
         return nodeList;
@@ -77,53 +54,66 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseANamedInvariantType(ANamedInvariantType node, ContextSlicing question) throws AnalysisException {
-       //   p(node.parent().toString());
-       // p("node: "+node.toString()+"   "+node.getType().getClass().getSimpleName());
-        //NodeList nodeList1 = new NodeList(node);
-        //nodeList1.add(node);
-       // nodeList.add()
-
 
         question.getNodes().add(node.toString());
-        p("-----------------------\n" + question.toString());
-        nodeList.add(node);
-        nodeList.addAll(node.getType().apply(this, question));
-        //node.getType().apply(this, question);
 
-       /* nodeList.add(node);
-        p(nodeList.toString());
-        node.getType().apply(this, question);*/
-        /*if(node.getInvDef()!=null){
-            p("Invariant é:"+node.getInvDef().toString() );
-        }*/
-        //return super.caseANamedInvariantType(node, question);
-       // nodeList=new NodeList(node);
+        question.addType(node.toString(), node.getType().toString());
+        if(question.invAddTypes(node.getType().toString())!= 1){
+           // p("entra"+node+" TIPO\t"+node.getType());
 
+                nodeList.add(node);
+                nodeList.addAll(node.getType().apply(this, question));
+            }
 
+        p(question.getInodes().toString()+"\n--------------");
         return nodeList;
     }
 
 
+
+
     @Override
     public NodeList caseATokenBasicType(ATokenBasicType node, ContextSlicing question) throws AnalysisException {
+        question.addContext(node);
         nodeList.add(node);
         return nodeList;
     }
 
     @Override
     public NodeList caseARealNumericBasicType(ARealNumericBasicType node, ContextSlicing question) throws AnalysisException {
-        //nodeList.add(node);
         question.getNodes().add(node.toString());
-        p("-----------------------\n"+question.toString());
-       // return super.caseARealNumericBasicType(node, question);
-       // nodeList.add(node);
-        //return new NodeList(node);
+        question.addContext(node);
+        nodeList.remove(node.parent());
+
         return nodeList;
     }
 
     @Override
     public NodeList caseABooleanBasicType(ABooleanBasicType node, ContextSlicing question) throws AnalysisException {
-        return super.caseABooleanBasicType(node, question);
+        question.addContext(node);
+        nodeList.remove(node.parent());
+        return nodeList;
+    }
+
+    @Override
+    public NodeList caseAUnionType(AUnionType node, ContextSlicing question) throws AnalysisException {
+        question.initContext();
+        question.addContext(node.parent());
+        for(PType pt : node.getTypes()){
+            nodeList.addAll(pt.apply(this,question));
+        }
+
+        if(!question.intersetionTypes()){nodeList.removeAll(question.getContext());}
+
+
+        return nodeList;
+    }
+
+    @Override
+    public NodeList caseAQuoteType(AQuoteType node, ContextSlicing question) throws AnalysisException {
+        question.addContext(node);
+        nodeList.add(node);
+        return nodeList;
     }
 
     public void p(String string){
