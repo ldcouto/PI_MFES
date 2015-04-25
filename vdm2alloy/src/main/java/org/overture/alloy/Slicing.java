@@ -46,9 +46,10 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
          for (PDefinition p : node.getDefs())
         {
+            p("TYPE: " + p.getType().toString());
             nodeList.addAll(p.getType().apply(this, question));
         }
-        p(nodeList.toString());
+        p("\n\nFINAL:  " + question.getInodes().toString() + "\n\n");
         return nodeList;
     }
 
@@ -113,6 +114,23 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     public NodeList caseAQuoteType(AQuoteType node, ContextSlicing question) throws AnalysisException {
         question.addContext(node);
         nodeList.add(node);
+        return nodeList;
+    }
+
+    @Override
+    public NodeList caseARecordInvariantType(ARecordInvariantType node, ContextSlicing question) throws AnalysisException {
+        //question.initContext();
+        //p("NODE: " + node.parent().parent().toString());
+        //question.addContext(node.parent().parent());
+        for(AFieldField ff : node.getFields()){
+            //p(ff.toString());
+            nodeList.add(ff.getType());
+            //nodeList.addAll(ff.getType().apply(this,question));
+        }
+
+        /*if(!question.intersetionTypes())
+            nodeList.removeAll(question.getContext());*/
+
         return nodeList;
     }
 
