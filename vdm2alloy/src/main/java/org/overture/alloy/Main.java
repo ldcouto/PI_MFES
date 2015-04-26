@@ -38,6 +38,7 @@ import org.overture.alloy.ast.Pred;
 import org.overture.alloy.ast.Run;
 import org.overture.ast.lex.Dialect;
 import org.overture.ast.modules.AModuleModules;
+import org.overture.ast.types.ARecordInvariantType;
 import org.overture.config.Settings;
 import org.overture.typechecker.util.TypeCheckerUtil;
 import org.overture.typechecker.util.TypeCheckerUtil.TypeCheckResult;
@@ -135,12 +136,18 @@ public class Main
                 tmpFile = output;
             }
 
-            Slicing slicing = new Slicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-            List <String> list = new Vector<String>();
-            list.add("real");
-            list.add("bool");
-            result.result.get(0).apply(slicing, new ContextSlicing(list));
+            //Slicing slicing = new Slicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+            //List <String> list = new Vector<String>();
+            //list.add("real");
+            //list.add("bool");
+            //result.result.get(0).apply(slicing, new ContextSlicing(list));
+            //System.out.println(slicing.getNodeList().toString());
+
+            NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+            result.result.get(0).apply(slicing, new NewContextSlicing());
             System.out.println(slicing.getNodeList().toString());
+
+
 
 
 

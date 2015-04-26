@@ -59,7 +59,8 @@ public class NotAllowedTypes {
             if(Name.equals("real")){return "ARealNumericBasicType";}
             else {
                 if(Name.equals("bool")){return "ABooleanBasicType";}
-                else{return null;}
+                //else{return null;}
+                else{return "";}
             }
         }
 

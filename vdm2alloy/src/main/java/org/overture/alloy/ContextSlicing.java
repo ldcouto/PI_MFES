@@ -16,6 +16,16 @@ public class ContextSlicing {
         private List<String> nodes;
         private HashMap<String,String> inodes =  new HashMap<String,String>();
         private List<INode> context = new Vector<INode>();
+        private boolean isModelValide = false;
+
+    public void setModelValide(boolean isModelValide) {
+        this.isModelValide = isModelValide;
+    }
+
+    public boolean isModelValide() {
+
+        return isModelValide;
+    }
 
     public boolean intersetionTypes(){
         for(INode s : context){
@@ -34,6 +44,7 @@ public class ContextSlicing {
 
     public void initContext(){
         this.context.clear();
+        this.setModelValide(false);
         this.context=new Vector<INode>();
     }
 
@@ -42,8 +53,11 @@ public class ContextSlicing {
     }
 
     public int  invAddTypes(String type){
+            int f=0;
             if(this.hasTypeKey(type)) {//if type node.getType already has value
-                if (this.nodes.contains(aux.translation(this.inodes.get(type)))) {
+
+               // if (this.nodes.contains(aux.translation(this.inodes.get(type)))) {
+                if(this.invAddTypesAux(type)==0){
                     return 1;//return 1 if node.getType exist in hash Keys and that type is invalid.
                 } else{return 3;}// return 3 if node.getType exist but his type is valid.
 
@@ -51,6 +65,22 @@ public class ContextSlicing {
                 return 2;//return 2 if node.getType don't exist in hashkeys
             }
     }
+
+    public int invAddTypesAux(String type){//
+        if( this.hasTypeKey(type)) {
+            if (this.nodes.contains(aux.translation(this.inodes.get(type)))) {
+                return 0;
+            } else {
+                if (this.hasTypeKey(type)) {
+                    return invAddTypesAux(this.inodes.get(type));
+                } else {
+                    return 1;
+                }
+            }
+        }
+        return 1;
+    }
+
 
 
     public List<String> getNodes() {
@@ -72,7 +102,7 @@ public class ContextSlicing {
     }
 
     public void setValueNull(String s){//
-        this.inodes.put("s",null);
+        this.inodes.put(s,null);
     }
 
     public String getValue(String s){
@@ -87,8 +117,8 @@ public class ContextSlicing {
         this.nodes.add(s);
     }
 
-    public boolean getNodeName(String n){
-        if(this.nodes.contains(n)){
+    public boolean hasTypeNodeName(String n){
+        if(this.nodes.contains(aux.translation(n))){
             return true;
         }else{return false;}
     }
@@ -106,5 +136,9 @@ public class ContextSlicing {
             newL.add(aux.translation(l));
         }
         this.nodes = newL;
+    }
+
+    public void p(String string){
+        System.out.println(string);
     }
 }

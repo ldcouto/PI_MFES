@@ -2,6 +2,7 @@ package org.overture.alloy;
 
 import org.overture.ast.analysis.AnalysisException;
 import org.overture.ast.analysis.QuestionAnswerAdaptor;
+import org.overture.ast.definitions.AExplicitFunctionDefinition;
 import org.overture.ast.definitions.PDefinition;
 import org.overture.ast.modules.AModuleModules;
 import org.overture.ast.node.INode;
@@ -16,7 +17,7 @@ import java.util.List;
 public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
 
-    List<INode> listFinalInode = new ArrayList<INode>();
+
     NodeList<INode> nodeList =  new NodeList(null);
 
     public String module;
@@ -46,10 +47,9 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
          for (PDefinition p : node.getDefs())
         {
-            p("TYPE: " + p.getType().toString());
             nodeList.addAll(p.getType().apply(this, question));
         }
-        p("\n\nFINAL:  " + question.getInodes().toString() + "\n\n");
+
         return nodeList;
     }
 
@@ -60,18 +60,21 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         question.addType(node.toString(), node.getType().toString());
         if(question.invAddTypes(node.getType().toString())!= 1){
-           // p("entra"+node+" TIPO\t"+node.getType());
-
                 nodeList.add(node);
                 nodeList.addAll(node.getType().apply(this, question));
+                if(node.getInvDef()!=null){
+                    nodeList.addAll(node.getInvDef().apply(this, question));
+                }
             }
-
-        p(question.getInodes().toString()+"\n--------------");
-        return nodeList;
+      //  p(nodeList.toString());
+         return nodeList;
     }
 
-
-
+    @Override
+    public NodeList caseAExplicitFunctionDefinition(AExplicitFunctionDefinition node, ContextSlicing question) throws AnalysisException {
+        nodeList.add(node);
+        return nodeList;
+    }
 
     @Override
     public NodeList caseATokenBasicType(ATokenBasicType node, ContextSlicing question) throws AnalysisException {
@@ -85,7 +88,7 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         question.getNodes().add(node.toString());
         question.addContext(node);
         nodeList.remove(node.parent());
-
+        question.setModelValide(true);
         return nodeList;
     }
 
@@ -93,19 +96,33 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     public NodeList caseABooleanBasicType(ABooleanBasicType node, ContextSlicing question) throws AnalysisException {
         question.addContext(node);
         nodeList.remove(node.parent());
+        question.setModelValide(true);
+        //p("entra");
         return nodeList;
     }
+
+
 
     @Override
     public NodeList caseAUnionType(AUnionType node, ContextSlicing question) throws AnalysisException {
         question.initContext();
         question.addContext(node.parent());
+
         for(PType pt : node.getTypes()){
             nodeList.addAll(pt.apply(this,question));
         }
-
-        if(!question.intersetionTypes()){nodeList.removeAll(question.getContext());}
-
+        if(!question.intersetionTypes()){
+            question.getContext().remove(node.parent());
+            nodeList.removeAll(question.getContext());
+            nodeList.removeLast();
+        }
+        else{
+            question.getContext().remove(node.parent());
+            nodeList.removeAll(question.getContext());
+            nodeList.removeLast();
+            nodeList.add(node.parent());
+            nodeList.add(node);
+        }
 
         return nodeList;
     }
@@ -118,19 +135,27 @@ public class Slicing  extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     }
 
     @Override
+    public NodeList caseANatNumericBasicType(ANatNumericBasicType node, ContextSlicing question) throws AnalysisException {
+        //nodeList.add(node);
+        return nodeList;
+    }
+
+    @Override
     public NodeList caseARecordInvariantType(ARecordInvariantType node, ContextSlicing question) throws AnalysisException {
-        //question.initContext();
-        //p("NODE: " + node.parent().parent().toString());
-        //question.addContext(node.parent().parent());
+        question.initContext();
         for(AFieldField ff : node.getFields()){
-            //p(ff.toString());
-            nodeList.add(ff.getType());
-            //nodeList.addAll(ff.getType().apply(this,question));
-        }
+                ff.getType().apply(this,question);
+    }
 
-        /*if(!question.intersetionTypes())
-            nodeList.removeAll(question.getContext());*/
+        if(!question.isModelValide()){nodeList.add(node);}
 
+        return nodeList;
+    }
+
+    @Override
+    public NodeList caseAMapMapType(AMapMapType node, ContextSlicing question) throws AnalysisException {
+        node.getTo().apply(this, question);
+        node.getFrom().apply(this,question);
         return nodeList;
     }
 
