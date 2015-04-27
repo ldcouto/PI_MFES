@@ -137,19 +137,7 @@ public class Main
                 tmpFile = output;
             }
 
-            //Slicing slicing = new Slicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-            //List <String> list = new Vector<String>();
-            //list.add("real");
-            //list.add("bool");
-            //result.result.get(0).apply(slicing, new ContextSlicing(list));
-            //System.out.println(slicing.getNodeList().toString());
 
-           // NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-           // result.result.get(0).apply(slicing, new NewContextSlicing());
-           // System.out.println(slicing.getNodeList().toString());
-           // ANamedInvariantType o = (ANamedInvariantType)slicing.getNodeList1().get(0);
-           // System.out.println(o.getType());
-            //System.out.println(slicing.getNodeList1().toString());
 
             Slicing slicing = new Slicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
              result.result.get(0).apply(slicing, new ContextSlicing());
