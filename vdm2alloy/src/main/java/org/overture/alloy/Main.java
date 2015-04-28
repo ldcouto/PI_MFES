@@ -142,24 +142,24 @@ public class Main
 
             /******************** Not allowed types ************************/
             System.out.println("/***********************************\tNot allowed types\t******************************************************************/");
-             NotAllowed notAllowed = new NotAllowed(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+           /*  NotAllowed notAllowed = new NotAllowed(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
             result.result.get(0).apply(notAllowed, new ContextSlicing());
             NotAllowedTypes o = new NotAllowedTypes(notAllowed.getNotAllowed());
             if(o.hasNoAllowedType()) {
                 System.out.println("There are some problems on the file " + input + "\n\n");
                 System.out.println(o.toString());
             }
-            System.out.println("\n\n\n");
+            System.out.println("\n\n\n");*/
 
 
 
 
             /***************   Slicing  ******************/
-            System.out.println("/***********************************\tSlicing\t******************************************************************/");
-            Slicing slicing = new Slicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+            //System.out.println("/***********************************\tSlicing\t******************************************************************/");
+            /*Slicing slicing = new Slicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
              result.result.get(0).apply(slicing, new ContextSlicing());
             System.out.println(slicing.getNodeList().toString());
-            System.out.println("\n\n\n");
+            System.out.println("\n\n\n");*/
               //example.......
               //AFunctionType f = (AFunctionType) slicing.getNodeList().getLast();
               //System.out.println(f.getDefinitions().toString());
@@ -169,7 +169,7 @@ public class Main
             System.out.println("/***********************************\tTranslation\t******************************************************************/");
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
             result.result.get(0).apply(analysis, new Context());
-            System.out.println(analysis.components.toString());
+           // System.out.println(analysis.components.toString());
 
 
 
