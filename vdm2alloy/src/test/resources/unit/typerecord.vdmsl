@@ -1,0 +1,4 @@
+types
+Rec ::
+    a   : nat
+inv mk_Rec(a) == a > 10;

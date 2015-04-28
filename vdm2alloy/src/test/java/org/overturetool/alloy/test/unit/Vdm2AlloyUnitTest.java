@@ -55,6 +55,7 @@ public class Vdm2AlloyUnitTest extends ParamStandardTest<String>
 		{
 			fail("Could not process test file " + testName);
 		}
+
 		return parts2String(analysis.components);
 	}
 
@@ -62,7 +63,7 @@ public class Vdm2AlloyUnitTest extends ParamStandardTest<String>
 	@Override
 	public void compareResults(String actual, String expected)
 	{
-		assertEquals(expected,actual);
+		assertEquals(expected, actual);
 	}
 	
 	@Override

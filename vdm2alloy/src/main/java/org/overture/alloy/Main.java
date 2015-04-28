@@ -38,6 +38,7 @@ import org.overture.alloy.ast.Pred;
 import org.overture.alloy.ast.Run;
 import org.overture.ast.lex.Dialect;
 import org.overture.ast.modules.AModuleModules;
+import org.overture.ast.types.AFunctionType;
 import org.overture.ast.types.ANamedInvariantType;
 import org.overture.ast.types.ARecordInvariantType;
 import org.overture.config.Settings;
@@ -139,29 +140,46 @@ public class Main
 
 
 
+            /******************** Not allowed types ************************/
+            System.out.println("/***********************************\tNot allowed types\t******************************************************************/");
+             NotAllowed notAllowed = new NotAllowed(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+            result.result.get(0).apply(notAllowed, new ContextSlicing());
+            NotAllowedTypes o = new NotAllowedTypes(notAllowed.getNotAllowed());
+            if(o.hasNoAllowedType()) {
+                System.out.println("There are some problems on the file " + input + "\n\n");
+                System.out.println(o.toString());
+            }
+            System.out.println("\n\n\n");
+
+
+
+
+            /***************   Slicing  ******************/
+            System.out.println("/***********************************\tSlicing\t******************************************************************/");
             Slicing slicing = new Slicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
              result.result.get(0).apply(slicing, new ContextSlicing());
             System.out.println(slicing.getNodeList().toString());
+            System.out.println("\n\n\n");
+              //example.......
+              //AFunctionType f = (AFunctionType) slicing.getNodeList().getLast();
+              //System.out.println(f.getDefinitions().toString());
 
 
-
+            /*********************** Translation ******************/
+            System.out.println("/***********************************\tTranslation\t******************************************************************/");
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
             result.result.get(0).apply(analysis, new Context());
+            System.out.println(analysis.components.toString());
 
 
 
 
-            NotAllowedTypes notA = new NotAllowedTypes(analysis.getNotAllowedTypes(),0);
+            /*NotAllowedTypes notA = new NotAllowedTypes(analysis.getNotAllowedTypes(),0);
             if (notA.hasnoAllowedType()) {
                 System.out.println("There are some problems on the file "+input+"\n\n"+notA.toString());
-            } else {
-
-                //System.out.println(analysis.);
+            } else {*/
 
 
-                // Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0,
-                // tmpFile.getName().indexOf(".")));
-                // result.result.get(0).apply(analysis);
 
                 analysis.components.add(new Pred("show", "", ""));
                 analysis.components.add(new Run("show"));
@@ -197,7 +215,7 @@ public class Main
                         Terminal.main(new String[]{"-alloy", testInputPath, "-a", "-s", "SAT4J"});
                     }
                 }
-            }
+
         }else
 		{
 			System.err.println("Errors in input VDM model");

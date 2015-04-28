@@ -10,13 +10,18 @@ public class ContextSlicing {
     private boolean isRecord; // through this boolean ,we know if the map is a record or atrib.
 
 
-    public boolean isNotAllowed() {
+
+
+    public boolean isAllowed() {
         return isNotAllowed;
     }
 
     public void init() {
         this.isNotAllowed=true;
+        this.isRecord=false;
     }
+
+
 
     public boolean isRecord() {
         return isRecord;
@@ -30,6 +35,9 @@ public class ContextSlicing {
 
         this.isNotAllowed = isNotAllowed;
     }
+
+
+
 
 }
 

@@ -1,0 +1,1 @@
+"module typerecord.vdmsl\n\nopen util/relation\nopen vdmutil\n\n/************************   Rec   ************************/\nsig nat in univ{}\nfact factNat{\n{ nat = { i:Int | gte[i,0]}}\n}\n\nsig Rec{\n\u0009a: one nat\n}{gt[a,10]}\n\n"

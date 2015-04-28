@@ -20,19 +20,28 @@ import org.overture.ast.types.*;
 import org.overture.ast.util.ClonableFile;
 import org.overture.ast.util.ClonableString;
 
+import java.util.HashMap;
+
 /**
  * Created by macbookpro on 26/04/15.
  */
-public class Slicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
+public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     NodeList<INode> nodeList =  new NodeList(null);
+    NotAllowedTypes notAllowedTypes = new NotAllowedTypes();
+    NodeList<INode> nodeNotAllowedList =  new NodeList(null);
 
-
-    public Slicing(String module) {
+    public NotAllowed(String module) {
         this.module = module;
     }
 
+    public HashMap getNotAllowed(){
+        return this.notAllowedTypes.getTypes();
+    }
+
     public String module;
+
+
 
     public NodeList getNodeList() {
         return nodeList;
@@ -55,25 +64,23 @@ public class Slicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         for (PDefinition p : node.getDefs())
         {
-           // p(p.getType().getClass().getSimpleName()+"\t\t"+p.getType());
-           // p(p.getClass().getSimpleName());
             question.init();
-           if(p instanceof AStateDefinition){
-                p.apply(this,question);
+             if(p instanceof AStateDefinition){
+                p.apply(this, question);
             }else{
                 p.getType().apply(this, question);
             }
 
             if(question.isAllowed()){
-                 nodeList.add(p.getType());
+                nodeList.add(p.getType());
             }
-
         }
         return nodeList;
     }
 
     @Override
     public NodeList caseANamedInvariantType(ANamedInvariantType node, ContextSlicing question) throws AnalysisException {
+
         node.getType().apply(this, question);
         if(node.getInvDef()!=null){
             node.getInvDef().apply(this,question);
@@ -109,18 +116,21 @@ public class Slicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     @Override
     public NodeList caseARealNumericBasicType(ARealNumericBasicType node, ContextSlicing question) throws AnalysisException {
         question.setNotAllowed(false);
+        notAllowedTypes.addType("real", node.getLocation().getStartLine());
         return this.nodeList;
     }
 
     @Override
     public NodeList caseABooleanBasicType(ABooleanBasicType node, ContextSlicing question) throws AnalysisException {
         question.setNotAllowed(false);
+        notAllowedTypes.addType("bool",node.getLocation().getStartLine());
         return this.nodeList;
     }
 
     @Override
     public NodeList caseAMapMapType(AMapMapType node, ContextSlicing question) throws AnalysisException {
-        if(!question.isRecord()){question.setNotAllowed(false);}
+        if(!question.isRecord()) {
+            notAllowedTypes.addType("map",node.getLocation().getStartLine());question.setNotAllowed(false);}
         else{
             node.getTo().apply(this, question);
             node.getFrom().apply(this,question);
@@ -130,7 +140,7 @@ public class Slicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAExplicitFunctionDefinition(AExplicitFunctionDefinition node, ContextSlicing question) throws AnalysisException {
-       // p(node.getBody().getClass().getSimpleName());
+        // p(node.getBody().getClass().getSimpleName());
         node.getBody().apply(this, question);
 
         return this.nodeList;
@@ -153,17 +163,18 @@ public class Slicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     //--------------------------------------------------------------------
 
-     @Override
+    @Override
     public NodeList caseAStateDefinition(AStateDefinition node, ContextSlicing question) throws AnalysisException {
-         for(AFieldField ff : node.getFields()){
-             ff.getType().apply(this,question);
+        question.setRecord(true);
+        for(AFieldField ff : node.getFields()){
+            ff.getType().apply(this,question);
         }
         if(node.getInvPattern()!=null){
             node.getInvdef().apply(this,question);
         }
-         if (node.getInitdef() != null) {
+        if (node.getInitdef() != null) {
             node.getInitdef().apply(this,question);
-         }
+        }
         return nodeList;
     }
 
@@ -299,14 +310,15 @@ public class Slicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList defaultPExp(PExp node, ContextSlicing question) throws AnalysisException {
-       node.getType().apply(this,question);
+        node.getType().apply(this,question);
         return nodeList;
     }
 
     @Override
     public NodeList caseAApplyExp(AApplyExp node, ContextSlicing question) throws AnalysisException {
         question.setNotAllowed(false);
-         return nodeList;
+        notAllowedTypes.addType("recursion",node.getLocation().getEndLine());//problem
+        return nodeList;
     }
 
     @Override
@@ -349,7 +361,7 @@ public class Slicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAElseIfExp(AElseIfExp node, ContextSlicing question) throws AnalysisException {
-       p("if then");
+        p("if then");
         return nodeList;
     }
 
@@ -506,7 +518,7 @@ public class Slicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAQuoteLiteralExp(AQuoteLiteralExp node, ContextSlicing question) throws AnalysisException {
-      // p("quote");
+        // p("quote");
         return nodeList;
     }
 
@@ -687,6 +699,9 @@ public class Slicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList defaultSBooleanBinaryExp(SBooleanBinaryExp node, ContextSlicing question) throws AnalysisException {
+       // p("entra1");
+        node.getLeft().apply(this,question);
+        node.getLeft().apply(this,question);
         return super.defaultSBooleanBinaryExp(node, question);
     }
 
@@ -969,7 +984,7 @@ public class Slicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAQuoteType(AQuoteType node, ContextSlicing question) throws AnalysisException {
-       // p("quote");
+        // p("quote");
         return nodeList;
     }
 

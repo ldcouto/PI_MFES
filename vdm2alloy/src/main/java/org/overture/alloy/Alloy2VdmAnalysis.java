@@ -502,16 +502,6 @@ public class Alloy2VdmAnalysis
 	private Context createNamedType(ANamedInvariantType namedType, Context ctxt)
 			throws AnalysisException
 	{
-          // aux.addCommnt(namedType.toString(),this.components); // just add comments
-        //Comment cm = new Comment("OLALALALALAL");
-        //cm.addComment(this.components);
-		// switch (namedType.getType().kindPType())
-		// {
-       // System.out.println("Tipo: "+namedType.getType().getClass().getSimpleName());
-      //  System.out.println("Tipo: "+namedType.getLocation().getStartLine());
-        //notAllowedTypes.addType();
-
-
 
         if(namedType.getType() instanceof AMapMapType){
             String simpleName =namedType.getType().getClass().getSimpleName();
@@ -578,7 +568,7 @@ public class Alloy2VdmAnalysis
 			List<String> quotes = new Vector<String>();
             List<String> qts = new Vector<String>();
 			for (PType ute : ut.getTypes())
-			{
+			{//p(ute.toString());
                 //check allowed types
                 String simpleName =ute.getClass().getSimpleName();
                 if(this.notAllowedTypes.getTypes().containsKey(simpleName)){//if type isn't allowed
@@ -593,19 +583,25 @@ public class Alloy2VdmAnalysis
 					AQuoteType qt = (AQuoteType) ute;
 					String name = qt.getValue().getValue().toUpperCase();
 					quotes.add(name);
-                   createType(ute, ctxt);
+                    createType(ute, ctxt);
 				} else if (ute instanceof ANamedInvariantType)
 				{
 					ANamedInvariantType nit = (ANamedInvariantType) ute;
 					quotes.add(nit.getName().getName());
 
-				}
+				}else{quotes.add(ute.toString());}
 			}
 
-           // Sig s = new Sig(namedType.getName().getName());
+           // Sig s = new Sig(namedType.getName().getName(),true);
            // s.setInTypes(quotes);
             //ctxt.addType(ut, s);
             //this.components.add(s);
+            Sig sUni = new Sig(namedType.getName().getName(),true); // create sig in univ{}
+            sUni.setInTypes(quotes);
+            this.components.add(sUni);
+            ctxt.addType(ut, sUni);
+            createInvariantTypes(sUni,null);//fact
+            p(quotes.toString());
 
 
             if(namedType.parent() instanceof ATypeDefinition){
@@ -692,6 +688,7 @@ public class Alloy2VdmAnalysis
 
 			}
         }
+
       	return ctxt;
 	}
 
