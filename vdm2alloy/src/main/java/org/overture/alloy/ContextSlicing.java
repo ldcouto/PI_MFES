@@ -12,19 +12,46 @@ import java.util.Vector;
  */
 public class ContextSlicing {
 
+    private  String type;
+
     private boolean isNotAllowed;//true if is allowed type, else false
 
     private boolean isRecord; // through this boolean ,we know if the map is a record or atrib.
 
     private String def ;
 
-    private NodeList<PDefinition> typesDep;
+    private String functionName="";
 
-    public ContextSlicing(String def) {
-        this.def = def;
-        this.typesDep= new NodeList(null);
+    public String getFunctionName() {
+        return functionName;
     }
 
+    public void setFunctionName(String functionName) {
+        this.functionName = functionName;
+    }
+
+    private NodeList<PDefinition> typesDep;
+
+    public String getType() {
+        return type;
+    }
+
+    public ContextSlicing(String def,String op) {
+        this.def = def;
+        this.typesDep= new NodeList(null);
+        this.type=translation(op);
+    }
+
+    public String translation(String s){
+        if(s.equals("t")){
+            return "ATypeDefinition";
+        }else if(s.equals("f")){
+            return "AExplicitFunctionDefinition";
+        }else if(s.equals("v")){
+            return "AValueDefinition";
+        }
+        return "";
+    }
     public ContextSlicing(){
 
     }
