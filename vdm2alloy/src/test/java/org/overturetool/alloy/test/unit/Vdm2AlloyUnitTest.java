@@ -88,6 +88,7 @@ public class Vdm2AlloyUnitTest extends ParamStandardTest<String>
 			sb.append(p.toString());
 			sb.append("\n");
 		}
+
 		return sb.toString();
 	}
 

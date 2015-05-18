@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62d2b3c4-4b03-4305-96a9-71eb43d73b8e" name="Default" comment="Slicing and unit test">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java" />
+    <list default="true" id="62d2b3c4-4b03-4305-96a9-71eb43d73b8e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicing/slicingTest.vdmsl.result" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicing/slicingTest.vdmsl" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicingTest/slicingTest.vdmsl" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicingTest/slicingTest.vdmsl.result" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowed.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowed.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/SlicingUnitTest.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/SlicingUnitTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/Vdm2AlloyUnitTest.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/Vdm2AlloyUnitTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="alloy.iws" />
@@ -32,6 +38,9 @@
     <SUITE FILE_PATH="coverage/alloy$Main.coverage" NAME="Main Coverage Results" MODIFIED="1429567287348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.overture.alloy.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/alloy$slicingUnitTest_testCase__1_.coverage" NAME="slicingUnitTest.testCase (1) Coverage Results" MODIFIED="1431968065301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.overturetool.alloy.test.unit.*</FILTER>
+    </SUITE>
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -49,10 +58,74 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-88.888885" vertical-offset="0" max-vertical-offset="3555">
-              <caret line="160" column="80" selection-start-line="160" selection-start-column="13" selection-end-line="160" selection-end-column="80" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2145" max-vertical-offset="3570">
+              <caret line="162" column="70" selection-start-line="162" selection-start-column="70" selection-end-line="162" selection-end-column="70" />
               <folding>
-                <element signature="e#0#8268#0" expanded="true" />
+                <element signature="e#0#8355#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="slicingTest.vdmsl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/slicing/slicingTest.vdmsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+              <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="slicingTest.vdmsl.result" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/slicing/slicingTest.vdmsl.result">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="90">
+              <caret line="0" column="9" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SlicingUnitTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/SlicingUnitTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.5600624" vertical-offset="260" max-vertical-offset="1470">
+              <caret line="93" column="28" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="typenat.vdmsl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/typenat.vdmsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+              <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="typequote.vdmsl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/typequote.vdmsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+              <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NewSlicing.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.0740743" vertical-offset="1996" max-vertical-offset="27795">
+              <caret line="150" column="28" selection-start-line="150" selection-start-column="20" selection-end-line="150" selection-end-column="28" />
+              <folding>
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
@@ -62,69 +135,12 @@
       <file leaf-file-name="ContextSlicing.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1860">
-              <caret line="46" column="26" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="726" max-vertical-offset="1425">
+              <caret line="95" column="28" selection-start-line="95" selection-start-column="28" selection-end-line="95" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#575#576#0" expanded="true" />
-                <element signature="e#610#611#0" expanded="true" />
-                <element signature="e#666#667#0" expanded="true" />
-                <element signature="e#714#715#0" expanded="true" />
-                <element signature="e#790#791#0" expanded="true" />
-                <element signature="e#817#818#0" expanded="true" />
-                <element signature="e#1359#1360#0" expanded="true" />
-                <element signature="e#1390#1391#0" expanded="true" />
-                <element signature="e#1435#1436#0" expanded="true" />
-                <element signature="e#1492#1493#0" expanded="true" />
-                <element signature="e#1522#1523#0" expanded="true" />
-                <element signature="e#1548#1549#0" expanded="true" />
-                <element signature="e#1586#1587#0" expanded="true" />
-                <element signature="e#1616#1617#0" expanded="true" />
-                <element signature="e#2021#2022#0" expanded="true" />
-                <element signature="e#2056#2057#0" expanded="true" />
-                <element signature="e#2184#2185#0" expanded="true" />
-                <element signature="e#2215#2216#0" expanded="true" />
-                <element signature="e#2262#2263#0" expanded="true" />
-                <element signature="e#2302#2303#0" expanded="true" />
+                <element signature="method#translation#0;class#ContextSlicing#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NewSlicing.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="930" max-vertical-offset="27600">
-              <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#toString#0;class#NewSlicing#0" expanded="false" />
-                <element signature="e#1338#1339#0" expanded="true" />
-                <element signature="e#1374#1375#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Alloy2VdmAnalysis.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="509" max-vertical-offset="31830">
-              <caret line="68" column="23" selection-start-line="68" selection-start-column="23" selection-end-line="68" selection-end-column="23" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="class#AlloyPart#0;class#Alloy2VdmAnalysis#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Slicing.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Slicing.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="26400">
-              <caret line="1777" column="1" selection-start-line="72" selection-start-column="3" selection-end-line="1777" selection-end-column="1" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -132,6 +148,11 @@
     </leaf>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Eduardo Pessoa" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -162,18 +183,25 @@
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/typetoken.vdmsl.result" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicingTest/slicingTest.vdml" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicingTest/slicingTest.vdml.result" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/SlicingUnitTest.java" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicingTest/slicingTest.vdmsl.result" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowedTypes.java" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowed.java" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/Vdm2AlloyUnitTest.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/typeUnion.vdmsl" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/typeUnion.vdmsl.result" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Slicing.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowed.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicingTest/slicingTest.vdmsl" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicingTest/slicingTest.vdmsl.result" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/Vdm2AlloyUnitTest.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicingTest/slicingTest1.vdmsl" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicingTest/slicingTest1.vdmsl.result" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicing/slicingTest1.vdmsl" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicing/slicingTest1.vdmsl.result" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/slicingUnitTest.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/SlicingUnitTest.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/slicing/slicingTest.vdmsl" />
       </list>
     </option>
   </component>
@@ -185,9 +213,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1917" />
+    <option name="x" value="-1872" />
     <option name="y" value="-109" />
-    <option name="width" value="1917" />
+    <option name="width" value="1841" />
     <option name="height" value="1057" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -216,9 +244,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
       <pane id="Scope">
         <subPane subId="Problems" />
         <subPane subId="Production" />
@@ -312,7 +337,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="slicingTest" />
+              <option name="myItemId" value="slicing" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -379,6 +404,10 @@
               <option name="myItemId" value="org" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -412,6 +441,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -421,7 +453,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="options.lastSelected" value="preferences.keymap" />
+    <property name="options.lastSelected" value="preferences.pluginManager" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="project.structure.last.edited" value="Project" />
@@ -456,7 +488,7 @@
       <recent name="org.overture.alloy" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager">
     <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -484,34 +516,6 @@
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Cover" />
       <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="CountryColouringTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="org.overture.alloy.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="vdm2alloy" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="org.overture.alloy.test" />
-      <option name="MAIN_CLASS_NAME" value="org.overture.alloy.test.CountryColouringTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -573,6 +577,70 @@
         <option name="LOCAL" value="true" />
       </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="SlicingUnitTest.testCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="org.overturetool.alloy.test.unit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="vdm2alloy" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.overturetool.alloy.test.unit" />
+      <option name="MAIN_CLASS_NAME" value="org.overturetool.alloy.test.unit.SlicingUnitTest" />
+      <option name="METHOD_NAME" value="testCase" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" value="[0 : slicingTest.vdmsl]" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="SlicingUnitTest.testCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="org.overturetool.alloy.test.unit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="vdm2alloy" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.overturetool.alloy.test.unit" />
+      <option name="MAIN_CLASS_NAME" value="org.overturetool.alloy.test.unit.SlicingUnitTest" />
+      <option name="METHOD_NAME" value="testCase" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" value="[0 : slicingTest.vdmsl]" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Cover" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Cover" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
@@ -734,18 +802,20 @@
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
-    <list size="4">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.CountryColouringTest" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.Vdm2AlloyUnitTest" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.SlicingUnitTest" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.Vdm2AlloyUnitTest" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.SlicingUnitTest" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.SlicingUnitTest.testCase" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.SlicingUnitTest.testCase" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.Vdm2AlloyUnitTest" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.SlicingUnitTest" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.CountryColouringTest" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="JUnit.SlicingUnitTest" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Main" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.SlicingUnitTest.testCase" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.SlicingUnitTest.testCase" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.Vdm2AlloyUnitTest" />
       </list>
     </recent_temporary>
   </component>
@@ -976,7 +1046,13 @@
       <option name="project" value="LOCAL" />
       <updated>1430338172179</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Slicing">
+      <created>1431307422272</created>
+      <option name="number" value="00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1431307422272</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1000,7 +1076,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1917" y="-109" width="1917" height="1057" extended-state="6" />
+    <frame x="-1872" y="-109" width="1841" height="1057" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Code Iris" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1013,20 +1089,20 @@
       <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Code explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23766816" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37044534" sideWeight="0.31611893" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44534412" sideWeight="0.4997284" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3228745" sideWeight="0.501358" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2078125" sideWeight="0.19628099" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18834081" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3228745" sideWeight="0.49921754" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3228745" sideWeight="0.49864206" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299595" sideWeight="0.49972987" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21372855" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17631716" sideWeight="0.803719" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37044534" sideWeight="0.68388104" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12864584" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15535036" sideWeight="0.803719" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45748988" sideWeight="0.6833243" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19921875" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1085,10 +1161,11 @@
     <MESSAGE value="types" />
     <MESSAGE value="notAllowedType" />
     <MESSAGE value="notAllowedType and inv in record types" />
-    <MESSAGE value="Slicing" />
     <MESSAGE value="Quotes and  atrib slicing" />
     <MESSAGE value="Slicing and unit test" />
-    <option name="LAST_COMMIT_MESSAGE" value="Slicing and unit test" />
+    <MESSAGE value="Slicing" />
+    <MESSAGE value="Slicing,Not Allowed types and  Unit Test" />
+    <option name="LAST_COMMIT_MESSAGE" value="Slicing,Not Allowed types and  Unit Test" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1101,72 +1178,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="28560">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2730">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#8268#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="9375" max-vertical-offset="28485">
-          <caret line="690" column="0" selection-start-line="690" selection-start-column="0" selection-end-line="690" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2730">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#8268#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="9240" max-vertical-offset="28845">
-          <caret line="690" column="0" selection-start-line="690" selection-start-column="0" selection-end-line="690" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.ideaLibSources/ast-2.2.2-sources.jar!/org/overture/ast/node/INode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7512953" vertical-offset="750" max-vertical-offset="1350">
-          <caret line="102" column="29" selection-start-line="102" selection-start-column="29" selection-end-line="102" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="150">
-          <caret line="3" column="83" selection-start-line="3" selection-start-column="83" selection-end-line="3" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10200">
@@ -1265,13 +1276,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/java/org/overture/alloy/test/CountryColouringTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31862745" vertical-offset="0" max-vertical-offset="612">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
@@ -1344,25 +1348,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/overturetool/core/testing/framework/2.2.3-SNAPSHOT/framework-2.2.3-20150417.104158-1.jar!/org/overture/core/tests/ParamStandardTest.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42687747" vertical-offset="237" max-vertical-offset="660">
-          <caret line="35" column="35" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Context.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33238232" vertical-offset="322" max-vertical-offset="1440">
           <caret line="136" column="16" selection-start-line="136" selection-start-column="16" selection-end-line="136" selection-end-column="16" />
-          <folding>
-            <element signature="method#toString#0;class#Context#0" expanded="false" />
-            <element signature="method#getSig#0;class#Context#0" expanded="false" />
-            <element signature="method#getSig#1;class#Context#0" expanded="false" />
-            <element signature="method#merge#0;class#Context#0" expanded="false" />
-            <element signature="method#flatten#0;class#Context#0" expanded="false" />
-            <element signature="method#getState#0;class#Context#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1370,13 +1359,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="566">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/typequote.vdmsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.026132405" vertical-offset="0" max-vertical-offset="574">
-          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -1408,13 +1390,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/SlicingUnitTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33283582" vertical-offset="242" max-vertical-offset="1095">
-          <caret line="54" column="39" selection-start-line="54" selection-start-column="39" selection-end-line="54" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/overturetool/core/ast/2.2.2/ast-2.2.2.jar!/org/overture/ast/definitions/ATypeDefinition.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8971519" vertical-offset="2508" max-vertical-offset="3165">
@@ -1426,14 +1401,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="26400">
           <caret line="1777" column="1" selection-start-line="72" selection-start-column="3" selection-end-line="1777" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/typenat.vdmsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="640">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1455,7 +1422,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.64748204" vertical-offset="0" max-vertical-offset="3465">
           <caret line="46" column="28" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1470,56 +1436,140 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowedTypes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-88.888885" vertical-offset="0" max-vertical-offset="3555">
-          <caret line="160" column="80" selection-start-line="160" selection-start-column="13" selection-end-line="160" selection-end-column="80" />
-          <folding>
-            <element signature="e#0#8268#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="996" max-vertical-offset="1755">
+          <caret line="91" column="9" selection-start-line="91" selection-start-column="9" selection-end-line="91" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/ContextSlicing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="402" max-vertical-offset="1860">
-          <caret line="46" column="26" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="726" max-vertical-offset="1425">
+          <caret line="95" column="28" selection-start-line="95" selection-start-column="28" selection-end-line="95" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#575#576#0" expanded="true" />
-            <element signature="e#610#611#0" expanded="true" />
-            <element signature="e#666#667#0" expanded="true" />
-            <element signature="e#714#715#0" expanded="true" />
-            <element signature="e#790#791#0" expanded="true" />
-            <element signature="e#817#818#0" expanded="true" />
-            <element signature="e#1359#1360#0" expanded="true" />
-            <element signature="e#1390#1391#0" expanded="true" />
-            <element signature="e#1435#1436#0" expanded="true" />
-            <element signature="e#1492#1493#0" expanded="true" />
-            <element signature="e#1522#1523#0" expanded="true" />
-            <element signature="e#1548#1549#0" expanded="true" />
-            <element signature="e#1586#1587#0" expanded="true" />
-            <element signature="e#1616#1617#0" expanded="true" />
-            <element signature="e#2021#2022#0" expanded="true" />
-            <element signature="e#2056#2057#0" expanded="true" />
-            <element signature="e#2184#2185#0" expanded="true" />
-            <element signature="e#2215#2216#0" expanded="true" />
-            <element signature="e#2262#2263#0" expanded="true" />
-            <element signature="e#2302#2303#0" expanded="true" />
+            <element signature="method#translation#0;class#ContextSlicing#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NotAllowed.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8201058" vertical-offset="0" max-vertical-offset="27465">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1149#1150#0" expanded="false" />
+            <element signature="e#1185#1186#0" expanded="false" />
+            <element signature="e#1222#1223#0" expanded="false" />
+            <element signature="e#1276#1277#0" expanded="false" />
+            <element signature="e#1342#1343#0" expanded="false" />
+            <element signature="e#1373#1374#0" expanded="false" />
+            <element signature="e#72073#72074#0" expanded="false" />
+            <element signature="e#72123#72124#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar!/com/google/gson/stream/JsonReader.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3592233" vertical-offset="11979" max-vertical-offset="17580">
+          <caret line="820" column="0" selection-start-line="820" selection-start-column="0" selection-end-line="820" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar!/com/google/gson/Gson.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.789644" vertical-offset="6446" max-vertical-offset="6780">
+          <caret line="504" column="0" selection-start-line="504" selection-start-column="0" selection-end-line="504" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2145" max-vertical-offset="3570">
+          <caret line="162" column="70" selection-start-line="162" selection-start-column="70" selection-end-line="162" selection-end-column="70" />
+          <folding>
+            <element signature="e#0#8355#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/java/org/overture/alloy/test/CountryColouringTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6496063" vertical-offset="0" max-vertical-offset="508">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/typenat.vdmsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/typequote.vdmsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/Vdm2AlloyUnitTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.2952756" vertical-offset="225" max-vertical-offset="1110">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/overturetool/core/testing/framework/2.2.3-SNAPSHOT/framework-2.2.3-20150417.104158-1.jar!/org/overture/core/tests/ParamStandardTest.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.80851066" vertical-offset="190" max-vertical-offset="660">
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="930" max-vertical-offset="27600">
-          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+        <state vertical-scroll-proportion="-6.0740743" vertical-offset="1996" max-vertical-offset="27795">
+          <caret line="150" column="28" selection-start-line="150" selection-start-column="20" selection-end-line="150" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#toString#0;class#NewSlicing#0" expanded="false" />
-            <element signature="e#1338#1339#0" expanded="true" />
-            <element signature="e#1374#1375#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/slicing/slicingTest.vdmsl.result">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="334">
+          <caret line="0" column="9" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/slicing/slicingTest.vdmsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+          <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/SlicingUnitTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.5600624" vertical-offset="260" max-vertical-offset="1470">
+          <caret line="93" column="28" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

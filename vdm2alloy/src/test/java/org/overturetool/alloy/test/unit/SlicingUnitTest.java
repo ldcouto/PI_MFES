@@ -1,26 +1,28 @@
+
 package org.overturetool.alloy.test.unit;
 
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertEquals;
+        import static org.junit.Assert.fail;
+        import static org.junit.Assert.assertEquals;
 
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
+        import java.lang.reflect.Type;
+        import java.util.Collection;
+        import java.util.List;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-import org.overture.alloy.Alloy2VdmAnalysis;
-import org.overture.alloy.Context;
-import org.overture.alloy.ContextSlicing;
-import org.overture.alloy.Slicing;
-import org.overture.alloy.ast.Part;
-import org.overture.ast.analysis.AnalysisException;
-import org.overture.ast.node.INode;
-import org.overture.core.tests.ParamStandardTest;
-import org.overture.core.tests.PathsProvider;
+        import org.junit.runner.RunWith;
+        import org.junit.runners.Parameterized;
+        import org.junit.runners.Parameterized.Parameters;
+        import org.overture.alloy.Alloy2VdmAnalysis;
+        import org.overture.alloy.Context;
+        import org.overture.alloy.ContextSlicing;
+        import org.overture.alloy.NewSlicing;
+        import org.overture.alloy.ast.Part;
+        import org.overture.ast.analysis.AnalysisException;
+        import org.overture.ast.definitions.PDefinition;
+        import org.overture.ast.node.INode;
+        import org.overture.core.tests.ParamStandardTest;
+        import org.overture.core.tests.PathsProvider;
 
-import com.google.gson.reflect.TypeToken;
+        import com.google.gson.reflect.TypeToken;
 
 @RunWith(Parameterized.class)
 public class SlicingUnitTest extends ParamStandardTest<String>
@@ -28,19 +30,20 @@ public class SlicingUnitTest extends ParamStandardTest<String>
 
 
     // Root location of the test input and result files
-    private static final String EXAMPLE_TEST_FILES = "src/test/resources/slicingTest";
+    private static final String EXAMPLE_TEST_FILES = "src/test/resources/slicing";
 
     // The update property for this test
     private static final String UPDATE_PROPERTY = "tests.update.alloy.Unit";
 
 
     public SlicingUnitTest(String nameParameter, String inputParameter,
-                             String resultParameter)
+                           String resultParameter)
     {
         super(nameParameter, inputParameter, resultParameter);
     }
 
-    @Parameters(name = "{index} : {0}")
+
+    @Parameterized.Parameters(name = "{index} : {0}")
     public static Collection<Object[]> testData()
     {
         return PathsProvider.computePaths(EXAMPLE_TEST_FILES);
@@ -49,10 +52,10 @@ public class SlicingUnitTest extends ParamStandardTest<String>
     @Override
     public String processModel(List<INode> ast)
     {
-       Slicing analysis = new Slicing(testName);
+        NewSlicing analysis = new NewSlicing(testName);
         try
         {
-            ast.get(0).apply(analysis, new ContextSlicing());
+            ast.get(0).apply(analysis, new ContextSlicing("Cg","t"));
         } catch (AnalysisException e)
         {
             fail("Could not process test file " + testName);
@@ -65,7 +68,7 @@ public class SlicingUnitTest extends ParamStandardTest<String>
     @Override
     public void compareResults(String actual, String expected)
     {
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 
     @Override
@@ -84,12 +87,14 @@ public class SlicingUnitTest extends ParamStandardTest<String>
     }
 
 
-    private String parts2String(List<INode> parts){
+    private String parts2String(List<PDefinition> parts){
         StringBuilder sb = new StringBuilder();
-        for (INode p : parts){
+        for (PDefinition p : parts){
             sb.append(p.toString());
-            sb.append(" , ");
+            sb.append("\n");
         }
+
+
         return sb.toString();
     }
 
