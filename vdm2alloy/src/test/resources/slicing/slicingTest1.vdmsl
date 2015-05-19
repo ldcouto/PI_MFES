@@ -1,0 +1,3 @@
+types
+Cg = <A>|<B>|<C>|<D>|<E>|<F>|<G>|<H>|<J>|<K>|<L>|<S>;
+Hzd = <ONEPONE> | <ONEPTWO> | <ONEPTHREE> | <ONEPFOUR>;

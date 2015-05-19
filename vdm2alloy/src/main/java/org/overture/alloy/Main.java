@@ -152,15 +152,13 @@ public class Main
             System.out.println("\n\n\n");
 */
 
-
-
             /***************   Slicing  ******************/
 
           //  System.out.println("/***********************************\tSlicing\t*******************************************/");
             NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-             result.result.get(0).apply(slicing, new ContextSlicing("Cg","t"));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition
-            System.out.println(slicing.getNodeList().toString());
-            //System.out.println(slicing.getModuleModules().toString());
+             result.result.get(0).apply(slicing, new ContextSlicing("balanceOf","f"));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition
+            //System.out.println(slicing.getNodeList().toString());
+            System.out.println(slicing.toString());
 
             //System.out.println(slicing.getNodeList().toString());
             //System.out.println("\n\n\n");

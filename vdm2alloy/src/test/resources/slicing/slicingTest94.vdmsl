@@ -1,0 +1,6 @@
+functions
+sum: seq of real -> real
+ sum(seqln) ==
+   if seqln = []
+   then 0
+   else hd seqln + sum(tl seqln)

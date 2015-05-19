@@ -1,0 +1,8 @@
+"module sum
+ definitions
+private static  private static sum: (seq of (real) -> real)
+\tsum(seqln) ==
+(if (seqln = [])
+then 0
+else ((hd seqln) + sum((tl seqln))))
+end sum\n"

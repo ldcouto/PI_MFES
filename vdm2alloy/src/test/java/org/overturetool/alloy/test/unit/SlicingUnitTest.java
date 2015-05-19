@@ -4,7 +4,9 @@ package org.overturetool.alloy.test.unit;
         import static org.junit.Assert.fail;
         import static org.junit.Assert.assertEquals;
 
+        import java.io.FileNotFoundException;
         import java.lang.reflect.Type;
+        import java.util.ArrayList;
         import java.util.Collection;
         import java.util.List;
 
@@ -24,9 +26,12 @@ package org.overturetool.alloy.test.unit;
 
         import com.google.gson.reflect.TypeToken;
 
+
 @RunWith(Parameterized.class)
 public class SlicingUnitTest extends ParamStandardTest<String>
 {
+
+    TypeList type = new TypeList();
 
 
     // Root location of the test input and result files
@@ -52,16 +57,25 @@ public class SlicingUnitTest extends ParamStandardTest<String>
     @Override
     public String processModel(List<INode> ast)
     {
+        ArrayList<String> arr = null;
+         try {
+              arr = type.getPair(type.getVarAndInc());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         NewSlicing analysis = new NewSlicing(testName);
         try
         {
-            ast.get(0).apply(analysis, new ContextSlicing("Cg","t"));
+
+            ast.get(0).apply(analysis, new ContextSlicing(arr.get(0),arr.get(1)));
         } catch (AnalysisException e)
         {
             fail("Could not process test file " + testName);
         }
 
-        return parts2String(analysis.getNodeList());
+
+        return analysis.toString();
     }
 
     //TODO: Implement more intelligent comparison logic
@@ -87,6 +101,9 @@ public class SlicingUnitTest extends ParamStandardTest<String>
     }
 
 
+
+
+
     private String parts2String(List<PDefinition> parts){
         StringBuilder sb = new StringBuilder();
         for (PDefinition p : parts){
@@ -97,5 +114,7 @@ public class SlicingUnitTest extends ParamStandardTest<String>
 
         return sb.toString();
     }
-
+    public void p(String string){
+        System.out.println(string);
+    }
 }

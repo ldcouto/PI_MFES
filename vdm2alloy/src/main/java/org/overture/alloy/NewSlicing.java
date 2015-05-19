@@ -28,10 +28,11 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     NodeList<PDefinition> nodeList =  new NodeList(null);
 
-
+    String name ;
     @Override
     public String toString() {
-        return moduleModules.toString();
+        if(moduleModules.getDefs().size()>0){return moduleModules.toString();}
+        else{return "Slicing error on type : "+this.name;}
     }
 
     AModuleModules moduleModules = new AModuleModules();
@@ -67,23 +68,28 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     @Override
     public NodeList caseAModuleModules(AModuleModules node, ContextSlicing question) throws AnalysisException {
         int i=0,flag=0;
-
+            //p(node.toString());
+        this.name=question.getDef();
         for (PDefinition p : node.getDefs())
         {
             if(p.getClass().getSimpleName().equals("AValueDefinition") ){
-                AValueDefinition a = (AValueDefinition)p;
+               AValueDefinition a = (AValueDefinition)p;
+
                 if (question.getDef().equals(a.getPattern().toString()) && p.getClass().getSimpleName().equals(question.getType())) {
                     nodeList.add(p.clone());
-                    p(p.getClass().getSimpleName().toString());
                     p.apply(this, question);
                     flag = 1;
+
+                   // moduleModules.setName(a.getPattern());
                 }
+
             }else {
                 if (question.getDef().equals(p.getName().getName()) && p.getClass().getSimpleName().equals(question.getType())) {
                     nodeList.add(p.clone());
                     p(p.getClass().getSimpleName().toString());
                     p.apply(this, question);
                     flag = 1;
+                    moduleModules.setName(p.getName());
                 }
             }
         }
@@ -99,9 +105,9 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
             }
             i++;
         }
-        moduleModules.setName(node.getName());
+
+
         moduleModules.setDefs(nodeList);
-        //p(moduleModules.toString());
 
         return nodeList;
     }
@@ -184,7 +190,10 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         if(!question.getTypesDep().contains(node)  /*&& !question.invIsInList(node.getType().getParameters().get(0).toString())*/){
             question.addTypesDep(node);
         }
-
+        if(node.getMeasure()!=null){
+            p(node.getMeasure().getClass().getSimpleName().toString() + "CLASS");
+            node.getMeasure().apply(this,question);
+        }
        // p(node.getType().toString());
         question.setFunctionName(node.getName().getName());
         node.getType().apply(this,question);
@@ -226,6 +235,15 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         }
 
         node.getResult().apply(this,question);
+        return nodeList;
+    }
+
+    @Override
+    public NodeList caseILexNameToken(ILexNameToken node, ContextSlicing question) throws AnalysisException {
+       /* p("começa");
+        p(node.getIdentifier().toString());
+
+       p(node.getIdentifier().getClass().getSimpleName().toString());*/
         return nodeList;
     }
 
@@ -282,10 +300,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         return nodeList;
     }
 
-    @Override
-    public NodeList caseILexNameToken(ILexNameToken node, ContextSlicing question) throws AnalysisException {
-        return nodeList;
-    }
+
 
     @Override
     public NodeList caseILexIdentifierToken(ILexIdentifierToken node, ContextSlicing question) throws AnalysisException {

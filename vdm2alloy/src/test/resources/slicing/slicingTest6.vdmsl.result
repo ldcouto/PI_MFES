@@ -1,0 +1,6 @@
+"module TransactionType
+ definitions
+private static  TransactionType = TransactionType
+private static  Date = Date
+private static  Details = Details
+end TransactionType\n"

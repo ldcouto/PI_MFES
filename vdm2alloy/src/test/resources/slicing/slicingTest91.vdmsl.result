@@ -1,0 +1,10 @@
+"module H
+ definitions
+private static  H = H
+private static  Transaction = Transaction
+\tinv mk_Transaction(-, -, a, -) == (a > 0)
+private static  Date = Date
+private static  TransactionType = TransactionType
+private static  Details = Details
+end H
+"

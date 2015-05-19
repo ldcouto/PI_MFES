@@ -1,0 +1,9 @@
+"module yyy
+ definitions
+private static  yyy = yyy
+\tinv a == (Len((a.j)) > 4)
+private static  T = T
+private static  private static Len: (seq of (nat) -> nat)
+\tLen(l) ==
+(len l)
+end yyy\n"

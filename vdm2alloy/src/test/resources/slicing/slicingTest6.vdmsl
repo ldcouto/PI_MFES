@@ -1,0 +1,5 @@
+types
+AccNum = token;
+Date = token;
+Details = token;
+TransactionType = <Withdrawal> | Date | Details;

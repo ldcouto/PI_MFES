@@ -1,0 +1,7 @@
+types
+T=<E>;
+bl = bool;
+record :: j : seq of nat
+			 o : T
+			 bl : nat
+			 inv c  == c.bl>0;

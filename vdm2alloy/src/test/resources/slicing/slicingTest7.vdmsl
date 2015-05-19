@@ -1,0 +1,11 @@
+types
+x=real;
+A = x ;
+t =A;
+xx = map nat to t;
+AccNum = token;
+Date = token;
+Details = token;
+TransactionType = <Withdrawal> | Date | Details;
+z=nat;
+D = TransactionType | z;

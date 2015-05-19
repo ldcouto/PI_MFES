@@ -1,0 +1,4 @@
+"module Cg
+ definitions
+private static  Cg = Cg
+end Cg\n"
