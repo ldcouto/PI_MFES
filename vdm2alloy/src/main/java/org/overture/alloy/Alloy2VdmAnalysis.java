@@ -144,6 +144,7 @@ public class Alloy2VdmAnalysis
             throws AnalysisException
     {
 
+
         // result.add("module " + moduleName + "\n");
         // result.add("open util/relation\n");
         this.components.add(new ModuleHeader(moduleName, "util/relation", "vdmutil"));
