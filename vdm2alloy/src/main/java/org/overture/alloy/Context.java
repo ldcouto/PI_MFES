@@ -35,9 +35,15 @@ public class Context
 	private final Map<String, PType> variables = new HashMap<String, PType>();
 	private final Map<String, String> stateMap = new HashMap<String, String>();
 	private final Context outer;
+    private String nameType;
 
+    public String getNameType() {
+        return nameType;
+    }
 
-
+    public void setNameType(String nameType) {
+        this.nameType = nameType;
+    }
 
     public Context()
 	{
@@ -48,8 +54,39 @@ public class Context
 	{
 		this.outer=outer;
 	}
-	
-	
+
+
+
+
+	/*
+	public String getVarablesTypes(){
+
+        String st=null;
+        int i=1;
+        int x = variablesWithOutSpace();
+        p("sem spaces:"+x);
+        for (String s : this.variables.keySet()){
+
+            if(!s.equals("-")){
+                if(i<x) {
+                    st += s+" , ";
+                }else{
+                    st +=  s + " : " + nameType;
+                }
+            }
+            i++;
+        }
+        return st;
+    }*/
+    public int variablesWithSpace(List<String> list){
+        int i=1;
+        for (String s : list){
+            if(s.equals("-")) {
+            i++;
+            }
+        }
+         return i;
+    }
 
 	@Override
 	public String toString()
@@ -206,6 +243,10 @@ public class Context
 	}
 
 
-
-
+    public Map<String, PType> getVariables() {
+        return variables;
+    }
+    public void p(String string){
+        System.out.println(string);
+    }
 }

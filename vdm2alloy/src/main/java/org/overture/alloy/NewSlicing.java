@@ -19,6 +19,7 @@ import org.overture.ast.typechecker.Pass;
 import org.overture.ast.types.*;
 import org.overture.ast.util.ClonableFile;
 import org.overture.ast.util.ClonableString;
+import org.overture.pog.obligation.ProofObligationList;
 
 
 /**
@@ -69,6 +70,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     public NodeList caseAModuleModules(AModuleModules node, ContextSlicing question) throws AnalysisException {
         int i=0,flag=0;
             //p(node.toString());
+
         this.name=question.getDef();
         for (PDefinition p : node.getDefs())
         {
@@ -1864,6 +1866,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     public NodeList caseASelfObjectDesignator(ASelfObjectDesignator node, ContextSlicing question) throws AnalysisException {
         return super.caseASelfObjectDesignator(node, question);
     }
+
 
     public void p(String string){
         System.out.println(string);

@@ -36,12 +36,17 @@ import org.apache.commons.cli.PosixParser;
 import org.overture.alloy.ast.Part;
 import org.overture.alloy.ast.Pred;
 import org.overture.alloy.ast.Run;
+import org.overture.ast.analysis.intf.IAnalysis;
 import org.overture.ast.lex.Dialect;
 import org.overture.ast.modules.AModuleModules;
+import org.overture.ast.node.INode;
 import org.overture.ast.types.AFunctionType;
 import org.overture.ast.types.ANamedInvariantType;
 import org.overture.ast.types.ARecordInvariantType;
 import org.overture.config.Settings;
+import org.overture.pof.AVdmPoTree;
+import org.overture.pog.pub.IProofObligationList;
+import org.overture.pog.pub.ProofObligationGenerator;
 import org.overture.typechecker.util.TypeCheckerUtil;
 import org.overture.typechecker.util.TypeCheckerUtil.TypeCheckResult;
 import edu.mit.csail.sdg.alloy4.Terminal;
@@ -155,10 +160,20 @@ public class Main
             /***************   Slicing  ******************/
 
           //  System.out.println("/***********************************\tSlicing\t*******************************************/");
-            //NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-             //result.result.get(0).apply(slicing, new ContextSlicing("balanceOf","f"));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition
+            NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+             result.result.get(0).apply(slicing, new ContextSlicing("Transaction","t"));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition
             //System.out.println(slicing.getNodeList().toString());
             //System.out.println(slicing.toString());
+
+
+            /***************   Proof Obligations  ******************/
+
+            Proofs proof = new Proofs(slicing.getModuleModules());
+            System.out.println (proof.getNode().toString());
+
+              //IProofObligationList x = new IProofObligationList(null);
+           // System.out.println (ProofObligationGenerator.generateProofObligations(slicing.getModuleModules()).get(0).getValueTree().toString());
+           // System.out.println(proof.getModulePO().toString());
 
             //System.out.println(slicing.getNodeList().toString());
             //System.out.println("\n\n\n");
@@ -169,11 +184,16 @@ public class Main
 
             /*********************** Translation ******************/
             //System.out.println("/***********************************\tTranslation\t*****************************************/");
-            Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+            Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")),false);
             result.result.get(0).apply(analysis, new Context());
-           // slicing.getModuleModules().apply(analysis,new Context());
-
-
+          //  slicing.getModuleModules().apply(analysis,new Context());
+           // System.out.println(proof.getNode().getClass().getSimpleName().toString());
+            Alloy2VdmAnalysis analysisProof = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")),true);
+            proof.getNode().apply(analysisProof,new Context());
+            analysis.components.addAll(analysisProof.getComponentsPO());
+            //System.out.println(analysisProof.getComponentsPO().toString());
+            //Proofs proof = new Proofs(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+            //result.result.get(0).apply(proof,new ContextSlicing());
 
 
 
@@ -184,8 +204,8 @@ public class Main
 
 
 
-                analysis.components.add(new Pred("show", "", ""));
-                analysis.components.add(new Run("show"));
+                //analysis.components.add(new Pred("show", "", ""));
+                //analysis.components.add(new Run("show"));
 
                 FileWriter outFile = new FileWriter(tmpFile);
                 PrintWriter out = new PrintWriter(outFile);
