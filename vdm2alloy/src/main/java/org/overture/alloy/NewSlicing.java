@@ -69,7 +69,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     @Override
     public NodeList caseAModuleModules(AModuleModules node, ContextSlicing question) throws AnalysisException {
         int i=0,flag=0;
-            //p(node.toString());
+
 
         this.name=question.getDef();
         for (PDefinition p : node.getDefs())

@@ -52,6 +52,17 @@ public class ContextSlicing {
         }
         return "";
     }
+
+    public String inverseTranslation(String type){
+        if(type.equals("ATypeDefinition")){
+            return "t";
+        }else if(type.equals("AExplicitFunctionDefinition")){
+            return "f";
+        }else if(type.equals("AValueDefinition")){
+            return "v";
+        }
+        return "";
+    }
     public ContextSlicing(){
 
     }
