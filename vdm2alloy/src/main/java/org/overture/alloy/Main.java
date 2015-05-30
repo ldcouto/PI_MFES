@@ -18,45 +18,15 @@
  */
 package org.overture.alloy;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
-import org.overture.alloy.ast.Part;
-import org.overture.alloy.ast.Pred;
-import org.overture.alloy.ast.Run;
-import org.overture.ast.analysis.intf.IAnalysis;
-import org.overture.ast.lex.Dialect;
-import org.overture.ast.modules.AModuleModules;
-import org.overture.ast.node.INode;
-import org.overture.ast.types.AFunctionType;
-import org.overture.ast.types.ANamedInvariantType;
-import org.overture.ast.types.ARecordInvariantType;
-import org.overture.config.Settings;
-import org.overture.pof.AVdmPoTree;
-import org.overture.pog.pub.IProofObligationList;
-import org.overture.pog.pub.ProofObligationGenerator;
-import org.overture.typechecker.util.TypeCheckerUtil;
-import org.overture.typechecker.util.TypeCheckerUtil.TypeCheckResult;
-import edu.mit.csail.sdg.alloy4.Terminal;
 
 public class Main
 {
 
 	public static void main(String[] args) throws Exception
 	{
-        VdmToAlloy e = new VdmToAlloy("Transaction","ATypeDefinition","/Users/macbookpro/Documents/Overture/workspace/AccountSysSL/AccountSys.vdmsl");
+        VdmToAlloy e = new VdmToAlloy("3",true,"Transaction","ATypeDefinition","/Users/macbookpro/Documents/Overture/workspace/AccountSysSL/AccountSys.vdmsl");
+
 		if(e.execute()==1){
             System.out.println(e.error);
         }

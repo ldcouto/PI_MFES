@@ -1,8 +1,5 @@
 "module balanceOf
  definitions
-private static  private static balanceOf: (seq of (Transaction) -> real)
-\tbalanceOf(transln) ==
-let dep:seq of (nat) = [(transln(i).amount) | i in set (inds transln) & ((transln(i).transaction_type) = <Withdrawal>)], withd:seq of (nat) = [(transln(i).amount) | i in set (inds transln) & ((transln(i).transaction_type) = <Withdrawal>)] in (sum(dep) - sum(withd))
 private static  Transaction = Transaction
 \tinv mk_Transaction(-, -, a, -) == (a > 0)
 private static  Date = Date
@@ -13,4 +10,7 @@ private static  private static sum: (seq of (real) -> real)
 (if (seqln = [])
 then 0
 else ((hd seqln) + sum((tl seqln))))
+private static  private static balanceOf: (seq of (Transaction) -> real)
+\tbalanceOf(transln) ==
+let dep:seq of (nat) = [(transln(i).amount) | i in set (inds transln) & ((transln(i).transaction_type) = <Withdrawal>)], withd:seq of (nat) = [(transln(i).amount) | i in set (inds transln) & ((transln(i).transaction_type) = <Withdrawal>)] in (sum(dep) - sum(withd))
 end balanceOf\n"

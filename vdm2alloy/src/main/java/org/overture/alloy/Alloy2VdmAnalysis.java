@@ -94,7 +94,7 @@ public class Alloy2VdmAnalysis
             {
                 sp += " " + predicates;
             }
-        p("predicates: "+predicates.toString());
+            p("predicates: "+predicates.toString());
             return sp;
         }
         public AlloyPart()
@@ -1404,7 +1404,7 @@ public class Alloy2VdmAnalysis
                 String let = "( let ";
                 if(isPo){let=" let ";}
                 Map<String, PType> variables = new HashMap<String, PType>();
-               int  countSpace=question.variablesWithSpace(fieldNames);
+                int  countSpace=question.variablesWithSpace(fieldNames);
                 for (int i = 0; i < fieldNames.size(); i++)
                 {
 
@@ -2252,5 +2252,4 @@ public class Alloy2VdmAnalysis
         return new AlloyPart(node.getValue().toString());
     }
 }
-
 

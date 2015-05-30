@@ -13,21 +13,23 @@ public  class TypeList {
     public int total;
 
 
-    private HashMap<Integer,ArrayList<String>> listTypes = new HashMap<Integer, ArrayList<String>>() {{
-        put(1,newArray("Cg","t"));
-        put(2,newArray("A","t"));
-        put(3,newArray("x","t"));
-        put(4,newArray("record","t"));
-        put(5,newArray("xx","t"));
-        put(6,newArray("TransactionType","t"));
-        put(7,newArray("D","t"));
-        put(8,newArray("record","t"));
-        put(9,newArray("yyy","t"));
-        put(10,newArray("H","t"));
-        put(11,newArray("Len","f"));
-        put(12,newArray("aux","f"));
-        put(13,newArray("sum","f"));
-        put(14,newArray("balanceOf","f"));
+        private HashMap<String,ArrayList<String>> listTypes = new HashMap<String, ArrayList<String>>() {{
+            put("slicingTest1.vdmsl",newArray("Cg","t"));
+            put("slicingTest2.vdmsl",newArray("A","t"));
+            put("slicingTest3.vdmsl",newArray("x","t"));
+            put("slicingTest4.vdmsl",newArray("record","t"));
+            put("slicingTest5.vdmsl",newArray("xx","t"));
+            put("slicingTest6.vdmsl",newArray("TransactionType","t"));
+            put("slicingTest7.vdmsl",newArray("D","t"));
+            put("slicingTest8.vdmsl",newArray("record","t"));
+            put("slicingTest9.vdmsl",newArray("yyy","t"));
+            put("slicingTest91.vdmsl",newArray("H","t"));
+            put("slicingTest92.vdmsl",newArray("Len","f"));
+            put("slicingTest93.vdmsl",newArray("aux","f"));
+            put("slicingTest94.vdmsl",newArray("sum","f"));
+            put("slicingTest95.vdmsl",newArray("balanceOf","f"));
+            put("slicingTest96.vdmsl",newArray("StepLength","v"));
+            put("slicingTest97.vdmsl",newArray("letters","v"));
     }};
 
     public ArrayList<String> newArray(String s1,String s2){
@@ -41,7 +43,7 @@ public  class TypeList {
         this.total=this.listTypes.size();
     }
 
-    public HashMap<Integer, ArrayList<String>> getListTypes() {
+    public HashMap<String, ArrayList<String>> getListTypes() {
         return listTypes;
     }
 
@@ -50,27 +52,12 @@ public  class TypeList {
         return total;
     }
 
-    public Integer getVarAndInc() throws FileNotFoundException {
-        File file = new File("/Users/macbookpro/Desktop/Pi_MFES/PI_MFES/vdm2alloy/src/test/java/org/overturetool/alloy/test/unit/counterTest.txt");
-        Scanner scanner = new Scanner(file);
-        Integer x =  scanner.nextInt();
 
-        if(this.total==x) {
-            PrintWriter writer = new PrintWriter(file);
-            writer.print(1);
-            writer.close();
-        }
-        else {
-            PrintWriter writer = new PrintWriter(file);
-            writer.print(x+1);
-            writer.close();
-        }
-        return x;
 
-    }
 
-    public ArrayList<String> getPair(int x){
-       return this.listTypes.get(x);
+
+    public ArrayList<String> getPair(String s){
+       return this.listTypes.get(s);
     }
 
 

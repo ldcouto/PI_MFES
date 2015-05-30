@@ -6,6 +6,8 @@ import org.overture.ast.definitions.*;
 import org.overture.ast.definitions.traces.*;
 import org.overture.ast.expressions.*;
 import org.overture.ast.intf.lex.*;
+import org.overture.ast.lex.LexIdentifierToken;
+import org.overture.ast.lex.LexToken;
 import org.overture.ast.modules.*;
 import org.overture.ast.node.INode;
 import org.overture.ast.node.NodeList;
@@ -74,15 +76,15 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         this.name=question.getDef();
         for (PDefinition p : node.getDefs())
         {
-            if(p.getClass().getSimpleName().equals("AValueDefinition") ){
+            if(p instanceof  AValueDefinition){
                AValueDefinition a = (AValueDefinition)p;
-
                 if (question.getDef().equals(a.getPattern().toString()) && p.getClass().getSimpleName().equals(question.getType())) {
                     nodeList.add(p.clone());
                     p.apply(this, question);
                     flag = 1;
+                    ILexIdentifierToken iLexIdentifierToken = new LexIdentifierToken(a.getPattern().toString(),false,node.getName().getLocation());
 
-                   // moduleModules.setName(a.getPattern());
+                    moduleModules.setName(iLexIdentifierToken);
                 }
 
             }else {
@@ -110,6 +112,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
 
         moduleModules.setDefs(nodeList);
+
 
         return nodeList;
     }
@@ -440,43 +443,43 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseABooleanConstExp(ABooleanConstExp node, ContextSlicing question) throws AnalysisException {
-        p("entra n boool9");
+
         return nodeList;
     }
 
     @Override
     public NodeList caseACasesExp(ACasesExp node, ContextSlicing question) throws AnalysisException {
-        p("entra n boool0");
+
         return nodeList;
     }
 
     @Override
     public NodeList caseACharLiteralExp(ACharLiteralExp node, ContextSlicing question) throws AnalysisException {
-        p("entra n boool11");
+
         return nodeList;
     }
 
     @Override
     public NodeList caseAElseIfExp(AElseIfExp node, ContextSlicing question) throws AnalysisException {
-        p("if then");
+
         return nodeList;
     }
 
     @Override
     public NodeList caseAExists1Exp(AExists1Exp node, ContextSlicing question) throws AnalysisException {
-        p("entra n boool33");
+
         return nodeList;
     }
 
     @Override
     public NodeList caseAExistsExp(AExistsExp node, ContextSlicing question) throws AnalysisException {
-        p("entra n boool44");
+
         return nodeList;
     }
 
     @Override
     public NodeList caseAFieldExp(AFieldExp node, ContextSlicing question) throws AnalysisException {
-        //p("entra n boool55");
+
         return nodeList;
     }
 

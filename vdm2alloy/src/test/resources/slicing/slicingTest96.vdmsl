@@ -1,0 +1,5 @@
+values
+
+TempChangeDuration  : nat = 2;
+HumidChangeDuration : nat = 4;
+StepLength          : nat = 1;

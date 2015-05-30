@@ -28,11 +28,16 @@ import java.util.HashMap;
 public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     NodeList<INode> nodeList =  new NodeList(null);
+
+    public boolean getHasNat() {
+        return hasNat;
+    }
+
     NotAllowedTypes notAllowedTypes = new NotAllowedTypes();
+    private boolean hasNat=false;
 
 
-    public NotAllowed(String module) {
-        this.module = module;
+    public NotAllowed() {
     }
 
     public HashMap getNotAllowed(){
@@ -56,24 +61,16 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     public NodeList createNewReturnValue(Object o, ContextSlicing newContextSlicing) throws AnalysisException {
         return null;
     }
-
-
-
-
-
-
-
-        @Override
+     @Override
         public NodeList caseAModuleModules(AModuleModules node, ContextSlicing question) throws AnalysisException {
-            int i=0,flag=0;
 
             for (PDefinition p : node.getDefs())
             {
                 question.init();
                 p.apply(this, question);
-                if(question.isAllowed()){
+                /*if(question.isAllowed()){
                     nodeList.add(p.getType());
-                }
+                }*/
             }
                 return nodeList;
         }
@@ -90,6 +87,7 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         @Override
         public NodeList caseANamedInvariantType(ANamedInvariantType node, ContextSlicing question) throws AnalysisException {
              node.getType().apply(this, question);
+
             if(node.getInvDef()!=null){
                 node.getInvDef().getBody().apply(this, question);
             }
@@ -104,6 +102,7 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
             for(AFieldField ff : node.getFields()){
                 ff.getType().apply(this, question);
+
 
             }
             if(node.getInvDef()!=null){
@@ -1096,7 +1095,8 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         @Override
         public NodeList caseANatNumericBasicType(ANatNumericBasicType node, ContextSlicing question) throws AnalysisException {
-            return super.caseANatNumericBasicType(node, question);
+            this.hasNat=true;
+            return nodeList;
         }
 
         @Override

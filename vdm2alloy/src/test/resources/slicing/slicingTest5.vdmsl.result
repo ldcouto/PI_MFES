@@ -1,8 +1,8 @@
 "module xx
  definitions
-private static  xx = xx
 private static  t = t
 private static  A = A
 private static  x = x
+private static  xx = xx
 end xx
 "
