@@ -92,7 +92,7 @@ public class VdmToAlloy {
                analysis.components.addAll(analysisProof.getComponentsPO());
            }else {
                if (notAllowed.getHasNat()) {
-                   analysis.components.add(new Run(this.nameType, this.scope,"3"));
+                   analysis.components.add(new Run(this.nameType, this.scope,"1"));
                } else {
                    analysis.components.add(new Run(this.nameType, this.scope));
                }

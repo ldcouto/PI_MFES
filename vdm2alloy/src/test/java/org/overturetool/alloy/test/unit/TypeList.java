@@ -30,6 +30,7 @@ public  class TypeList {
             put("slicingTest95.vdmsl",newArray("balanceOf","f"));
             put("slicingTest96.vdmsl",newArray("StepLength","v"));
             put("slicingTest97.vdmsl",newArray("letters","v"));
+            
     }};
 
     public ArrayList<String> newArray(String s1,String s2){
