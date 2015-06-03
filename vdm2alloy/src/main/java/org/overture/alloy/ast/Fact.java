@@ -23,29 +23,44 @@ public class Fact extends Part
 	String name;
 	String body;
     String atrb;
+    boolean hasAll;
 
 	public Fact(String name, String body)
 	{
 		this.name = name;
 		this.body = body;
+        this.hasAll=false;
 	}
+    public Fact(boolean isAll,String var,String type,String body){
+        this.hasAll = isAll;
+        this.body=body;
+        this.name=type;
+        this.atrb=var;
+    }
 
     public Fact(String name ,String body, String atrb)
     {
         this.name = name;
         this.body = body;
         this.atrb=atrb;
+        this.hasAll=false;
     }
 
 
     @Override
 	public String toString()
 	{
-        if(this.atrb!=null) {
+        if(this.hasAll){
+            return("fact "+name+"RType"+"{\n"+"all "+atrb+" : "+name+" | "+body+"\n}");
+        }
+       else{
+            if(this.atrb!=null) {
             return ("fact " + name + "{\n" + atrb + " = { y : " + body + "}\n}\n");
         }
         else{
-            return ("fact " + name + "{\n" + body + "\n}\n");
+                return ("fact " + name + "{\n" + body + "\n}\n");
+            }
         }
-	}
+    }
+
 }

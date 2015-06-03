@@ -1,0 +1,30 @@
+types
+Date = token;
+
+Details = token;
+
+TransactionType = <Withdrawal> | Date | Details;
+
+Transaction ::
+	i                : map nat to nat
+  date             : Date
+  amount           : nat
+  transaction_type : TransactionType
+inv mk_Transaction(-,-,a,-) == a > 0;
+
+functions
+
+balanceOf: seq of Transaction -> real
+balanceOf(transln) ==
+  let dep = [transln(i).amount | i in set inds transln
+                               & transln(i).transaction_type = <Withdrawal>],
+      withd = [transln(i).amount | i in set inds transln
+                                 & transln(i).transaction_type = <Withdrawal>]
+  in
+    sum(dep) - sum(withd);
+
+ sum: seq of real -> real
+ sum(seqln) ==
+   if seqln = []
+   then 0
+   else hd seqln + sum(tl seqln)

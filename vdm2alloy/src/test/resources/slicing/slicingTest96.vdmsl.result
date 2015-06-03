@@ -1,0 +1,4 @@
+"module StepLength
+ definitions
+private static  StepLength:nat = 1
+end StepLength\n"

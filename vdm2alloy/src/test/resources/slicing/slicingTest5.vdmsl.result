@@ -1,0 +1,8 @@
+"module xx
+ definitions
+private static  t = t
+private static  A = A
+private static  x = x
+private static  xx = xx
+end xx
+"

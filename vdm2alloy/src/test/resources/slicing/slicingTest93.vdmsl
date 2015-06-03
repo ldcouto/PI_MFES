@@ -1,0 +1,6 @@
+functions
+aux : seq of real -> real
+aux(l) ==  Len(l);
+
+Len: seq of nat -> nat
+ Len(l) == len l;

@@ -18,11 +18,14 @@
  */
 package org.overture.alloy;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.overture.alloy.ast.Sig;
+import org.overture.ast.node.INode;
 import org.overture.ast.types.PType;
 import org.overture.typechecker.assistant.TypeCheckerAssistantFactory;
 
@@ -32,9 +35,17 @@ public class Context
 	private final Map<String, PType> variables = new HashMap<String, PType>();
 	private final Map<String, String> stateMap = new HashMap<String, String>();
 	private final Context outer;
-	
+    private String nameType;
 
-	public Context()
+    public String getNameType() {
+        return nameType;
+    }
+
+    public void setNameType(String nameType) {
+        this.nameType = nameType;
+    }
+
+    public Context()
 	{
 		this(null);
 	}
@@ -43,27 +54,58 @@ public class Context
 	{
 		this.outer=outer;
 	}
-	
-	
+
+
+
+
+	/*
+	public String getVarablesTypes(){
+
+        String st=null;
+        int i=1;
+        int x = variablesWithOutSpace();
+        p("sem spaces:"+x);
+        for (String s : this.variables.keySet()){
+
+            if(!s.equals("-")){
+                if(i<x) {
+                    st += s+" , ";
+                }else{
+                    st +=  s + " : " + nameType;
+                }
+            }
+            i++;
+        }
+        return st;
+    }*/
+    public int variablesWithSpace(List<String> list){
+        int i=1;
+        for (String s : list){
+            if(s.equals("-")) {
+            i++;
+            }
+        }
+         return i;
+    }
 
 	@Override
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer();
 
-		sb.append("Types:\n");
-		for (Entry<PType, Sig> entry : types.entrySet())
-		{
-			sb.append(entry.getKey().toString() + " -> "
-					+ entry.getValue().name + "\n");
-		}
-		sb.append("Variables:\n");
-		for (Entry<String, PType> entry : variables.entrySet())
-		{
-			sb.append(entry.getKey().toString() + " -> "
-					+ (entry.getValue()!=null?entry.getValue().toString().replace('\n', ' '):"null") + "\n");
-		}
-		return sb.toString();
+            StringBuffer sb = new StringBuffer();
+
+            sb.append("Types:\n");
+            for (Entry<PType, Sig> entry : types.entrySet()) {
+                sb.append(entry.getKey().toString() + " -> "
+                        + entry.getValue().name + "\n");
+            }
+            sb.append("Variables:\n");
+            for (Entry<String, PType> entry : variables.entrySet()) {
+                sb.append(entry.getKey().toString() + " -> "
+                        + (entry.getValue() != null ? entry.getValue().toString().replace('\n', ' ') : "null") + "\n");
+            }
+            return sb.toString();
+
 	}
 
 	public Sig getSig(PType type)
@@ -200,4 +242,11 @@ public class Context
 		return null;
 	}
 
+
+    public Map<String, PType> getVariables() {
+        return variables;
+    }
+    public void p(String string){
+        System.out.println(string);
+    }
 }

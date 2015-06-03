@@ -1,0 +1,5 @@
+types
+
+T=token;
+
+A = T | nat;

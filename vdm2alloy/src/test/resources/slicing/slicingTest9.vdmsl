@@ -1,0 +1,12 @@
+types
+T=<E>;
+
+bl = bool;
+yyy :: j : seq of nat
+			 o : T
+			 bl : nat
+		inv a == Len(a.j)>4;
+
+functions
+Len: seq of nat -> nat
+Len(l) == len l;

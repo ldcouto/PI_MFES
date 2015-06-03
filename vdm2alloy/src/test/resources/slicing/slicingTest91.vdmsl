@@ -1,0 +1,11 @@
+types
+Date = token;
+Details = token;
+TransactionType = <Withdrawal> | Date | Details;
+Transaction ::
+	i                : map nat to nat
+  date             : Date
+  amount           : nat
+  transaction_type : TransactionType
+inv mk_Transaction(-,-,a,-) == a > 0;
+H = Transaction;

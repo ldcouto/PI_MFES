@@ -1,0 +1,4 @@
+"module x
+ definitions
+private static  x = x
+end x\n"

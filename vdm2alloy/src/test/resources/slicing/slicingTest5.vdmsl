@@ -1,0 +1,6 @@
+types
+T = token;
+x=real;
+A = x ;
+t =A;
+xx = map nat to t;

@@ -1,0 +1,6 @@
+"module record
+ definitions
+private static  T = T
+private static  record = record
+\tinv c == ((c.bl) > 0)
+end record\n"

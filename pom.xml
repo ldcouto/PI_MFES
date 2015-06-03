@@ -4,8 +4,8 @@
 	<parent>
 		<groupId>org.overturetool</groupId>
 		<artifactId>core</artifactId>
-		<version>2.2.3-SNAPSHOT<!--Replaceable: Main Version--></version>
-		<relativePath>../PI_MFES/pom.xml</relativePath>
+        <version>2.2.5-SNAPSHOT<!--Replaceable: Main Version--></version>
+        <relativePath></relativePath> <!-- Fetch parent from repositories -->
 	</parent>
 
 	<packaging>pom</packaging>
@@ -17,17 +17,21 @@
 		<module>alloyextension</module>
 		<module>vdm2alloy</module>
 	</modules>
-
-
-
-
+    
 	<repositories>
 		<repository>
 			<id>overture.au.dk-mirror-external</id>
 			<name>Mirror of external dependencies at Project Build Repository at AU</name>
 			<url>http://overture.au.dk/maven/mirror-external-m2repo/</url>
 			<layout>default</layout>
-		</repository>
+        </repository>
+
+        <repository>
+            <id>sonatype-snapshot</id>
+            <name>Sonatype Snapshots Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <layout>default</layout>
+        </repository>
 
 	</repositories>
 

@@ -1,0 +1,4 @@
+types
+Cg = <A>|<B>;
+x=real;
+A = x ;

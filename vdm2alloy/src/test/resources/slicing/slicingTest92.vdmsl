@@ -1,0 +1,7 @@
+types
+A = nat ;
+ B = bool;
+
+functions
+ Len: seq of nat -> nat
+ Len(l) == len l;

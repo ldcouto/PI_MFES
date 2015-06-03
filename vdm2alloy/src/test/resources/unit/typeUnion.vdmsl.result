@@ -1,0 +1,22 @@
+"module typeUnion.vdmsl\n\nopen util/relation
+open vdmutil
+
+/************************   T   ************************/
+sig token{}
+sig T in univ{}
+fact TType{
+T = { y : token}
+}
+
+/************************   A   ************************/
+sig nat in univ{}
+fact factNat{
+{ nat = { i:Int | gte[i,0]}}
+}
+
+sig A in univ{}
+fact AType{
+A = { y : T + nat}
+}
+
+"
