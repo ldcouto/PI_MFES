@@ -60,33 +60,34 @@ public class VdmToAlloy {
 
 
             /***************   Slicing  ******************/
-            NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+          /*  NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
             result.result.get(0).apply(slicing, new ContextSlicing(nameType,c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition
-
+           */
 
 
             /******************** Not allowed types ************************/
-            NotAllowed notAllowed = new NotAllowed();
+           /* NotAllowed notAllowed = new NotAllowed();
             slicing.getModuleModules().apply(notAllowed, new ContextSlicing());
             NotAllowedTypes o = new NotAllowedTypes(notAllowed.getNotAllowed());
             if(o.hasNoAllowedType()) {
                 this.error+="There are some problems on the file " + input +"\n"+o.toString();
                 return 1;
-            }
+            }*/
 
 
 
             /***************   Proof Obligations  ******************/
 
-            Proofs proof = new Proofs(slicing.getModuleModules());
+          //  Proofs proof = new Proofs(slicing.getModuleModules());
 
 
 
             /*********************** Translation ******************/
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")),false);
-            slicing.getModuleModules().apply(analysis, new Context());
+          //  slicing.getModuleModules().apply(analysis, new Context());
+            result.result.get(0).apply(analysis,new Context());
 
-            if(!this.typeInvariantsat) {
+            /*if(!this.typeInvariantsat) {
                Alloy2VdmAnalysis analysisProof = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")), true);
                proof.getNode().apply(analysisProof, new Context());
                analysis.components.addAll(analysisProof.getComponentsPO());
@@ -96,7 +97,7 @@ public class VdmToAlloy {
                } else {
                    analysis.components.add(new Run(this.nameType, this.scope));
                }
-           }
+           }*/
 
 
            FileWriter outFile = new FileWriter(tmpFile);
