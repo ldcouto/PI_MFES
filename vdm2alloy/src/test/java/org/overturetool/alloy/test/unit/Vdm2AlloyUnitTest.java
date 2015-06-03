@@ -47,7 +47,7 @@ public class Vdm2AlloyUnitTest extends ParamStandardTest<String>
 	@Override
 	public String processModel(List<INode> ast)
 	{
-		Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(testName);
+		Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(testName,false);
 		try
 		{
 			ast.get(0).apply(analysis, new Context());

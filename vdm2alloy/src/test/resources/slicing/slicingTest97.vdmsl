@@ -1,0 +1,17 @@
+types
+
+ letters = nat
+ inv c == c>1;
+
+ values
+
+TempChangeDuration  : nat = 2;
+HumidChangeDuration : nat = 4;
+StepLength          : nat = 1;
+
+  letters : set of char =
+        {'a','b','c','d','e','f','g','h',
+        'i','j','k','l','m','n','o','p',
+        'q','r','s','t','u','v','w','x','y','z'};
+    black : char = '*';
+    white : char = '_';

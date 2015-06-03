@@ -31,6 +31,7 @@ package org.overturetool.alloy.test.unit;
 public class SlicingUnitTest extends ParamStandardTest<String>
 {
 
+
     TypeList type = new TypeList();
 
 
@@ -58,16 +59,12 @@ public class SlicingUnitTest extends ParamStandardTest<String>
     public String processModel(List<INode> ast)
     {
         ArrayList<String> arr = null;
-         try {
-              arr = type.getPair(type.getVarAndInc());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        arr = type.getPair(this.testName);
+
 
         NewSlicing analysis = new NewSlicing(testName);
         try
         {
-
             ast.get(0).apply(analysis, new ContextSlicing(arr.get(0),arr.get(1)));
         } catch (AnalysisException e)
         {

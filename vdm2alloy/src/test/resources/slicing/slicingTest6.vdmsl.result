@@ -1,6 +1,6 @@
 "module TransactionType
  definitions
-private static  TransactionType = TransactionType
 private static  Date = Date
 private static  Details = Details
+private static  TransactionType = TransactionType
 end TransactionType\n"

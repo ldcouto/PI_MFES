@@ -1,9 +1,9 @@
 "module D
  definitions
-private static  D = D
 private static  TransactionType = TransactionType
 private static  Date = Date
 private static  Details = Details
 private static  z = z
+private static  D = D
 end D
 "

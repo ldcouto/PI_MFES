@@ -20,16 +20,35 @@ package org.overture.alloy.ast;
 
 public class Run extends Part
 {
-	String name;
+    private String scopeInt="";
+    String name;
+    String scope="";
 
 	public Run(String name)
 	{
 		this.name = name;
 	}
-	
+	public Run(String name,String scope){
+        this.name =name;
+        this.scope=scope;
+    }
+    public Run(String name,String scope,String scopeInt){
+        this.name =name;
+        this.scope=scope;
+        this.scopeInt = scopeInt;
+    }
+
 	@Override
 	public String toString()
 	{
-		return "run "+name;
+        if(!this.scope.equals("") && !this.scopeInt.equals("")){return "run {\nsome "+this.name+"\n} for "+this.scope+" but "+this.scopeInt+" int";}
+        else {
+            if(!this.scope.equals("")){
+                {return "run {\nsome "+this.name+"\n} for "+this.scope;}
+            }
+            else{
+                return "run " + name;
+            }
+        }
 	}
 }

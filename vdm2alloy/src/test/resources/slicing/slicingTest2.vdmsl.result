@@ -1,5 +1,5 @@
 "module A
  definitions
-private static  A = A
 private static  x = x
+private static  A = A
 end A\n"

@@ -24,13 +24,13 @@ import org.overture.alloy.Main;
 public class OthersTest extends Vdm2AlloyBaseTest
 {
 	
-	public void testHotel() throws Exception
+	/*public void testHotel() throws Exception
 	{
 		File vdm = new File(getInputDir(), "hotel.vdmsl");
 		File output = new File(getOutputDir(), "hotel.als");
 		assertEquals(Main.execute(new String[] { "-vdm", copy(vdm), "-o",
 				output.getPath(), verbose,  }), 0);
-	}
+	}*/
 
 //	public void testPlanner() throws Exception
 //	{
