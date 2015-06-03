@@ -216,17 +216,26 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         @Override
         public NodeList caseAStateDefinition(AStateDefinition node, ContextSlicing question) throws AnalysisException {
             question.setRecord(true);
-            for(AFieldField ff : node.getFields()){
-                ff.getType().apply(this, question);
+            for(AFieldField p : node.getFields()){
+                p.getType().apply(this,question);
             }
-            if(node.getInvPattern()!=null){
-                node.getInvdef().apply(this,question);
-            }
-            if (node.getInitdef() != null) {
-                node.getInitdef().apply(this,question);
-            }
+            node.getInvdef().getBody().apply(this,question);
             return nodeList;
         }
+
+
+    @Override
+    public NodeList caseAImplicitOperationDefinition(AImplicitOperationDefinition node, ContextSlicing question) throws AnalysisException {
+        for(APatternListTypePair p:node.getParameterPatterns()){
+            p.getType().apply(this,question);
+        }
+        for(AExternalClause p : node.getExternals()){
+            p.apply(this,question);
+        }
+        node.getPrecondition().apply(this,question);
+        node.getPostcondition().apply(this,question);
+        return nodeList;
+    }
 
 
 
@@ -1418,10 +1427,7 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
             return super.caseAExplicitOperationDefinition(node, question);
         }
 
-        @Override
-        public NodeList caseAImplicitOperationDefinition(AImplicitOperationDefinition node, ContextSlicing question) throws AnalysisException {
-            return super.caseAImplicitOperationDefinition(node, question);
-        }
+
 
         @Override
         public NodeList defaultPTerm(PTerm node, ContextSlicing question) throws AnalysisException {
