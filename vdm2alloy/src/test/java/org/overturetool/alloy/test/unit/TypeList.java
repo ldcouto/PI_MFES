@@ -30,6 +30,8 @@ public  class TypeList {
             put("slicingTest95.vdmsl",newArray("balanceOf","f"));
             put("slicingTest96.vdmsl",newArray("StepLength","v"));
             put("slicingTest97.vdmsl",newArray("letters","v"));
+            put("slicingTest98.vdmsl",newArray("Exchange","st"));
+            put("slicingTest99.vdmsl",newArray("Connect","op"));
             
     }};
 

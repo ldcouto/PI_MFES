@@ -1,0 +1,8 @@
+"module Connect
+ definitions
+private static  Subscriber = Subscriber
+private  Connect([i]Subscriber, [r]Subscriber)
+\text [wr[status]?, wr[calls]?]
+\tpre ((i in set (dom (status :> {<AI>}))) and (r in set (dom (status :> {<fr>}))))
+\tpost ((status = (status~ ++ {i |-> <WI>, r |-> <WR>})) and (calls = (calls~ ++ {i |-> r})))
+end Connect\n"

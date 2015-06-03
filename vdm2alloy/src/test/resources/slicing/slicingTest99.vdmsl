@@ -1,0 +1,50 @@
+types
+   Subscriber = token;
+   
+	/* Attempting(AI), Waiting(WI) and Speaking(SI) Initiator*/
+   Initiator =  <AI> | <WI> | <SI>;
+   
+	/* Waiting(WR) and Speaking(SR) Recipient */
+   Recipient = <WR> | <SR>;
+		
+	/* Free (fr) and Unavailable (un) */
+   Status = <fr> | <un> | Initiator | Recipient;
+\end{vdm_al}
+\subsection{The System State and Events} 
+
+\begin{vdm_al}
+ state Exchange of
+   status: map Subscriber to Status
+   calls:  inmap Subscriber to Subscriber /*injective map*/
+ inv mk_Exchange(status, calls) ==        /*mk -> instancia de...*/
+    forall i in set dom calls &           /*dom = domain*/
+       (status(i) = <WI> and status(calls(i)) = <WR>) 
+       or
+       (status(i) = <SI> and status(calls(i)) = <SR>)
+ end
+
+\end{vdm_al}
+
+
+\begin{vdm_al}
+
+operations
+
+  Lift(s: Subscriber)
+  ext wr status  /* Lift manipula a variavel status */
+  pre s in set dom (status :> {<fr>})
+--alternativamente: pre s in set dom status and status(s) = <fr>
+  post status = status~ ++ {s |-> <AI>}; /* status: Subscriber -> Status
+  O conjunto dos status mantem-se apos a operacao e È adicionado o map s->AI que substitui
+  o s->fr que la existia*/  
+  
+\end{vdm_al}
+
+\begin{vdm_al}
+  Connect(i: Subscriber, r: Subscriber)
+  ext wr status
+      wr calls
+  pre i in set dom (status :> {<AI>}) and
+      r in set dom (status :> {<fr>})
+  post status = status~ ++ {i |-> <WI>, r |-> <WR>} and
+       calls = calls~ ++ {i |-> r};

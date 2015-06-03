@@ -1,10 +1,10 @@
 "module aux
  definitions
-private static  private static Len: (seq of (nat) -> nat)
-\tLen(l) ==
-(len l)
 private static  private static aux: (seq of (real) -> real)
 \taux(l) ==
 Len(l)
+private static  private static Len: (seq of (nat) -> nat)
+\tLen(l) ==
+(len l)
 end aux
 "

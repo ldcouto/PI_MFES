@@ -1,8 +1,8 @@
 "module D
  definitions
-private static  TransactionType = TransactionType
 private static  Date = Date
 private static  Details = Details
+private static  TransactionType = TransactionType
 private static  z = z
 private static  D = D
 end D

@@ -25,7 +25,7 @@ public class Main
 
 	public static void main(String[] args) throws Exception
 	{
-        VdmToAlloy e = new VdmToAlloy("3",true,"A","ATypeDefinition","/Users/macbookpro/Documents/Overture/workspace/AccountSysSL/AccountSys.vdmsl");
+        VdmToAlloy e = new VdmToAlloy("3",true,"Connect","AImplicitOperationDefinition","/Users/macbookpro/Documents/Overture/workspace/telephoneSL/telephone.vdmsl");
 
 		if(e.execute()==1){
             System.out.println(e.error);

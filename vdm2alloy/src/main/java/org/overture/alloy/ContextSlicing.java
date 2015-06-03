@@ -49,6 +49,10 @@ public class ContextSlicing {
             return "AExplicitFunctionDefinition";
         }else if(s.equals("v")){
             return "AValueDefinition";
+        }else if(s.equals("st")){
+            return "AStateDefinition";
+        }else if(s.equals("op")){
+            return "AImplicitOperationDefinition";
         }
         return "";
     }
@@ -60,6 +64,10 @@ public class ContextSlicing {
             return "f";
         }else if(type.equals("AValueDefinition")){
             return "v";
+        }else if(type.equals("AStateDefinition")){
+            return "st";
+        }else if(type.equals("AImplicitOperationDefinition")){
+            return "op";
         }
         return "";
     }
@@ -97,6 +105,11 @@ public class ContextSlicing {
 
 
 
+
+
+
+
+
     /************************************************/
     public boolean isAllowed() {
         return isNotAllowed;
@@ -123,7 +136,9 @@ public class ContextSlicing {
     }
 
 
-
+public void  p(String s){
+System.out.println(s);
+}
 
 }
 

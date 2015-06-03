@@ -7,6 +7,7 @@ import org.overture.ast.definitions.traces.*;
 import org.overture.ast.expressions.*;
 import org.overture.ast.intf.lex.*;
 import org.overture.ast.lex.LexIdentifierToken;
+import org.overture.ast.lex.LexNameToken;
 import org.overture.ast.lex.LexToken;
 import org.overture.ast.modules.*;
 import org.overture.ast.node.INode;
@@ -23,6 +24,8 @@ import org.overture.ast.util.ClonableFile;
 import org.overture.ast.util.ClonableString;
 import org.overture.pog.obligation.ProofObligationList;
 
+import java.net.MulticastSocket;
+
 
 /**
  * Created by macbookpro on 26/04/15.
@@ -30,6 +33,7 @@ import org.overture.pog.obligation.ProofObligationList;
 public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     NodeList<PDefinition> nodeList =  new NodeList(null);
+    NodeList<PDefinition> aux =  new NodeList(null);
 
     String name ;
     @Override
@@ -71,11 +75,10 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     @Override
     public NodeList caseAModuleModules(AModuleModules node, ContextSlicing question) throws AnalysisException {
         int i=0,flag=0;
-
-
         this.name=question.getDef();
         for (PDefinition p : node.getDefs())
         {
+
             if(p instanceof  AValueDefinition){
                AValueDefinition a = (AValueDefinition)p;
                 if (question.getDef().equals(a.getPattern().toString()) && p.getClass().getSimpleName().equals(question.getType())) {
@@ -83,14 +86,12 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
                     p.apply(this, question);
                     flag = 1;
                     ILexIdentifierToken iLexIdentifierToken = new LexIdentifierToken(a.getPattern().toString(),false,node.getName().getLocation());
-
-                    moduleModules.setName(iLexIdentifierToken);
+                     moduleModules.setName(iLexIdentifierToken);
                 }
 
             }else {
                 if (question.getDef().equals(p.getName().getName()) && p.getClass().getSimpleName().equals(question.getType())) {
                     nodeList.add(p.clone());
-                    p(p.getClass().getSimpleName().toString());
                     p.apply(this, question);
                     flag = 1;
                     moduleModules.setName(p.getName());
@@ -103,6 +104,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
               if(!nodeList.contains(question.getTypesDep().get(i))) {
                   question.getTypesDep().get(i).apply(this, question);
                   nodeList.add((PDefinition)(question.getTypesDep().get(i)).clone());
+
               }
             }else{
                 flag=0;
@@ -110,7 +112,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
             i++;
         }
 
-
+        nodeList.sort(new PDefinitionComparator());
         moduleModules.setDefs(nodeList);
 
 
@@ -196,7 +198,6 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
             question.addTypesDep(node);
         }
         if(node.getMeasure()!=null){
-            p(node.getMeasure().getClass().getSimpleName().toString() + "CLASS");
             node.getMeasure().apply(this,question);
         }
        // p(node.getType().toString());
@@ -226,7 +227,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     @Override
     public NodeList caseAValueDefinition(AValueDefinition node, ContextSlicing question) throws AnalysisException {
         p(node.getType().toString()+"\n\n"+node.getExpression().toString());
-        node.getType().apply(this,question);p(node.getType().getClass().getSimpleName().toString());
+        node.getType().apply(this,question);
         node.getExpression().apply(this,question);
         return nodeList;
     }
@@ -234,7 +235,6 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAFunctionType(AFunctionType node, ContextSlicing question) throws AnalysisException {
-       /// p("----->"+node.getResult().toString()+"\t\t"+node.getParameters().toString()+"\\\\\\\\\\\\\\\\"+node.getDefinitions().toString()+"´´´´´´´´´´´´´´´´");
         for(PType pt : node.getParameters()){
             pt.apply(this,question);
         }
@@ -245,10 +245,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseILexNameToken(ILexNameToken node, ContextSlicing question) throws AnalysisException {
-       /* p("começa");
-        p(node.getIdentifier().toString());
 
-       p(node.getIdentifier().getClass().getSimpleName().toString());*/
         return nodeList;
     }
 
@@ -262,7 +259,18 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     @Override
     public NodeList caseASetType(ASetType node, ContextSlicing question) throws AnalysisException {
         node.getSetof().apply(this,question);
-        p(node.getSetof().getClass().getSimpleName().toString());
+        //p(node.getSetof().getClass().getSimpleName().toString());
+        return nodeList;
+    }
+
+
+    @Override
+    public NodeList caseAForAllExp(AForAllExp node, ContextSlicing question) throws AnalysisException {
+        for(PMultipleBind p: node.getBindList()){
+            p.apply(this,question);
+        }
+        node.getPredicate().apply(this,question);
+
         return nodeList;
     }
 
@@ -272,15 +280,23 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAStateDefinition(AStateDefinition node, ContextSlicing question) throws AnalysisException {
-        for(AFieldField ff : node.getFields()){
-            ff.getType().apply(this, question);
+        for(AFieldField p : node.getFields()){
+            p.getType().apply(this,question);
         }
-        if(node.getInvPattern()!=null){
-            node.getInvdef().apply(this,question);
+        node.getInvdef().getBody().apply(this,question);
+        return nodeList;
+    }
+
+    @Override
+    public NodeList caseAImplicitOperationDefinition(AImplicitOperationDefinition node, ContextSlicing question) throws AnalysisException {
+        for(APatternListTypePair p:node.getParameterPatterns()){
+            p.getType().apply(this,question);
         }
-        if (node.getInitdef() != null) {
-            node.getInitdef().apply(this,question);
+        for(AExternalClause p : node.getExternals()){
+            p.apply(this,question);
         }
+        node.getPrecondition().apply(this,question);
+        node.getPostcondition().apply(this,question);
         return nodeList;
     }
 
@@ -486,11 +502,6 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     @Override
     public NodeList caseAFieldNumberExp(AFieldNumberExp node, ContextSlicing question) throws AnalysisException {
         return super.caseAFieldNumberExp(node, question);
-    }
-
-    @Override
-    public NodeList caseAForAllExp(AForAllExp node, ContextSlicing question) throws AnalysisException {
-        return super.caseAForAllExp(node, question);
     }
 
     @Override
@@ -1118,7 +1129,9 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAInMapMapType(AInMapMapType node, ContextSlicing question) throws AnalysisException {
-        return super.caseAInMapMapType(node, question);
+        node.getTo().apply(this, question);
+        node.getFrom().apply(this,question);
+        return nodeList;
     }
 
     @Override
@@ -1470,10 +1483,6 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         return super.caseAExplicitOperationDefinition(node, question);
     }
 
-    @Override
-    public NodeList caseAImplicitOperationDefinition(AImplicitOperationDefinition node, ContextSlicing question) throws AnalysisException {
-        return super.caseAImplicitOperationDefinition(node, question);
-    }
 
     @Override
     public NodeList defaultPTerm(PTerm node, ContextSlicing question) throws AnalysisException {

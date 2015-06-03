@@ -60,9 +60,11 @@ public class VdmToAlloy {
 
 
             /***************   Slicing  ******************/
-          /*  NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-            result.result.get(0).apply(slicing, new ContextSlicing(nameType,c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition
-           */
+            NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+            result.result.get(0).apply(slicing, new ContextSlicing(nameType,c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition
+            //System.out.println(slicing.getNodeList().toString());
+
+            System.out.println(slicing.toString());
 
 
             /******************** Not allowed types ************************/
@@ -83,9 +85,11 @@ public class VdmToAlloy {
 
 
             /*********************** Translation ******************/
-            Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")),false);
+            //Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")),false);
           //  slicing.getModuleModules().apply(analysis, new Context());
-            result.result.get(0).apply(analysis,new Context());
+            //result.result.get(0).apply(analysis,new Context());
+
+            //System.out.println(analysis.components);
 
             /*if(!this.typeInvariantsat) {
                Alloy2VdmAnalysis analysisProof = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")), true);
@@ -99,7 +103,7 @@ public class VdmToAlloy {
                }
            }*/
 
-
+/*
            FileWriter outFile = new FileWriter(tmpFile);
             PrintWriter out = new PrintWriter(outFile);
             for (Part string : analysis.components) {
@@ -120,7 +124,7 @@ public class VdmToAlloy {
                 if (exitCode != 0) {
                     return exitCode;
                 }
-
+*/
                /* if (line.hasOption(extraAlloyTest.getOpt())) {
                     String testInputPath = line.getOptionValue(extraAlloyTest.getOpt());
                     System.out.println("Running Alloy on file: "
