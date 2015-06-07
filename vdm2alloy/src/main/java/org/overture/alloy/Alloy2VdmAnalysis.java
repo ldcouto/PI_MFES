@@ -20,6 +20,7 @@ package org.overture.alloy;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 
 import org.overture.alloy.ast.*;
@@ -195,28 +196,47 @@ public class Alloy2VdmAnalysis
     private void createTypeInvariant(ATypeDefinition def, Sig sig, Context ctxt,PType type) // add param to know sig type.... type of sig  = type
             throws AnalysisException
     {       String nType ;
+            String exp = "";
+        if(type instanceof ASetType){
+            if(def.getInvdef() != null){
+                ASetType seq = (ASetType)type;
+                AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
+                if(pattern.exp.equals("x")){exp+="xx";}
+                String body = sig.name + " = { "+ "x : setOf"+seq.getSetof()+" | let "+ pattern.exp + " = x.contents"+seq.getSetof()+" | ";
+                Context invCtxt = new Context(ctxt);
+                invCtxt.addVariable(pattern.exp, def.getType());
+                body += def.getInvExpression().apply(this, invCtxt).exp + " }";
+                Fact f = new Fact(sig.name + "Inv", body);
+                this.components.add(f);
+            }else{
+                ASetType seq = (ASetType)type;
+                String body = sig.name + " = { "+ "x : setOf"+seq.getSetof() +" }";
+                Fact f = new Fact(sig.name + "Inv", body);
+                this.components.add(f);
+            }
 
+        }else {
 
-        if(type instanceof AUnionType){
-            nType  = type.toString();
-            nType=nType.replace("(","");
-            nType=nType.replace(")","");
-            List<String> items = Arrays.asList(nType.split("\\|"));
-            nType=toList(items,"+");
+            if (type instanceof AUnionType) {
+                nType = type.toString();
+                nType = nType.replace("(", "");
+                nType = nType.replace(")", "");
+                List<String> items = Arrays.asList(nType.split("\\|"));
+                nType = toList(items, "+");
+            } else {
+                nType = type.toString();
+            }
+
+            if (def.getInvdef() != null) {
+                AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
+                String body = sig.name + " = { " + pattern.exp + " : " + nType + " | ";
+                Context invCtxt = new Context(ctxt);
+                invCtxt.addVariable(pattern.exp, def.getType());
+                body += def.getInvExpression().apply(this, invCtxt).exp + " }";
+                Fact f = new Fact(sig.name + "Inv", body);
+                this.components.add(f);
+            }
         }
-        else{nType=type.toString();}
-
-        if (def.getInvdef() != null) {
-            //  String body = "all ";
-            AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
-            String body = sig.name +" = { " + pattern.exp + " : " + nType+ " | ";
-            Context invCtxt = new Context(ctxt);
-            invCtxt.addVariable(pattern.exp, def.getType());
-            body += def.getInvExpression().apply(this, invCtxt).exp + " }";
-            Fact f = new Fact(sig.name + "Inv", body);
-            this.components.add(f);
-        }
-
     }
 
 
@@ -651,10 +671,19 @@ public class Alloy2VdmAnalysis
 
         // case SET:
         if (namedType.getType() instanceof ASetType)
-        {
+        {   //p("ASetType: "+);
             ASetType stype = (ASetType) namedType.getType();
+                String sSetString = "setOf"+stype.getSetof() ;
+                Sig sSet = new Sig(sSetString);
+                FieldType fSet = new FieldType(stype.getSetof().toString(),Prefix.set);
+                sSet.addField("contents"+stype.getSetof(),fSet);
+                ctxt.addType(stype,sSet);
+                this.components.add(sSet);
+
+                this.components.add(new Fact(stype.getSetof()+"Set","all c1,c2 : "+sSetString+" | c1.contents"+stype.getSetof()+" = c2.contents"+stype.getSetof()+" implies c1 = c2 "));
+
             ctxt.merge(createType(stype.getSetof(), ctxt));
-            Sig s = new Sig(namedType.getName().getName());
+                Sig s = new Sig(namedType.getName().getName(),true); // Type in univ{}
 
             if (stype.getSetof() instanceof AProductType)
             {
@@ -663,15 +692,17 @@ public class Alloy2VdmAnalysis
                 s.isWrapper = superSig.isWrapper;
             } else
             {
-                s.addField("x", getFieldType(stype));
-                s.isWrapper = true;
+                //s.addField("x", getFieldType(stype));
+               // s.isWrapper = true;
 
-                this.components.add(new Fact(namedType.getName().getName()
-                        + "Set", "all c1,c2 : " + namedType.getName().getName()
-                        + " | c1.x = c2.x implies c1=c2"));
+                //this.components.add(new Fact(namedType.getName().getName()
+                  //      + "Set", "all c1,c2 : " + namedType.getName().getName()
+                    //    + " | c1.x = c2.x implies c1=c2"));
+
             }
             ctxt.addType(stype, s);
-            this.components.add(s);
+           // p(ctxt.toString());
+            //this.components.add(s);
             // createTypeInvariant(node, s, ctxt);
             // break;
         }
@@ -679,27 +710,35 @@ public class Alloy2VdmAnalysis
 
         if (namedType.parent() instanceof ATypeDefinition)
         {
-
             ATypeDefinition def = (ATypeDefinition) namedType.parent();
-            if (ctxt.getSig(namedType) != null)
-            {
-                Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
-                if(def.getInvPattern()==null && ctxt.getSig(namedType.getName().getName())==null) { //A = A'
-                    ctxt.addType(def.getType(), sUniv);
-                    this.components.add(sUniv);
-                    createInvariantTypes(sUniv,namedType.getType().toString());
-
-                }else  if(def.getInvPattern()!=null){// A = A'  \n  inv x = E <> ...
-                    if(ctxt.getSig(namedType).toString()!=null && namedType.getType().toString().equals("nat")){createTypeInvariant(def, ctxt.getSig(namedType), ctxt,namedType.getType());}
-                    else {
+                if (ctxt.getSig(namedType) != null) {
+                    Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
+                    if (def.getInvPattern() == null && ctxt.getSig(namedType.getName().getName()) == null) { //A = A'
                         ctxt.addType(def.getType(), sUniv);
                         this.components.add(sUniv);
-                        createTypeInvariant(def, sUniv, ctxt, namedType.getType());
-                    }
-                }
+                        createInvariantTypes(sUniv, namedType.getType().toString());
 
+                    } else {
+                        if (def.getInvPattern() != null) {// A = A'  \n  inv x = E <> ...
+                            if (ctxt.getSig(namedType).toString() != null && namedType.getType().toString().equals("nat")) {
+                                createTypeInvariant(def, ctxt.getSig(namedType), ctxt, namedType.getType());
+                            } else {
+                                ctxt.addType(def.getType(), sUniv);
+                                this.components.add(sUniv);
+                                createTypeInvariant(def, sUniv, ctxt, namedType.getType());
+                            }
+                        }else{
+                            if(namedType.getType() instanceof ASetType){
+                                ctxt.addType(def.getType(), sUniv);
+                                this.components.add(sUniv);
+                                createTypeInvariant(def, sUniv, ctxt, namedType.getType());
+                            }
+                        }
+                    }
+
+                }
             }
-        }
+
 
         return ctxt;
     }
@@ -2172,6 +2211,12 @@ public class Alloy2VdmAnalysis
             org.overture.ast.expressions.ANotEqualBinaryExp node,
             Context question) throws AnalysisException
     {
+        if(node.getRight() instanceof  ASetEnumSetExp){
+            AlloyPart p = new AlloyPart("( some ");
+            p.exp+=node.getLeft().toString();
+            p.exp += " )";
+            return p;
+        }
         return defaultSBinaryExp(node, question);
     };
 

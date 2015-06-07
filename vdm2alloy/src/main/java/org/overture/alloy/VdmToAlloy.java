@@ -60,15 +60,16 @@ public class VdmToAlloy {
 
 
             /***************   Slicing  ******************/
-            NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+           /* NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
             result.result.get(0).apply(slicing, new ContextSlicing(nameType,c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition
+            */
             //System.out.println(slicing.getNodeList().toString());
 
-            System.out.println(slicing.toString());
+          //  System.out.println(slicing.toString());
 
 
             /******************** Not allowed types ************************/
-           /* NotAllowed notAllowed = new NotAllowed();
+          /*  NotAllowed notAllowed = new NotAllowed();
             slicing.getModuleModules().apply(notAllowed, new ContextSlicing());
             NotAllowedTypes o = new NotAllowedTypes(notAllowed.getNotAllowed());
             if(o.hasNoAllowedType()) {
@@ -80,14 +81,14 @@ public class VdmToAlloy {
 
             /***************   Proof Obligations  ******************/
 
-          //  Proofs proof = new Proofs(slicing.getModuleModules());
+           //Proofs proof = new Proofs(slicing.getModuleModules());
 
 
 
             /*********************** Translation ******************/
-            //Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")),false);
-          //  slicing.getModuleModules().apply(analysis, new Context());
-            //result.result.get(0).apply(analysis,new Context());
+            Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")),false);
+            //slicing.getModuleModules().apply(analysis, new Context());
+            result.result.get(0).apply(analysis,new Context());
 
             //System.out.println(analysis.components);
 
@@ -96,14 +97,14 @@ public class VdmToAlloy {
                proof.getNode().apply(analysisProof, new Context());
                analysis.components.addAll(analysisProof.getComponentsPO());
            }else {
-               if (notAllowed.getHasNat()) {
-                   analysis.components.add(new Run(this.nameType, this.scope,"1"));
-               } else {
-                   analysis.components.add(new Run(this.nameType, this.scope));
-               }
-           }*/
+                if (notAllowed.getHasNat()) {
+                    analysis.components.add(new Run(this.nameType, this.scope, "1"));
+                } else {
+                    analysis.components.add(new Run(this.nameType, this.scope));
+                }
+            }
+*/
 
-/*
            FileWriter outFile = new FileWriter(tmpFile);
             PrintWriter out = new PrintWriter(outFile);
             for (Part string : analysis.components) {
@@ -124,7 +125,6 @@ public class VdmToAlloy {
                 if (exitCode != 0) {
                     return exitCode;
                 }
-*/
                /* if (line.hasOption(extraAlloyTest.getOpt())) {
                     String testInputPath = line.getOptionValue(extraAlloyTest.getOpt());
                     System.out.println("Running Alloy on file: "
