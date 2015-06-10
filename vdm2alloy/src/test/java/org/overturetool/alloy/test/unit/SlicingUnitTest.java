@@ -79,7 +79,7 @@ public class SlicingUnitTest extends ParamStandardTest<String>
     @Override
     public void compareResults(String actual, String expected)
     {
-        assertEquals(expected, actual);
+        assertEquals(expected.replace("\r", ""), actual.replace("\r", ""));
     }
 
     @Override

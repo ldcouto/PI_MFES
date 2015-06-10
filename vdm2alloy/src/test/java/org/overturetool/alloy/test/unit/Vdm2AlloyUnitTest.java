@@ -63,7 +63,7 @@ public class Vdm2AlloyUnitTest extends ParamStandardTest<String>
 	@Override
 	public void compareResults(String actual, String expected)
 	{
-		assertEquals(expected, actual);
+		assertEquals(expected.replaceAll("\n", "").replace("\r", ""), actual.replaceAll("\n","").replace("\r", ""));
 	}
 	
 	@Override
