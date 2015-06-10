@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Class-Path: typechecker-2.2.2.jar pog-2.2.2.jar gson-2.2.4.jar alloy-4
+ .2.jar prettyprinter-2.2.2.jar pog-2.2.2.jar gson-2.2.4.jar ast-2.2.2
+ .jar parser-2.2.2.jar testframework-2.2.2.jar junit-4.11.jar hamcrest
+ -core-1.3.jar typechecker-2.2.2.jar prettyprinter-2.2.2.jar commons-i
+ o-2.4.jar commons-collections4-4.0.jar parser-2.2.2.jar hamcrest-core
+ -1.3.jar junit-4.11.jar commons-cli-1.2.jar commons-io-2.4.jar ast-2.
+ 2.2.jar commons-collections4-4.0.jar testframework-2.2.2.jar
+Main-Class: org.overture.alloy.Main
+

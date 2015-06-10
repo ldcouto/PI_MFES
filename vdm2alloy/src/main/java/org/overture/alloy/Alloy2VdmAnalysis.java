@@ -1581,6 +1581,7 @@ public class Alloy2VdmAnalysis
         return p;
     };
 
+
     public AlloyPart caseANotUnaryExp(
             org.overture.ast.expressions.ANotUnaryExp node, Context question)
             throws AnalysisException
