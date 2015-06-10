@@ -1,0 +1,27 @@
+"module setType.vdmsl
+
+open util/relation
+open vdmutil
+
+/************************   Country   ************************/
+sig char{}
+sig Country{
+	x: seq char
+}
+fact CountrySet{
+all c1,c2 : Country | c1.x = c2.x implies c1=c2
+}
+
+/************************   Colour   ************************/
+sig setOfCountry{
+	contentsCountry: set Country
+}
+fact CountrySet{
+all c1,c2 : setOfCountry | c1.contentsCountry = c2.contentsCountry implies c1 = c2
+}
+
+sig Colour in univ{}
+fact ColourInv{
+Colour = { x : setOfCountry | let c = x.contentsCountry | ( some c ) }
+}\n
+"

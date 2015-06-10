@@ -54,6 +54,8 @@ public class Alloy2VdmAnalysis
         put("map",null);
     }},1);
 
+    public HashMap<String,String> setTypes = new HashMap<String,String>();
+
 
     private boolean isPo=false;
     private boolean invariantMK=false;
@@ -198,8 +200,9 @@ public class Alloy2VdmAnalysis
     {       String nType ;
             String exp = "";
         if(type instanceof ASetType){
+            ASetType seq = (ASetType)type;
+            setTypes.put(sig.name,seq.getSetof().toString());
             if(def.getInvdef() != null){
-                ASetType seq = (ASetType)type;
                 AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
                 if(pattern.exp.equals("x")){exp+="xx";}
                 String body = sig.name + " = { "+ "x : setOf"+seq.getSetof()+" | let "+ pattern.exp + " = x.contents"+seq.getSetof()+" | ";
@@ -209,7 +212,6 @@ public class Alloy2VdmAnalysis
                 Fact f = new Fact(sig.name + "Inv", body);
                 this.components.add(f);
             }else{
-                ASetType seq = (ASetType)type;
                 String body = sig.name + " = { "+ "x : setOf"+seq.getSetof() +" }";
                 Fact f = new Fact(sig.name + "Inv", body);
                 this.components.add(f);
@@ -680,7 +682,7 @@ public class Alloy2VdmAnalysis
                 ctxt.addType(stype,sSet);
                 this.components.add(sSet);
 
-                this.components.add(new Fact(stype.getSetof()+"Set","all c1,c2 : "+sSetString+" | c1.contents"+stype.getSetof()+" = c2.contents"+stype.getSetof()+" implies c1 = c2 "));
+                this.components.add(new Fact(stype.getSetof()+"Set","all c1,c2 : "+sSetString+" | c1.contents"+stype.getSetof()+" = c2.contents"+stype.getSetof()+" implies c1 = c2"));
 
             ctxt.merge(createType(stype.getSetof(), ctxt));
                 Sig s = new Sig(namedType.getName().getName(),true); // Type in univ{}
@@ -1160,6 +1162,7 @@ public class Alloy2VdmAnalysis
             AExplicitFunctionDefinition node, Context question)
             throws AnalysisException
     {
+
         if (node.getIsTypeInvariant())
         {
             return null;
@@ -1199,7 +1202,12 @@ public class Alloy2VdmAnalysis
                 argumentName = p.toString();
             }
             String pt = getTypeName(node.getType().getParameters().get(i));
-            arguments += argumentName + ": " + pt;
+            p(setTypes.toString());
+            if(setTypes.containsKey(pt)) {
+                arguments += argumentName + ": " + pt+".contents"+setTypes.get(pt);
+            }else{
+                arguments += argumentName + ": " + pt;
+            }
             ctxt.addVariable(argumentName, node.getType().getParameters().get(i));
             if (i < node.getType().getParameters().size() - 1)
             {

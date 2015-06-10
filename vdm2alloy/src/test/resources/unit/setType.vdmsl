@@ -1,0 +1,5 @@
+types
+  Country = seq of char;
+
+  Colour = set of Country
+    inv c == c <> {};

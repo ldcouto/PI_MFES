@@ -1,0 +1,31 @@
+"module functionWithSetType.vdmsl
+
+open util/relation
+open vdmutil
+
+/************************   y   ************************/
+sig setOfnat{
+	contentsnat: set nat
+}
+fact natSet{
+all c1,c2 : setOfnat | c1.contentsnat = c2.contentsnat implies c1 = c2
+}
+
+sig nat in univ{}
+fact factNat{
+{ nat = { i:Int | gte[i,0]}}
+}
+
+sig y in univ{}
+fact yInv{
+y = { x : setOfnat }
+}
+
+pred example(r: y.contentsnat)
+{	 /* Body */\t
+	( all c1 : r | gt[c1,0])
+
+}
+
+run example
+"

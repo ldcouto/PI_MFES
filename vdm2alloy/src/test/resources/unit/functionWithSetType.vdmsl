@@ -1,0 +1,8 @@
+types
+ y = set of nat;
+
+functions
+
+example : y -> bool
+example (r)== forall c1 in set r & c1>0 ;
+
