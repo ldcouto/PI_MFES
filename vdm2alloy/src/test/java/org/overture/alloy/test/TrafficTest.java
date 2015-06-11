@@ -23,7 +23,7 @@ import org.overture.alloy.Main;
 
 public class TrafficTest extends Vdm2AlloyBaseTest
 {
-	/*final String test2 = "trafficTest.als";
+	final String test2 = "trafficTest.als";
 	@Override
 	protected void setUp() throws Exception
 	{
@@ -38,6 +38,6 @@ public class TrafficTest extends Vdm2AlloyBaseTest
 		assertEquals(Main.execute(new String[] { "-vdm", copy(vdm), "-o",
 				output.getPath(), verbose, "-test2",
 				new File(getOutputDir(), test2).getPath() }), 0);
-	}*/
+	}
 
 }
