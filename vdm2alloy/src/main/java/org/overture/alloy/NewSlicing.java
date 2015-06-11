@@ -25,6 +25,7 @@ import org.overture.ast.util.ClonableString;
 import org.overture.pog.obligation.ProofObligationList;
 
 import java.net.MulticastSocket;
+import java.util.Collections;
 
 
 /**
@@ -112,7 +113,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
             i++;
         }
 
-        nodeList.sort(new PDefinitionComparator());
+        Collections.sort(nodeList, new PDefinitionComparator());
         moduleModules.setDefs(nodeList);
 
 
