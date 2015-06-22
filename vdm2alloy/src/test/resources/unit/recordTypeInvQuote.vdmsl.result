@@ -1,0 +1,24 @@
+"module recordTypeInvQuote.vdmsl
+open util/relation
+open vdmutil
+
+/************************   TransactionType   ************************/
+one sig DEPOSIT{}
+one sig WITHDRAWAL{}
+sig TransactionType in univ{}
+fact TransactionTypeType{
+TransactionType = { y : DEPOSIT + WITHDRAWAL}
+}
+
+/************************   Transaction   ************************/
+sig nat in univ{}
+fact factNat{
+{ nat = { i:Int | gte[i,0]}}
+}
+
+sig Transaction{
+	amount: one nat, \n\ttransaction_type: one TransactionType\n
+}
+fact TransactionRType{
+all a : Transaction | (a.transaction_type != DEPOSIT)
+}"

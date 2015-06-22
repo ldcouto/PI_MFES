@@ -67,7 +67,9 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
             for (PDefinition p : node.getDefs())
             {
                 question.init();
+                question.setFunctionName("");
                 p.apply(this, question);
+
                 /*if(question.isAllowed()){
                     nodeList.add(p.getType());
                 }*/
@@ -89,6 +91,7 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
              node.getType().apply(this, question);
 
             if(node.getInvDef()!=null){
+                p(node.getInvDef().getBody().getClass().getSimpleName());
                 node.getInvDef().getBody().apply(this, question);
             }
             return this.nodeList;
@@ -149,11 +152,8 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         @Override
         public NodeList caseAExplicitFunctionDefinition(AExplicitFunctionDefinition node, ContextSlicing question) throws AnalysisException {
-
-
-            // p(node.getType().toString());
-            question.setFunctionName(node.getName().getName());
             node.getType().apply(this,question);
+            question.setFunctionName(node.getName().getName());
             node.getBody().apply(this, question);
             question.setFunctionName("");
             return this.nodeList;
@@ -161,11 +161,10 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         @Override
         public NodeList caseAVariableExp(AVariableExp node, ContextSlicing question) throws AnalysisException {
-            if(!question.getFunctionName().equals(node.getName().getName())) {
-                node.getVardef().apply(this, question);
-            }else{
+            if(question.getFunctionName().equals(node.getName().getName())) {
                 notAllowedTypes.addType("recursion",node.getLocation().getStartLine());
             }
+            question.setFunctionName("");
             return nodeList;
         }
 
@@ -177,7 +176,6 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         @Override
         public NodeList caseAValueDefinition(AValueDefinition node, ContextSlicing question) throws AnalysisException {
-            //p(node.getType().toString()+"\n\n"+node.getExpression().toString());
             question.setRecord(true);
             node.getType().apply(this,question);//p(node.getType().getClass().getSimpleName().toString());
             node.getExpression().apply(this,question);
@@ -337,31 +335,31 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         @Override
         public NodeList caseInteger(Integer node, ContextSlicing question) throws AnalysisException {
-            p("entra n boool2");
+           // p("entra n boool2");
             return nodeList;
         }
 
         @Override
         public NodeList caseString(String node, ContextSlicing question) throws AnalysisException {
-            p("entra n boool3");
+          //  p("entra n boool3");
             return nodeList;
         }
 
         @Override
         public NodeList caseLong(Long node, ContextSlicing question) throws AnalysisException {
-            p("entra n boool4");
+          //  p("entra n boool4");
             return nodeList;
         }
 
         @Override
         public NodeList caseTStatic(TStatic node, ContextSlicing question) throws AnalysisException {
-            p("entra n boool5");
+           // p("entra n boool5");
             return nodeList;
         }
 
         @Override
         public NodeList caseTAsync(TAsync node, ContextSlicing question) throws AnalysisException {
-            p("entra n boool6");
+           // p("entra n boool6");
             return nodeList;
         }
 
@@ -373,13 +371,14 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         @Override
         public NodeList caseAApplyExp(AApplyExp node, ContextSlicing question) throws AnalysisException {
+            //p("ENTRA" + node.toString() + "\n" + node.getRoot().getClass().getSimpleName());
             node.getRoot().apply(this,question);p(node.getRoot().getClass().getSimpleName());
             return nodeList;
         }
 
         @Override
         public NodeList caseANarrowExp(ANarrowExp node, ContextSlicing question) throws AnalysisException {
-            p("entra n booold");
+            //p("entra n booold");
             return nodeList;
         }
 
@@ -399,37 +398,38 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         @Override
         public NodeList caseABooleanConstExp(ABooleanConstExp node, ContextSlicing question) throws AnalysisException {
-            p("entra n boool9");
+            //p("entra n boool9");
             return nodeList;
         }
 
         @Override
         public NodeList caseACasesExp(ACasesExp node, ContextSlicing question) throws AnalysisException {
-            p("entra n boool0");
+           // p("entra n boool0");
             return nodeList;
         }
 
         @Override
         public NodeList caseACharLiteralExp(ACharLiteralExp node, ContextSlicing question) throws AnalysisException {
-            p("entra n boool11");
+            //p("entra n boool11");
             return nodeList;
         }
 
         @Override
         public NodeList caseAElseIfExp(AElseIfExp node, ContextSlicing question) throws AnalysisException {
-            p("if then");
+            //p("if then");
+
             return nodeList;
         }
 
         @Override
         public NodeList caseAExists1Exp(AExists1Exp node, ContextSlicing question) throws AnalysisException {
-            p("entra n boool33");
+           // p("entra n boool33");
             return nodeList;
         }
 
         @Override
         public NodeList caseAExistsExp(AExistsExp node, ContextSlicing question) throws AnalysisException {
-            p("entra n boool44");
+           // p("entra n boool44");
             return nodeList;
         }
 

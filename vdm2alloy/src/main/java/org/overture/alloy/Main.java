@@ -46,7 +46,7 @@ public class Main
 {
 
 	public static void main(String[] args) throws Exception {
-        VdmToAlloy e = new VdmToAlloy("3", true, "Transaction", "ATypeDefinition", "C:\\Users\\Daniel\\Desktop\\vdm\\AccountSys.vdmsl");
+        VdmToAlloy e = new VdmToAlloy("3", true, "x", "ATypeDefinition", "/Users/macbookpro/Documents/Overture/workspace/Pi_mfes/mfes.vdmsl");
 
         if (e.execute() == 1) {
             System.out.println(e.error);
@@ -136,6 +136,7 @@ public class Main
 
             analysis.components.add(new Pred("show", "", ""));
             analysis.components.add(new Run("show"));
+
 
             FileWriter outFile = new FileWriter(tmpFile);
             PrintWriter out = new PrintWriter(outFile);

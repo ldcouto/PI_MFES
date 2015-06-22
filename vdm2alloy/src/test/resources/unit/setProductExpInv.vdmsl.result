@@ -1,0 +1,31 @@
+"
+module setProductExpInv.vdmsl
+
+open util/relation
+open vdmutil
+
+/************************   X   ************************/
+sig nat in univ{}
+fact factNat{
+{ nat = { i:Int | gte[i,0]}}
+}
+
+sig natnatProduct{
+	fst: one nat, \n\tsnd: one nat\n
+}
+fact natnatProductF{
+all x1,x2 : natnatProduct | (x1.fst = x2.fst and x1.snd = x2.snd) implies x1=x2
+}
+
+sig setOfnatnat{
+	contentsnatnat: set natnatProduct
+}
+fact natnatSet{
+all c1,c2 : setOfnatnat | c1.contentsnatnat = c2.contentsnatnat implies c1 = c2
+}
+
+sig X in univ{}
+fact XInv{
+X = { x : setOfnatnat | let h = x.contentsnatnat | ( some h ) }
+}
+"

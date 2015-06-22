@@ -1,0 +1,8 @@
+types
+
+TransactionType = <Withdrawal> | <Deposit>;
+
+Transaction ::
+  amount           : nat
+  transaction_type : TransactionType
+inv a == a.transaction_type <> <Deposit>;

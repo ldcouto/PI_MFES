@@ -130,6 +130,8 @@ public class Sig extends Part
         this.isFact=fact;
     }
 
+
+
     public List getQuotes(){
         return quotes;
     }

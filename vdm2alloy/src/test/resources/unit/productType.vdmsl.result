@@ -1,0 +1,24 @@
+"module productType.vdmsl
+
+open util/relation
+open vdmutil
+
+
+/************************   X   ************************/
+sig nat in univ{}
+fact factNat{
+{ nat = { i:Int | gte[i,0]}}
+}
+
+sig natnatProduct{
+	fst: one nat, \n\tsnd: one nat\n
+}
+fact natnatProductF{
+all x1,x2 : natnatProduct | (x1.fst = x2.fst and x1.snd = x2.snd) implies x1=x2
+}
+
+sig X in univ{}
+fact XType{
+X = { y : natnatProduct}
+}
+"

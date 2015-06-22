@@ -1,0 +1,6 @@
+types
+
+
+ H = nat *  nat;
+
+ X = set of H;

@@ -195,6 +195,15 @@ public class Alloy2VdmAnalysis
         return componentsPO;
     }
 
+    public String splitProductType (String type){
+        String st="";
+        st = type.replace("*", "");
+        st = st.replace(" ", "");
+        st = st.replace("(", "");
+        st = st.replace(")", "");
+        return st;
+    }
+
     private void createTypeInvariant(ATypeDefinition def, Sig sig, Context ctxt,PType type) // add param to know sig type.... type of sig  = type
             throws AnalysisException
     {       String nType ;
@@ -205,16 +214,28 @@ public class Alloy2VdmAnalysis
             if(def.getInvdef() != null){
                 AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
                 if(pattern.exp.equals("x")){exp+="xx";}
-                String body = sig.name + " = { "+ "x : setOf"+seq.getSetof()+" | let "+ pattern.exp + " = x.contents"+seq.getSetof()+" | ";
+                String body="";
+                if(seq.getSetof() instanceof  AProductType) {
+                     body = sig.name + " = { " + "x : setOf" + splitProductType(seq.getSetof().toString()) + " | let " + pattern.exp + " = x.contents" + splitProductType(seq.getSetof().toString()) + " | ";
+                }else{
+                     body = sig.name + " = { " + "x : setOf" + seq.getSetof() + " | let " + pattern.exp + " = x.contents" + seq.getSetof() + " | ";
+                }
                 Context invCtxt = new Context(ctxt);
                 invCtxt.addVariable(pattern.exp, def.getType());
                 body += def.getInvExpression().apply(this, invCtxt).exp + " }";
                 Fact f = new Fact(sig.name + "Inv", body);
                 this.components.add(f);
             }else{
-                String body = sig.name + " = { "+ "x : setOf"+seq.getSetof() +" }";
-                Fact f = new Fact(sig.name + "Inv", body);
-                this.components.add(f);
+                String body="";
+                if(seq.getSetof() instanceof  AProductType) {
+                    body = sig.name + " = { " + "x : setOf" + splitProductType(seq.getSetof().toString()) + " }";
+                }else {
+                    body = sig.name + " = { " + "x : setOf" + seq.getSetof() + " }";
+                }
+                    Fact f = new Fact(sig.name + "Inv", body);
+
+                    this.components.add(f);
+
             }
 
         }else {
@@ -225,10 +246,12 @@ public class Alloy2VdmAnalysis
                 nType = nType.replace(")", "");
                 List<String> items = Arrays.asList(nType.split("\\|"));
                 nType = toList(items, "+");
+
             } else {
                 nType = type.toString();
             }
-
+            nType = removeSignals(nType);
+            p(nType);
             if (def.getInvdef() != null) {
                 AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
                 String body = sig.name + " = { " + pattern.exp + " : " + nType + " | ";
@@ -241,6 +264,13 @@ public class Alloy2VdmAnalysis
         }
     }
 
+    public String removeSignals(String s){
+        String st= "";
+        s=s.replace("<", "");
+        st = s.replace(">", "");
+        return st;
+
+    }
 
     private void createInvariantTypes(Sig sig,String type) // method to create fact in types
             throws AnalysisException
@@ -339,6 +369,10 @@ public class Alloy2VdmAnalysis
                         this.components.add(s);
                         createInvariantRecordType(var,recordType.getName().getName(),body);
                     }
+                }else{
+                    //s.constraints.add(invPart.exp);
+                    this.components.add(s);
+                    //createInvariantRecordType(var,recordType.getName().getName(),body);
                 }
                 ctxt.addType(recordType, s);
                 return ctxt;
@@ -393,7 +427,7 @@ public class Alloy2VdmAnalysis
             return ctxt;
         } else if (type instanceof SSeqType)
         {
-            // SSeqType stype = (SSeqType) type;
+              //SSeqType stype = (SSeqType) type;
             // result.add("sig "+getTypeName(type))
             String simpleName = ((SSeqType) type).getSeqof().getClass().getSimpleName();
             if (this.notAllowedTypes.getTypes().containsKey(simpleName)) {//if type isn't allowed
@@ -403,6 +437,8 @@ public class Alloy2VdmAnalysis
 
             return ctxt;
         }else if(type instanceof ASetType){
+            //ASetType stype = (ASetType) type;
+            p(type.toString());
 
             String simpleName = ((ASetType) type).getSetof().getClass().getSimpleName();
             if (this.notAllowedTypes.getTypes().containsKey(simpleName)) {//if type isn't allowed
@@ -555,13 +591,33 @@ public class Alloy2VdmAnalysis
 
         if (namedType.getType() instanceof SBasicType)
         {
-            Sig s = new Sig(namedType.getName().getName(),true);
-            ctxt.merge(createType(namedType.getType(), ctxt));
-            //s.supers.add(ctxt.getSig(namedType.getType()));
-            ctxt.addType(namedType, s);
-            this.components.add(s);
-            createInvariantTypes(s,namedType.getType().toString());
-            //System.out.println("Cria :"+namedType.toString());
+            if(namedType.getType() instanceof ANatNumericBasicType) {
+                ATypeDefinition d = (ATypeDefinition) namedType.parent();
+                if (d.getInvPattern()!=null){
+                    Sig s = new Sig(namedType.getName().getName(), true);
+                    ctxt.merge(createType(namedType.getType(), ctxt));
+                    //s.supers.add(ctxt.getSig(namedType.getType()));
+                    ctxt.addType(namedType, s);
+                }
+                else{
+                    Sig s = new Sig(namedType.getName().getName(), true);
+                    ctxt.merge(createType(namedType.getType(), ctxt));
+                    //s.supers.add(ctxt.getSig(namedType.getType()));
+                    ctxt.addType(namedType, s);
+                    this.components.add(s);
+                    createInvariantTypes(s, namedType.getType().toString());
+                }
+            }
+            else {
+                Sig s = new Sig(namedType.getName().getName(), true);
+                ctxt.merge(createType(namedType.getType(), ctxt));
+                //s.supers.add(ctxt.getSig(namedType.getType()));
+                ctxt.addType(namedType, s);
+                this.components.add(s);
+                createInvariantTypes(s, namedType.getType().toString());
+            }
+
+
 
             // break;
         }
@@ -585,17 +641,51 @@ public class Alloy2VdmAnalysis
         // case QUOTE:
         //
         // break;
+
+        if(namedType.getType() instanceof  AProductType){
+
+            AProductType aProductType = (AProductType) namedType.getType();
+            String name =aProductType.getTypes().get(0).toString()+aProductType.getTypes().get(1).toString()+"Product";
+            Sig s = new Sig(name);
+
+
+
+            FieldType a  =  new FieldType(aProductType.getTypes().get(0).toString(),Prefix.one);
+            FieldType aa  =  new FieldType(aProductType.getTypes().get(1).toString(),Prefix.one);
+
+            ctxt.merge(createType(aProductType.getTypes().get(0), ctxt));
+            ctxt.merge(createType(aProductType.getTypes().get(1), ctxt));
+            s.addField("fst", a);
+            s.addField("snd", aa);
+            Fact pt =  new Fact(aProductType.getTypes().get(0).toString()+aProductType.getTypes().get(1).toString()+"ProductF",
+                    "all x1,x2 : "+name+" | (x1.fst = x2.fst and x1.snd = x2.snd) implies x1=x2");
+            this.components.add(s);
+            this.components.add(pt);
+            ctxt.addType(aProductType,s);
+
+        }
+
+
         if (namedType.getType() instanceof AQuoteType) // new method to single quote types
         {
-            AQuoteType qt = (AQuoteType)namedType.getType();
-            createType(qt, ctxt);
-            Sig s = new Sig(namedType.getName().getName(),true); // create sig in univ{}
-            ctxt.addType(qt, s);
+            ATypeDefinition d = (ATypeDefinition) namedType.parent();
             List<String> quotes = new Vector<String>();
+            AQuoteType qt = (AQuoteType) namedType.getType();
             quotes.add(qt.getValue().getValue().toUpperCase());
-            s.setInTypes(quotes);
-            this.components.add(s);
-            createInvariantTypes(s,null);//fact
+            if(d.getInvPattern()==null) {
+                createType(qt, ctxt);
+                Sig s = new Sig(namedType.getName().getName(), true); // create sig in univ{}
+                ctxt.addType(qt, s);
+                s.setInTypes(quotes);
+                this.components.add(s);
+                createInvariantTypes(s, null);//fact
+            }else{
+                createType(qt, ctxt);
+                Sig s = new Sig(namedType.getName().getName(), true); // create sig in univ{}
+                ctxt.addType(qt, s);
+                quotes.add(qt.getValue().getValue().toUpperCase());
+                s.setInTypes(quotes);
+            }
 
         }
 
@@ -630,8 +720,8 @@ public class Alloy2VdmAnalysis
                 }else{quotes.add(ute.toString());}
             }
 
-            // Sig s = new Sig(namedType.getName().getName(),true);
-            // s.setInTypes(quotes);
+             //Sig s = new Sig(namedType.getName().getName(),true);
+             //s.setInTypes(quotes);
             //ctxt.addType(ut, s);
             //this.components.add(s);
 
@@ -646,6 +736,12 @@ public class Alloy2VdmAnalysis
                     this.components.add(sUniv);
                     ctxt.addType(ut, sUniv);
                     createInvariantTypes(sUniv,null);//fact
+                }else{
+                    //p(quotes.toString());
+                    Sig s = new Sig(namedType.getName().getName(),true);
+                    s.setInTypes(quotes);
+                    ctxt.addType(ut, s);
+
                 }
             }
 
@@ -672,28 +768,70 @@ public class Alloy2VdmAnalysis
         }
 
         // case SET:
+        String name2 = "";//!= ""  : x = set of (a * a)
         if (namedType.getType() instanceof ASetType)
-        {   //p("ASetType: "+);
-            ASetType stype = (ASetType) namedType.getType();
-                String sSetString = "setOf"+stype.getSetof() ;
-                Sig sSet = new Sig(sSetString);
+        {
+
+                ASetType stype = (ASetType) namedType.getType();
+                String sSetString="";
+                if (stype.getSetof() instanceof AProductType)
+                {
+                    AProductType aProductType = (AProductType) stype.getSetof();
+                    FieldType a  =  new FieldType(aProductType.getTypes().get(0).toString(),Prefix.one);
+                    FieldType aa  =  new FieldType(aProductType.getTypes().get(1).toString(),Prefix.one);
+                    String name =aProductType.getTypes().get(0).toString()+aProductType.getTypes().get(1).toString()+"Product";
+
+                    Sig s =  new Sig(name);
+                    ctxt.merge(createType(aProductType.getTypes().get(0), ctxt));
+                    ctxt.merge(createType(aProductType.getTypes().get(1), ctxt));
+                    s.addField("fst", a);
+                    s.addField("snd", aa);
+                    Fact pt =  new Fact(aProductType.getTypes().get(0).toString()+aProductType.getTypes().get(1).toString()+"ProductF",
+                            "all x1,x2 : "+name+" | (x1.fst = x2.fst and x1.snd = x2.snd) implies x1=x2");
+                    this.components.add(s);
+                    this.components.add(pt);
+
+
+                    ctxt.addType(aProductType,s);
+                    name2 = aProductType.getTypes().get(0).toString()+aProductType.getTypes().get(1).toString();
+                    sSetString = "setOf"+ name2;
+                    Sig sSet = new Sig(sSetString);
+                    FieldType fSet = new FieldType(name,Prefix.set);
+                    sSet.addField("contents"+name2,fSet);
+                    ctxt.addType(stype,sSet);
+                    this.components.add(sSet);
+                    this.components.add(new Fact(name2+"Set","all c1,c2 : "+sSetString+" | c1.contents"+name2+" = c2.contents"+name2+" implies c1 = c2"));
+
+                }else{
+                    sSetString = "setOf"+stype.getSetof() ;
+                    Sig sSet = new Sig(sSetString);
+                    FieldType fSet = new FieldType(stype.getSetof().toString(),Prefix.set);
+                    sSet.addField("contents"+stype.getSetof(),fSet);
+                    ctxt.addType(stype,sSet);
+                    this.components.add(sSet);
+
+                    this.components.add(new Fact(stype.getSetof()+"Set","all c1,c2 : "+sSetString+" | c1.contents"+stype.getSetof()+" = c2.contents"+stype.getSetof()+" implies c1 = c2"));
+                    ctxt.merge(createType(stype.getSetof(), ctxt));
+                }
+
+               /* Sig sSet = new Sig(sSetString);
                 FieldType fSet = new FieldType(stype.getSetof().toString(),Prefix.set);
                 sSet.addField("contents"+stype.getSetof(),fSet);
                 ctxt.addType(stype,sSet);
                 this.components.add(sSet);
 
                 this.components.add(new Fact(stype.getSetof()+"Set","all c1,c2 : "+sSetString+" | c1.contents"+stype.getSetof()+" = c2.contents"+stype.getSetof()+" implies c1 = c2"));
+            */
 
-            ctxt.merge(createType(stype.getSetof(), ctxt));
                 Sig s = new Sig(namedType.getName().getName(),true); // Type in univ{}
 
-            if (stype.getSetof() instanceof AProductType)
+           /* if (stype.getSetof() instanceof AProductType)
             {
                 Sig superSig = ctxt.getSig(stype.getSetof());
                 s.supers.add(superSig);
                 s.isWrapper = superSig.isWrapper;
             } else
-            {
+            {*/
                 //s.addField("x", getFieldType(stype));
                // s.isWrapper = true;
 
@@ -701,7 +839,7 @@ public class Alloy2VdmAnalysis
                   //      + "Set", "all c1,c2 : " + namedType.getName().getName()
                     //    + " | c1.x = c2.x implies c1=c2"));
 
-            }
+            //}
             ctxt.addType(stype, s);
            // p(ctxt.toString());
             //this.components.add(s);
@@ -716,10 +854,14 @@ public class Alloy2VdmAnalysis
                 if (ctxt.getSig(namedType) != null) {
                     Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
                     if (def.getInvPattern() == null && ctxt.getSig(namedType.getName().getName()) == null) { //A = A'
-                        ctxt.addType(def.getType(), sUniv);
-                        this.components.add(sUniv);
-                        createInvariantTypes(sUniv, namedType.getType().toString());
-
+                            ctxt.addType(def.getType(), sUniv);
+                            this.components.add(sUniv);
+                        if(namedType.getType() instanceof AProductType){
+                            AProductType a = (AProductType)namedType.getType();
+                            createInvariantTypes(sUniv,a.getTypes().get(0).toString()+a.getTypes().get(1)+"Product");
+                        }else {
+                            createInvariantTypes(sUniv, namedType.getType().toString());
+                        }
                     } else {
                         if (def.getInvPattern() != null) {// A = A'  \n  inv x = E <> ...
                             if (ctxt.getSig(namedType).toString() != null && namedType.getType().toString().equals("nat")) {
@@ -731,9 +873,15 @@ public class Alloy2VdmAnalysis
                             }
                         }else{
                             if(namedType.getType() instanceof ASetType){
-                                ctxt.addType(def.getType(), sUniv);
-                                this.components.add(sUniv);
-                                createTypeInvariant(def, sUniv, ctxt, namedType.getType());
+                              /*  if(name2.equals("")) {
+                                    ctxt.addType(def.getType(), sUniv);
+                                    this.components.add(sUniv);
+                                    createTypeInvariant(def, sUniv, ctxt, namedType.getType());
+                                }else{*/
+                                    ctxt.addType(def.getType(), sUniv);
+                                    this.components.add(sUniv);
+                                    createTypeInvariant(def, sUniv, ctxt, namedType.getType());
+                                //}
                             }
                         }
                     }
@@ -1161,7 +1309,7 @@ public class Alloy2VdmAnalysis
     public AlloyPart caseAExplicitFunctionDefinition(
             AExplicitFunctionDefinition node, Context question)
             throws AnalysisException
-    {
+    {   String ltSet = "";
 
         if (node.getIsTypeInvariant())
         {
@@ -1202,9 +1350,11 @@ public class Alloy2VdmAnalysis
                 argumentName = p.toString();
             }
             String pt = getTypeName(node.getType().getParameters().get(i));
-            p(setTypes.toString());
+            //p(setTypes.toString());
             if(setTypes.containsKey(pt)) {
-                arguments += argumentName + ": " + pt+".contents"+setTypes.get(pt);
+
+                arguments += argumentName + ": " + pt;
+                ltSet+="let "+ argumentName+" = "+pt+".contents"+splitProductType(setTypes.get(pt));
             }else{
                 arguments += argumentName + ": " + pt;
             }
@@ -1225,7 +1375,8 @@ public class Alloy2VdmAnalysis
 
         if (node.getBody() != null)
         {
-            sb.append("\n\t /* Body */");
+            sb.append("\n\t"+ltSet +"/* Body */");p(node.getBody().toString()+"\n"+node.getBody().apply(this, ctxt).toPartBody().toString()+"\n"+node.getBody().getClass().getSimpleName());
+
             sb.append("\n\t" + node.getBody().apply(this, ctxt).toPartBody());
         }
 
@@ -1342,7 +1493,7 @@ public class Alloy2VdmAnalysis
 
             ANamedInvariantType aNamedInvariantType = (ANamedInvariantType) smb.getSet().getType();
             Sig s = question.getSig(aNamedInvariantType.getName().getName());
-
+                                                                                                                            p(s.getFieldNames().toString());
             AProductType ptype = (AProductType) ((ASetType) aNamedInvariantType.getType()).getSetof();
             if (s.getFieldNames().size() == 1)
             {
@@ -1936,6 +2087,7 @@ public class Alloy2VdmAnalysis
         AlloyPart p = new AlloyPart("( all ");
         Context ctxt = new Context(question);
         AlloyPart bindPart = (node.getBindList().get(0).apply(this, ctxt));// TODO
+                                                                                                                    p(node.getBindList().get(0).getClass().toString());
         boolean hasTypeBindings = !bindPart.typeBindings.isEmpty();
         if (bindPart.typeBindings.isEmpty())
         {
@@ -2005,7 +2157,7 @@ public class Alloy2VdmAnalysis
                 this.componentsPO.add(new Check("proof" + question.getNameType()));
             }else{
                 ATypeMultipleBind a = (ATypeMultipleBind)node.getBindList().getFirst();
-                p(a.getType().toString());
+                //p(a.getType().toString());
                 this.componentsPO.add(new Pred(a.getType().toString(), "","some "+ node.getBindList().getFirst().toString()+" | " + x.toPartBody(), true));
                 this.componentsPO.add(new Check("proof" + a.getType().toString()));
             }
@@ -2038,7 +2190,7 @@ public class Alloy2VdmAnalysis
             PPattern e = iterator.next();
             if (!_visitedNodes.contains(e))
             {
-                AlloyPart sp = e.apply(this, question);
+                AlloyPart sp = e.apply(this, question);p(e.getClass().getSimpleName());
                 p.merge(sp);
                 question.addVariable(sp.exp, getBoundType(node.getSet().getType()));
                 for (AlloyExp sub : sp.predicates)

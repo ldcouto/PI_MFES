@@ -1,0 +1,16 @@
+"
+module typenatInv.vdmsl
+
+open util/relation
+open vdmutil
+
+/************************   numberinv   ************************/
+sig nat in univ{}
+fact factNat{
+{ nat = { i:Int | gte[i,0]}}
+}
+
+fact numberinvInv{
+numberinv = { i : nat | gt[i,10] }
+}
+"

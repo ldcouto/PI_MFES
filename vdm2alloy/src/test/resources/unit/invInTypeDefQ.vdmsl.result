@@ -1,0 +1,20 @@
+"module invInTypeDefQ.vdmsl
+
+open util/relation
+open vdmutil
+
+/************************   X   ************************/
+one sig A{}
+one sig B{}
+sig X in univ{}
+fact XType{
+X = { y : A + B}
+}
+
+/************************   Realp   ************************/
+sig Realp in univ{}
+fact RealpInv{
+Realp = { r : X | (r != A) }
+}
+
+"
