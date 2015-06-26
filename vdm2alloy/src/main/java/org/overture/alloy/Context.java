@@ -18,10 +18,7 @@
  */
 package org.overture.alloy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import org.overture.alloy.ast.Sig;
@@ -31,11 +28,13 @@ import org.overture.typechecker.assistant.TypeCheckerAssistantFactory;
 
 public class Context
 {
+    List<String> fieldsProduct = new Vector<String>();
 	private final Map<PType, Sig> types = new HashMap<PType, Sig>();
 	private final Map<String, PType> variables = new HashMap<String, PType>();
 	private final Map<String, String> stateMap = new HashMap<String, String>();
 	private final Context outer;
     private String nameType;
+    public boolean isPtype=false;
 
     public String getNameType() {
         return nameType;
@@ -55,29 +54,38 @@ public class Context
 		this.outer=outer;
 	}
 
+    public boolean isPtype() {
+        return isPtype;
+    }
 
+    public List<String> getFieldsProduct() {
+        return fieldsProduct;
+    }
 
+    public void setFieldsProduct(List<String> fieldsProduct) {
+        this.fieldsProduct = fieldsProduct;
+    }
 
-	/*
-	public String getVarablesTypes(){
+    /*
+            public String getVarablesTypes(){
 
-        String st=null;
-        int i=1;
-        int x = variablesWithOutSpace();
-        p("sem spaces:"+x);
-        for (String s : this.variables.keySet()){
+                String st=null;
+                int i=1;
+                int x = variablesWithOutSpace();
+                p("sem spaces:"+x);
+                for (String s : this.variables.keySet()){
 
-            if(!s.equals("-")){
-                if(i<x) {
-                    st += s+" , ";
-                }else{
-                    st +=  s + " : " + nameType;
+                    if(!s.equals("-")){
+                        if(i<x) {
+                            st += s+" , ";
+                        }else{
+                            st +=  s + " : " + nameType;
+                        }
+                    }
+                    i++;
                 }
-            }
-            i++;
-        }
-        return st;
-    }*/
+                return st;
+            }*/
     public int variablesWithSpace(List<String> list){
         int i=1;
         for (String s : list){

@@ -98,6 +98,8 @@ public class Sig extends Part
 		}
 	}
 
+
+
 	private final Map<String, Sig.FieldType> fields = new HashMap<String, Sig.FieldType>();
 	private final List<String> fieldNames = new Vector<String>();
 	public final String name;
@@ -160,7 +162,7 @@ public class Sig extends Part
 		}
 		return ft;
 	}
-	
+
 	public List<String> getFieldNames()
 	{
 		if(supers.isEmpty())

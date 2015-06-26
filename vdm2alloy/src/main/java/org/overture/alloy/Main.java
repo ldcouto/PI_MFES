@@ -46,9 +46,8 @@ public class Main
 {
 
 	public static void main(String[] args) throws Exception {
-        VdmToAlloy e = new VdmToAlloy("3", true, "x", "ATypeDefinition", "/Users/macbookpro/Documents/Overture/workspace/Pi_mfes/mfes.vdmsl");
-
-        if (e.execute() == 1) {
+        VdmToAlloy e = new VdmToAlloy("3", true, "x", "ATypeDefinition", "/Users/macbookpro/Documents/Overture/workspace/CountryColouringSL/CountryColouring.vdmsl");
+         if (e.execute() == 1) {
             System.out.println(e.error);
         }
     }

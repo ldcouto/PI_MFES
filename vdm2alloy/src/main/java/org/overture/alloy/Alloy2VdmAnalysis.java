@@ -54,7 +54,33 @@ public class Alloy2VdmAnalysis
         put("map",null);
     }},1);
 
+    public boolean isPtype=false;
+    public boolean isPtype() {
+        return isPtype;
+    }
+
     public HashMap<String,String> setTypes = new HashMap<String,String>();
+
+    public boolean checkIsValid(List<PType> lType){//return 1 if "type" has any Product Type
+
+        for(int i=0;i<lType.size();i++) {
+            if (setTypes.containsKey(lType.get(i).toString())) {
+                if (setTypes.get(lType.get(i).toString()).contains("*")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkIsValidSing(String s){
+        if(setTypes.containsKey(s)){
+            if (setTypes.get(s).contains("*")) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     private boolean isPo=false;
@@ -251,7 +277,7 @@ public class Alloy2VdmAnalysis
                 nType = type.toString();
             }
             nType = removeSignals(nType);
-            p(nType);
+            //p(nType);
             if (def.getInvdef() != null) {
                 AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
                 String body = sig.name + " = { " + pattern.exp + " : " + nType + " | ";
@@ -350,7 +376,7 @@ public class Alloy2VdmAnalysis
                         //  p(recordType.getInvDef().getParamPatternList().get(0).get(0).getClass().getSimpleName());
                         boolean hasLet = !invPart.exp.isEmpty();
                         invPart.merge(recordType.getInvDef().getBody().apply(this, invCtxt));
-
+                        //p(recordType.getInvDef().getParamPatternList().get(0).get(0).getClass().getSimpleName());
                         if (hasLet)
                         {
                             invPart.exp = "( " + invPart.exp + ")";
@@ -438,7 +464,7 @@ public class Alloy2VdmAnalysis
             return ctxt;
         }else if(type instanceof ASetType){
             //ASetType stype = (ASetType) type;
-            p(type.toString());
+            //p(type.toString());
 
             String simpleName = ((ASetType) type).getSetof().getClass().getSimpleName();
             if (this.notAllowedTypes.getTypes().containsKey(simpleName)) {//if type isn't allowed
@@ -746,7 +772,7 @@ public class Alloy2VdmAnalysis
             }
 
 
-
+            //p("ptype: "+ptype.toString()+"VARS: "+s.getFieldNames().toString());
 
         }
         // break;
@@ -768,10 +794,12 @@ public class Alloy2VdmAnalysis
         }
 
         // case SET:
+        int hasPtype = 0;
         String name2 = "";//!= ""  : x = set of (a * a)
         if (namedType.getType() instanceof ASetType)
         {
-
+                Sig s = null;
+                isPtype=true;
                 ASetType stype = (ASetType) namedType.getType();
                 String sSetString="";
                 if (stype.getSetof() instanceof AProductType)
@@ -781,7 +809,7 @@ public class Alloy2VdmAnalysis
                     FieldType aa  =  new FieldType(aProductType.getTypes().get(1).toString(),Prefix.one);
                     String name =aProductType.getTypes().get(0).toString()+aProductType.getTypes().get(1).toString()+"Product";
 
-                    Sig s =  new Sig(name);
+                    s =  new Sig(name);
                     ctxt.merge(createType(aProductType.getTypes().get(0), ctxt));
                     ctxt.merge(createType(aProductType.getTypes().get(1), ctxt));
                     s.addField("fst", a);
@@ -799,6 +827,7 @@ public class Alloy2VdmAnalysis
                     FieldType fSet = new FieldType(name,Prefix.set);
                     sSet.addField("contents"+name2,fSet);
                     ctxt.addType(stype,sSet);
+                    hasPtype=1;
                     this.components.add(sSet);
                     this.components.add(new Fact(name2+"Set","all c1,c2 : "+sSetString+" | c1.contents"+name2+" = c2.contents"+name2+" implies c1 = c2"));
 
@@ -823,8 +852,15 @@ public class Alloy2VdmAnalysis
                 this.components.add(new Fact(stype.getSetof()+"Set","all c1,c2 : "+sSetString+" | c1.contents"+stype.getSetof()+" = c2.contents"+stype.getSetof()+" implies c1 = c2"));
             */
 
-                Sig s = new Sig(namedType.getName().getName(),true); // Type in univ{}
-
+                Sig s1 = new Sig(namedType.getName().getName(),true); // Type in univ{}
+               if(hasPtype==1){s1.supers.add(s);
+                   s1.isWrapper = s.isWrapper;
+                   /* p(s.toString());
+                   p(s1.toString());
+                   p(s1.getFieldNames().toString());*/
+               }
+                //p("cena nova: "+s1.getFieldNames().toString()+"\t"+s1.toString());
+            //
            /* if (stype.getSetof() instanceof AProductType)
             {
                 Sig superSig = ctxt.getSig(stype.getSetof());
@@ -840,7 +876,7 @@ public class Alloy2VdmAnalysis
                     //    + " | c1.x = c2.x implies c1=c2"));
 
             //}
-            ctxt.addType(stype, s);
+            ctxt.addType(stype, s1);
            // p(ctxt.toString());
             //this.components.add(s);
             // createTypeInvariant(node, s, ctxt);
@@ -853,6 +889,9 @@ public class Alloy2VdmAnalysis
             ATypeDefinition def = (ATypeDefinition) namedType.parent();
                 if (ctxt.getSig(namedType) != null) {
                     Sig sUniv = new Sig(namedType.getName().getName(), true); // create sig in univ{}
+                    //sUniv.getFieldNames() =ctxt.getSig(namedType).getFieldNames();
+                    if(hasPtype==1){sUniv=ctxt.getSig(namedType);}
+                    //sUniv=ctxt.getSig(namedType);
                     if (def.getInvPattern() == null && ctxt.getSig(namedType.getName().getName()) == null) { //A = A'
                             ctxt.addType(def.getType(), sUniv);
                             this.components.add(sUniv);
@@ -879,7 +918,7 @@ public class Alloy2VdmAnalysis
                                     createTypeInvariant(def, sUniv, ctxt, namedType.getType());
                                 }else{*/
                                     ctxt.addType(def.getType(), sUniv);
-                                    this.components.add(sUniv);
+                                this.components.add(sUniv);
                                     createTypeInvariant(def, sUniv, ctxt, namedType.getType());
                                 //}
                             }
@@ -1055,6 +1094,7 @@ public class Alloy2VdmAnalysis
     {
         // switch (node.getType().kindPType())
         // {
+        //p(node.toString());
         if (node.getType() instanceof SBasicType
                 || node.getType() instanceof SInvariantType)
         {
@@ -1062,13 +1102,16 @@ public class Alloy2VdmAnalysis
             // case INVARIANT:
             // {
             String name = node.getPattern().toString();// todo
-            Sig s = new Sig(name);
+            Sig s = new Sig(name,true);p("name "+name+"\ncena "+node.getType().toString());
+            Fact f = new Fact(name+"Type",node.getType().toString(),name); //public Fact(String name ,String body, String atrb)
+
             ctxt.merge(createType(node.getType(), ctxt));
             // System.out.println("Type is: "+ node.getType()+" Found sig: "+ctxt.getSig(node.getType()).name);
             s.supers.add(ctxt.getSig(node.getType()));
             s.isOne = true;
             ctxt.addVariable(name, node.getType());
             this.components.add(s);
+            this.components.add(f);
             // break;
             // return;
         } else
@@ -1311,14 +1354,21 @@ public class Alloy2VdmAnalysis
             throws AnalysisException
     {   String ltSet = "";
 
+
         if (node.getIsTypeInvariant())
         {
             return null;
         }
         Context ctxt = new Context(question);
         String arguments = "";
+        //p(question.toString());
 
         List<String> lets = new Vector<String>();
+
+        List<PType> lType = node.getType().getParameters(); //check if there is any argument with Product type
+        if(checkIsValid(lType)){isPtype=true;}
+        else{isPtype=false;}
+
 
         for (int i = 0; i < node.getType().getParameters().size(); i++)
         {
@@ -1341,8 +1391,10 @@ public class Alloy2VdmAnalysis
                     if (j < rp.getPlist().size() - 1)
                     {
                         letArgumentWrapper.append(", ");
+
                     }
                 }
+                //p(lets.toString());
                 // letArgumentWrapper.append(" | \n\t");
                 lets.add(letArgumentWrapper.toString());
             } else
@@ -1354,7 +1406,7 @@ public class Alloy2VdmAnalysis
             if(setTypes.containsKey(pt)) {
 
                 arguments += argumentName + ": " + pt;
-                ltSet+="let "+ argumentName+" = "+pt+".contents"+splitProductType(setTypes.get(pt));
+                ltSet+="let "+ argumentName+" = "+argumentName+".contents"+splitProductType(setTypes.get(pt))+" | ";
             }else{
                 arguments += argumentName + ": " + pt;
             }
@@ -1375,9 +1427,9 @@ public class Alloy2VdmAnalysis
 
         if (node.getBody() != null)
         {
-            sb.append("\n\t"+ltSet +"/* Body */");p(node.getBody().toString()+"\n"+node.getBody().apply(this, ctxt).toPartBody().toString()+"\n"+node.getBody().getClass().getSimpleName());
-
+            sb.append("\n\t"+ltSet +"/* Body */");
             sb.append("\n\t" + node.getBody().apply(this, ctxt).toPartBody());
+            //p("name "+node.getBody().getClass().getSimpleName());
         }
 
         if (node.getPrecondition() != null)
@@ -1442,10 +1494,24 @@ public class Alloy2VdmAnalysis
         {
             AlloyPart p = new AlloyPart();
 
-            Sig s = question.getSig(node.getType());
+            Sig s = question.getSig(node.getType());//p("entraaa "+s.getFieldNames().toString()+"\n");
             if (!s.getFieldNames().isEmpty()
-                    && s.getField(s.getFieldNames().get(0)).size() == node.getArgs().size())
+            && s.getField(s.getFieldNames().get(0)).size() == node.getArgs().size())
             {
+                List<String> fields = new Vector<String>();
+                for (int i = 0; i < node.getArgs().size(); i++)
+                {
+                    PExp a = node.getArgs().get(i);//p(a.toString());
+                    AlloyPart ap = a.apply(this, question);
+                    if (question.containsVariable(ap.exp))
+                    {
+                        fields.add(ap.exp);
+                    }
+
+                }
+                p.exp += toList(fields, "->") + " ";
+
+            }if(!s.getFieldNames().isEmpty() && isPtype){
                 List<String> fields = new Vector<String>();
                 for (int i = 0; i < node.getArgs().size(); i++)
                 {
@@ -1457,8 +1523,9 @@ public class Alloy2VdmAnalysis
                     }
 
                 }
-                p.exp += toList(fields, "->") + " ";
-
+            question.setFieldsProduct(fields);
+           // p.exp+= toList(fields, " ");
+            //p.exp += toList(fields, " ") + "  ";
             }
             return p;
         }
@@ -1493,30 +1560,48 @@ public class Alloy2VdmAnalysis
 
             ANamedInvariantType aNamedInvariantType = (ANamedInvariantType) smb.getSet().getType();
             Sig s = question.getSig(aNamedInvariantType.getName().getName());
-                                                                                                                            p(s.getFieldNames().toString());
+
             AProductType ptype = (AProductType) ((ASetType) aNamedInvariantType.getType()).getSetof();
-            if (s.getFieldNames().size() == 1)
+            if (s.getFieldNames().size() == 1 || isPtype==true)
             {
                 for (int i = 0; i < node.getPlist().size(); i++)
-                {
+                { if(isPtype) {
+                    PPattern a = node.getPlist().get(i);
+                    AlloyPart ap = a.apply(this, question);
+                    PType apType = ptype.getTypes().get(i);
+
+                    variables.put(ap.exp, apType);
+                    p.exp += ap.exp;
+                    //p(variables.toString());
+                    //if (i < node.getPlist().size() - 1) {
+                      //  p.exp += "->";
+                    //}
+
+
+                    if (!question.containsVariable(ap.exp)) {
+                        p.typeBindings.add(new AlloyTypeBind(ap.exp, question.getSig(apType)));
+                       // p(p.getPredicatesSp().toString());
+                        question.addVariable(ap.exp, apType);
+                    }
+                }else{
                     PPattern a = node.getPlist().get(i);
                     AlloyPart ap = a.apply(this, question);
                     PType apType = ptype.getTypes().get(i);
                     variables.put(ap.exp, apType);
                     p.exp += ap.exp;
-                    if (i < node.getPlist().size() - 1)
-                    {
+                    if (i < node.getPlist().size() - 1) {
                         p.exp += "->";
                     }
 
-                    if (!question.containsVariable(ap.exp))
-                    {
+
+                    if (!question.containsVariable(ap.exp)) {
                         p.typeBindings.add(new AlloyTypeBind(ap.exp, question.getSig(apType)));
                         question.addVariable(ap.exp, apType);
                     }
                 }
+                }
 
-            }
+            }//p("final: "+p.toString());
             return p;
         }
         return super.caseATuplePattern(node, question);
@@ -1568,7 +1653,7 @@ public class Alloy2VdmAnalysis
     @Override
     public AlloyPart caseARecordPattern(ARecordPattern node, Context question)
             throws AnalysisException
-    {
+    {//p("record");
         question.setNameType(node.getTypename().toString());
         List<String> fieldNames = new Vector<String>();
         for (PPattern p : node.getPlist())
@@ -1621,6 +1706,7 @@ public class Alloy2VdmAnalysis
                     question.addVariable(fieldNames.get(i), type);
 
                     variables.put(fieldNames.get(i), type);
+
                     if (i < (fieldNames.size() - countSpace))
                     {
                         let += ", ";
@@ -1641,7 +1727,7 @@ public class Alloy2VdmAnalysis
                             + (!parentIsDef ? varName + "." : "")
                             + tfieldNames.get(i);
                     question.addVariable(fieldNames.get(i), ((ARecordInvariantType) node.getType()).getFields().get(i).getType());
-                    if (i < fieldNames.size() - 2) {
+                    if (i < fieldNames.size() - 1) {
                         p.exp += ", ";
                     }
                     ;
@@ -1755,10 +1841,13 @@ public class Alloy2VdmAnalysis
             p.exp += "]";
             return p;
         } else
-        {
-            AlloyPart p = new AlloyPart("(");
+        {   AlloyPart p = new AlloyPart("(");
             p.merge(node.getExp().apply(this, question));
             Sig eType = question.getSig(node.getExp().getType());
+            //p(setTypes.toString());
+            if(setTypes.containsKey(eType.name)){
+                    p.exp+=".contents"+setTypes.get(eType.name)+")";
+            }
             if (eType.isWrapper)
             {
                 Sig nestedT = question.getSig(eType.getField(eType.getFieldNames().get(0)).sigTypeName);
@@ -1897,6 +1986,7 @@ public class Alloy2VdmAnalysis
                 else if (node instanceof AOrBooleanBinaryExp)
                 {
                     p.exp += " or ";
+
                 }
 
                 // }
@@ -2085,9 +2175,9 @@ public class Alloy2VdmAnalysis
             throws AnalysisException
     {
         AlloyPart p = new AlloyPart("( all ");
-        Context ctxt = new Context(question);
+        Context ctxt = new Context(question);//p(ctxt.toString());
         AlloyPart bindPart = (node.getBindList().get(0).apply(this, ctxt));// TODO
-                                                                                                                    p(node.getBindList().get(0).getClass().toString());
+        //p(node.toString());
         boolean hasTypeBindings = !bindPart.typeBindings.isEmpty();
         if (bindPart.typeBindings.isEmpty())
         {
@@ -2103,7 +2193,7 @@ public class Alloy2VdmAnalysis
                     p.exp += ", ";
                 }
             }
-            p.exp += " | (";
+            p.exp += " | (";//p("Bind: "+bindPart.toString());
             bindPart.typeBindings.clear();
             p.merge(bindPart);
             p.exp += " implies ";
@@ -2147,7 +2237,8 @@ public class Alloy2VdmAnalysis
     {
         AlloyPart p = new AlloyPart("some ");
         mergeReturns(p, node.getBindList().get(0).apply(this, question));// TODO
-
+        //p(p.predicates.toString() + "\t\t" + p.topLevel.toString());
+        //p("node " + node.getBindList().get(0).getClass().getSimpleName());
         p.exp += " | ";
         mergeReturns(p, node.getPredicate().apply(this, question));
         if(isPo){
@@ -2183,14 +2274,16 @@ public class Alloy2VdmAnalysis
     public AlloyPart caseASetMultipleBind(ASetMultipleBind node,
                                           Context question) throws AnalysisException
     {
+
         AlloyPart p = createNewReturnValue(node, question);
 
         for (Iterator<PPattern> iterator = node.getPlist().iterator(); iterator.hasNext();)
         {
             PPattern e = iterator.next();
+
             if (!_visitedNodes.contains(e))
             {
-                AlloyPart sp = e.apply(this, question);p(e.getClass().getSimpleName());
+                AlloyPart sp = e.apply(this, question);
                 p.merge(sp);
                 question.addVariable(sp.exp, getBoundType(node.getSet().getType()));
                 for (AlloyExp sub : sp.predicates)
@@ -2205,6 +2298,7 @@ public class Alloy2VdmAnalysis
                     p.merge(new AlloyPart(", "));
                 }
             }
+
         }
         boolean isTupeBind = false;
         for (PPattern pattern : node.getPlist())
@@ -2218,15 +2312,44 @@ public class Alloy2VdmAnalysis
 
         if (isTupeBind)
         {
-            p.exp += " in ";
+            if(!isPtype) {
+            }else {
+                p.exp += " in ";
+
+            }
+
         } else
         {
             p.exp += " : ";
         }
         if (node.getSet() != null && !_visitedNodes.contains(node.getSet()))
         {
-            p.merge(getBind(node.getSet(), question));// node.getSet().apply(this, question));
+
+            if(isPtype && checkIsValidSing(node.getSet().getType().toString())){
+                List l = (List)p.typeBindings ;
+                p.exp="";
+                //p(l.toString());
+               // p("cena final :"+l.toString());
+                AlloyTypeBind c1 = (AlloyTypeBind)l.get(0);
+                AlloyTypeBind c2 = (AlloyTypeBind)l.get(1);
+                p.exp+=c1.var+" in "+getBind(node.getSet(), question)+".fst and ";//-> c1
+                p.exp+=c2.var+" in "+getBind(node.getSet(), question)+".snd";
+
+                //p.merge(getBind(node.getSet(), question));// node.getSet().apply(this, question));
+            }else {
+                String aux="";
+                p.merge(getBind(node.getSet(), question));// node.getSet().apply(this, question));| let col = col. contentsCountry|
+                if(setTypes.containsKey(node.getSet().getType().toString())){
+                    if(setTypes.containsKey(setTypes.get(node.getSet().getType().toString()))){
+                        aux=setTypes.get(setTypes.get(node.getSet().getType().toString()));
+                        p.exp+=".contents"+aux;
+                    }
+                }
+
+                //p("tipo "+node.getSet().getType()+"\n"+setTypes.toString()+"\t"+aux);
+            }
         }
+
         return p;
     }
 
@@ -2344,12 +2467,19 @@ public class Alloy2VdmAnalysis
         bind = " in ";
 
         p.merge(node.getLeft().apply(this, question));
-        p.exp += bind;
-        p.merge(getBind(node.getRight(), question));
+        //p("CENA: " + node.getLeft().getClass().toString() + "\t\t" + p.toString() + "\t\t" + question.getFieldsProduct().toString());
+        if(isPtype){
+            p.exp+=question.getFieldsProduct().get(0)+" in "+getBind(node.getRight(), question)+
+                    ".fst and "+question.getFieldsProduct().get(1)+" in "+getBind(node.getRight(), question)+".snd";
+        }else {
+            p.exp += bind;
+            p.merge(getBind(node.getRight(), question));
+        }
         if (!p.predicates.isEmpty())
         {
             p.exp += " |";
         }
+
         p.appendPredicates();
         p.exp += ")";
         return p;
