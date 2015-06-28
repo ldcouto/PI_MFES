@@ -33,6 +33,9 @@ public class VdmToAlloy {
     public String error="";
     public boolean typeInvariantsat=false;
     public String scope;
+    public String command;
+    public String filename;
+    public A4Solution ans;
 
 
     public VdmToAlloy(String scope,boolean typeInvariantsat,String nameType,String type,String path) {
@@ -41,6 +44,9 @@ public class VdmToAlloy {
         this.type=type;
         this.path=path;
         this.scope=scope;
+        this.command = "";
+        this.ans = null;
+        this.filename = "";
     }
 
     public int execute() throws Exception
@@ -152,6 +158,9 @@ public class VdmToAlloy {
                     A4Solution ans = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), command, options);
                     // Print the outcome
                     System.out.println(ans);
+                    this.command = command.toString() + "\n";
+                    this.filename = tmpFile.getAbsolutePath();
+                    this.ans = ans;
                 }
             }
             catch (Exception e) {
@@ -183,6 +192,19 @@ public class VdmToAlloy {
         }
         return 0;
     }
+
+    public String getCommand() {
+        return this.command;
+    }
+
+    public String getFilename() {
+        return this.filename;
+    }
+
+    public A4Solution getANS() {
+        return this.ans;
+    }
+
     public static void p(String string){
         System.out.println(string);
     }
