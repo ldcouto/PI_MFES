@@ -1,0 +1,12 @@
+"module typeSimpleUnion.vdmsl
+
+open util/relation
+open vdmutil
+
+/************************   T   ************************/
+one sig C{}
+sig T in univ{}
+fact TType{
+T = { y : C}
+}
+"

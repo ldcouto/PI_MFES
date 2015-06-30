@@ -1,0 +1,14 @@
+\begin{vdm_al}
+types
+
+  Country = seq of char;
+
+  Relation = set of (Country * Country)
+  inv r== isRelation(r);
+
+
+functions
+
+  isRelation: Relation -> bool
+  isRelation(r) ==
+    forall mk_(c1,c2) in set r & c1 <> c2;

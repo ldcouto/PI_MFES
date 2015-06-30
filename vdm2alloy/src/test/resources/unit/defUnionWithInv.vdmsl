@@ -1,0 +1,7 @@
+types
+
+
+
+X = <A> | <B>;
+numberD = nat  | X
+ inv l == l <> <A> => l>3;

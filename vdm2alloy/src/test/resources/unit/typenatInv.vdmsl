@@ -1,0 +1,3 @@
+types
+numberinv = nat
+ inv i == i>10;

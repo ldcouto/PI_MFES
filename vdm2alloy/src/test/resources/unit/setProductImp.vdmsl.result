@@ -1,0 +1,37 @@
+"module setProductImp.vdmsl
+
+open util/relation
+open vdmutil
+
+
+/************************   H   ************************/
+sig nat in univ{}
+fact factNat{
+{ nat = { i:Int | gte[i,0]}}
+}
+
+sig natnatProduct{
+	fst: one nat, \t\nsnd: one nat\n
+}
+fact natnatProductF{
+all x1,x2 : natnatProduct | (x1.fst = x2.fst and x1.snd = x2.snd) implies x1=x2
+}
+
+sig H in univ{}
+fact HType{
+H = { y : natnatProduct}
+}
+
+/************************   X   ************************/
+sig setOfH{
+	contentsH: set H
+}
+fact HSet{
+all c1,c2 : setOfH | c1.contentsH = c2.contentsH implies c1 = c2
+}
+
+sig X in univ{}
+fact XInv{
+X = { x : setOfH }
+}
+"

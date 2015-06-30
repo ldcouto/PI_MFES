@@ -1,0 +1,5 @@
+types
+X = <A> | <B>;
+
+Realp = X
+ inv r == r <> <A>;

@@ -1,0 +1,25 @@
+"module defUnionWithInv.vdmsl
+
+open util/relation
+open vdmutil
+
+/************************   X   ************************/
+one sig A{}
+one sig B{}
+sig X in univ{}
+fact XType{
+X = { y : A + B}
+}
+
+/************************   numberD   ************************/
+sig nat in univ{}
+fact factNat{
+{ nat = { i:Int | gte[i,0]}}
+}
+
+sig numberD in univ{}
+fact numberDInv{
+numberD = { l : X  +  nat | ((l != A) implies gt[l,3]) }
+}
+
+"

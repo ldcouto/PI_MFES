@@ -1,0 +1,23 @@
+"module simpleRecord.vdmsl
+
+open util/relation
+open vdmutil
+
+/************************   Hzd   ************************/
+one sig H{}
+one sig V{}
+sig Hzd in univ{}
+fact HzdType{
+Hzd = { y : H + V}
+}
+
+/************************   X   ************************/
+sig nat in univ{}
+fact factNat{
+{ nat = { i:Int | gte[i,0]}}
+}
+
+sig X{
+	number: one nat, \t\nh: one Hzd\n
+}
+"

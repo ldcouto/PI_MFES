@@ -23,7 +23,7 @@ import org.overture.alloy.Main;
 
 public class TelephoneTest extends Vdm2AlloyBaseTest
 {
-	/*@Override
+	@Override
 	protected void setUp() throws Exception
 	{
 		super.setUp();
@@ -38,7 +38,7 @@ public class TelephoneTest extends Vdm2AlloyBaseTest
 				output.getPath(), verbose, "-test2",
 				new File(getOutputDir(), "m2.als").getPath() }), 0);
 	}
-*/
+
 	
 
 }

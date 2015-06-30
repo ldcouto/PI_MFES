@@ -1,0 +1,14 @@
+"
+module unionQuoteInv.vdmsl
+
+open util/relation
+open vdmutil
+
+/************************   X   ************************/
+one sig A{}
+one sig B{}
+sig X in univ{}
+fact XInv{
+X = { h : A  +  B | (h != A) }
+}
+"

@@ -1,0 +1,6 @@
+types
+
+Hzd = <V> | <H>;
+ X ::
+ 		number : nat
+ 		h : Hzd

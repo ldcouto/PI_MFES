@@ -1,0 +1,4 @@
+types
+
+X = <A>
+inv h == h <> <A>;

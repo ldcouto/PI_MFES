@@ -21,8 +21,8 @@ fact yInv{
 y = { x : setOfnat }
 }
 
-pred example(r: y.contentsnat)
-{	 /* Body */\t
+pred example(r: y)
+{	let r = r.contentsnat | /* Body */	
 	( all c1 : r | gt[c1,0])
 
 }

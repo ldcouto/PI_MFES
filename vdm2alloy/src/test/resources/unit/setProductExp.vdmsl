@@ -1,0 +1,3 @@
+types
+
+ X = set of (nat * nat);
