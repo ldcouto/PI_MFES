@@ -184,11 +184,11 @@ public class Alloy2VdmAnalysis
 
         // result.add("module " + moduleName + "\n");
         // result.add("open util/relation\n");
-        this.components.add(new ModuleHeader(moduleName, "util/relation", "vdmutil"));
+        this.components.add(new ModuleHeader(moduleName, "util/relation", "util/boolean","vdmutil"));
 
         BasicTokenSearch basicTokens = new BasicTokenSearch();
         node.apply(basicTokens);
-
+        p(node.getDefs().getFirst().getClass().getSimpleName());
         for (Entry<String, INode> entry : basicTokens.mkbasicToken.entrySet())
         {
             Sig s = new Sig(entry.getKey());
@@ -271,7 +271,13 @@ public class Alloy2VdmAnalysis
                 nType = nType.replace("(", "");
                 nType = nType.replace(")", "");
                 List<String> items = Arrays.asList(nType.split("\\|"));
-                nType = toList(items, "+");
+
+                List <String> lst =  new Vector<String>();
+                for(int i=0;i<items.size();i++){
+                    if (items.get(i).replaceAll("\\s+","").equals("bool")){lst.add("Bool");}
+                    else{lst.add((String) items.get(i));}
+                }p(lst.toString());
+                nType = toList(lst, "+");
 
             } else {
                 nType = type.toString();
@@ -279,10 +285,11 @@ public class Alloy2VdmAnalysis
             nType = removeSignals(nType);
             //p(nType);
             if (def.getInvdef() != null) {
+                if(nType.equals("bool")){nType="Bool";}
                 AlloyPart pattern = def.getInvPattern().apply(this, ctxt);
                 String body = sig.name + " = { " + pattern.exp + " : " + nType + " | ";
                 Context invCtxt = new Context(ctxt);
-                invCtxt.addVariable(pattern.exp, def.getType());
+                invCtxt.addVariable(pattern.exp, def.getType());p("CLASS: " + def.getInvExpression().getClass().getSimpleName());
                 body += def.getInvExpression().apply(this, invCtxt).exp + " }";
                 Fact f = new Fact(sig.name + "Inv", body);
                 this.components.add(f);
@@ -301,11 +308,18 @@ public class Alloy2VdmAnalysis
     private void createInvariantTypes(Sig sig,String type) // method to create fact in types
             throws AnalysisException
     {
-        if(type==null) {
-            Fact f = new Fact(sig.name + "Type", toList(sig.getQuotes(), "+"), sig.name);
+
+        if(type==null){
+            List <String> lst =  new Vector<String>();
+            for(int i=0;i<sig.getQuotes().size();i++){
+                if(sig.getQuotes().get(i).equals("bool")){lst.add("Bool");}
+                else{lst.add((String) sig.getQuotes().get(i));}
+            }
+            Fact f = new Fact(sig.name + "Type", toList(lst, "+"), sig.name);
             this.components.add(f);
         }
         else{
+            if(type.equals("bool")){type="Bool";}
             Fact f = new Fact(sig.name + "Type", type, sig.name);
             this.components.add(f);
         }
@@ -322,7 +336,7 @@ public class Alloy2VdmAnalysis
     private Context createType(PType type, Context outer)
             throws AnalysisException {
 
-
+p(type.toString());
         Context ctxt = new Context();
         if (outer.getSig(getTypeName(type)) != null)
         {
@@ -334,7 +348,7 @@ public class Alloy2VdmAnalysis
             SInvariantType invType = (SInvariantType) type;
             if (invType instanceof ANamedInvariantType)
             {
-                ctxt.merge(createNamedType((ANamedInvariantType) invType, outer));
+                ctxt.merge(createNamedType((ANamedInvariantType) invType, outer));p("entrteljkrfnerf");
                 return ctxt;
             } else if (invType instanceof ARecordInvariantType)
             {
@@ -353,12 +367,11 @@ public class Alloy2VdmAnalysis
 
                 for (AFieldField f : recordType.getFields())
                 {
-
-                    //p(f.toString());
-                    //p("CENA"+f.getTag()+"\t"+getFieldType(f.getType()));
+                    //p(f.getType().toString());
                     ctxt.merge(createType(f.getType(), outer));
                     s.addField(f.getTag(), getFieldType(f.getType()));
                     s.constraints.addAll(getFieldConstraints(f, s.name));
+
                 }
 
                 Context invCtxt = new Context(ctxt);
@@ -617,7 +630,7 @@ public class Alloy2VdmAnalysis
 
         if (namedType.getType() instanceof SBasicType)
         {
-            if(namedType.getType() instanceof ANatNumericBasicType) {
+            if(namedType.getType() instanceof ANatNumericBasicType || namedType.getType() instanceof ABooleanBasicType) {
                 ATypeDefinition d = (ATypeDefinition) namedType.parent();
                 if (d.getInvPattern()!=null){
                     Sig s = new Sig(namedType.getName().getName(), true);
@@ -906,6 +919,7 @@ public class Alloy2VdmAnalysis
                             if (ctxt.getSig(namedType).toString() != null && namedType.getType().toString().equals("nat")) {
                                 createTypeInvariant(def, ctxt.getSig(namedType), ctxt, namedType.getType());
                             } else {
+
                                 ctxt.addType(def.getType(), sUniv);
                                 this.components.add(sUniv);
                                 createTypeInvariant(def, sUniv, ctxt, namedType.getType());
@@ -1042,6 +1056,10 @@ public class Alloy2VdmAnalysis
         if(t instanceof ANatNumericBasicType){
             ANatNumericBasicType nt = (ANatNumericBasicType) t;
             return new Sig.FieldType(((ANatNumericBasicType) nt).toString());
+        }
+        if(t instanceof ABooleanBasicType){
+            ABooleanBasicType nt  = (ABooleanBasicType)t;
+            return new Sig.FieldType(((ABooleanBasicType) nt).toString());
         }
 
         return null;
@@ -1653,7 +1671,7 @@ public class Alloy2VdmAnalysis
     @Override
     public AlloyPart caseARecordPattern(ARecordPattern node, Context question)
             throws AnalysisException
-    {//p("record");
+    {
         question.setNameType(node.getTypename().toString());
         List<String> fieldNames = new Vector<String>();
         for (PPattern p : node.getPlist())
@@ -1718,6 +1736,7 @@ public class Alloy2VdmAnalysis
 
                 return p;
             }
+            int r = 0;
             for (int i = 0; i < fieldNames.size(); i++)
             {
                 //LETSSSSS
@@ -1727,10 +1746,17 @@ public class Alloy2VdmAnalysis
                             + (!parentIsDef ? varName + "." : "")
                             + tfieldNames.get(i);
                     question.addVariable(fieldNames.get(i), ((ARecordInvariantType) node.getType()).getFields().get(i).getType());
-                    if (i < fieldNames.size() - 1) {
+
+                        if (i<(fieldNames.size()-1) && !fieldNames.get(i+1).equals("-") ){//i < (fieldNames.size() + r + 1)) {
+                            p(i+"\t"+r+"\t");
+                            p.exp += ", ";
+                        }
+
+
+                }else {
+                    if (i < (fieldNames.size() - 1) && !fieldNames.get(i + 1).equals("-")) {//i < (fieldNames.size() + r + 1)) {
                         p.exp += ", ";
                     }
-                    ;
                 }
             }
             p.exp += " | ";
@@ -2383,6 +2409,7 @@ public class Alloy2VdmAnalysis
     public AlloyPart caseAIdentifierPattern(AIdentifierPattern node,
                                             Context question) throws AnalysisException
     {
+
         return new AlloyPart(node.getName().getName());
 
     }
@@ -2511,6 +2538,19 @@ public class Alloy2VdmAnalysis
         return defaultSBinaryExp(node, question);
     };
 
+    @Override
+    public AlloyPart caseABooleanConstExp(ABooleanConstExp node, Context question) throws AnalysisException {
+        AlloyPart p = new AlloyPart("");
+      if(node.toString().equals("true")){
+            p.exp="True";
+        }
+        else{
+            p.exp="False";
+        }
+
+        return p;
+    }
+
     public AlloyPart caseASetIntersectBinaryExp(
             org.overture.ast.expressions.ASetIntersectBinaryExp node,
             Context question) throws AnalysisException
@@ -2582,6 +2622,18 @@ public class Alloy2VdmAnalysis
 
         p.exp += ')';
         return p;
+    }
+
+
+    @Override
+    public AlloyPart caseAIfExp(AIfExp node, Context question) throws AnalysisException {
+        AlloyPart alloyPart = new AlloyPart("");
+        alloyPart.merge(node.getTest().apply(this,question));
+        alloyPart.exp+=" implies ";
+        alloyPart.merge(node.getThen().apply(this, question));
+        alloyPart.exp+=" else ";
+        alloyPart.merge(node.getElse().apply(this, question));
+        return alloyPart;
     }
 
     public AlloyPart caseAIntLiteralExp (AIntLiteralExp node, Context question) throws AnalysisException {

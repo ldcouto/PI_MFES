@@ -1,0 +1,4 @@
+types
+
+A = bool | <H>
+	inv e == e <> true;

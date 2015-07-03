@@ -1,6 +1,7 @@
 "module productType.vdmsl
 
 open util/relation
+open util/boolean
 open vdmutil
 
 

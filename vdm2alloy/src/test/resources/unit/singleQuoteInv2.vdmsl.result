@@ -1,0 +1,19 @@
+"module singleQuoteInv2.vdmsl
+
+open util/relation
+open util/boolean
+open vdmutil
+
+/************************   X   ************************/
+one sig L{}
+sig X in univ{}
+fact XType{
+X = { y : L}
+}
+
+/************************   W   ************************/
+sig W in univ{}
+fact WInv{
+W = { e : X | (e != L) }
+}
+"

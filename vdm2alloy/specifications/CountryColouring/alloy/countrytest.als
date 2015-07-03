@@ -81,7 +81,7 @@ assert colMap
 	all r : Relation | all cols : Colouring |
 		colMap[r,cols] implies all c :CountriesRel[r] | some col : cols.x | c in col.x
 } 
-check colMap for  10 
+check colMap for  10
 
 
 test1: run{

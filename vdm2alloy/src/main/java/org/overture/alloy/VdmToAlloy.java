@@ -69,8 +69,8 @@ public class VdmToAlloy {
 
 
             /***************   Slicing  ******************/
-              //  NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-            //result.result.get(0).apply(slicing, new ContextSlicing(nameType,c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition
+                NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+                result.result.get(0).apply(slicing, new ContextSlicing(nameType,c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition
 
             //System.out.println(slicing.getNodeList().toString());
 
@@ -78,26 +78,26 @@ public class VdmToAlloy {
 
 
             /******************** Not allowed types ************************/
-            /*NotAllowed notAllowed = new NotAllowed();
+            NotAllowed notAllowed = new NotAllowed();
             slicing.getModuleModules().apply(notAllowed, new ContextSlicing());
             NotAllowedTypes o = new NotAllowedTypes(notAllowed.getNotAllowed());
             if(o.hasNoAllowedType()) {
                 this.error+="There are some problems on the file " + input +"\n"+o.toString();
                 return 1;
-            }*/
+            }
 
 
 
             /***************   Proof Obligations  ******************/
 
-           //Proofs proof = new Proofs(slicing.getModuleModules());
+           Proofs proof = new Proofs(slicing.getModuleModules());
 
 
             //System.out.println(proof.getNode().toString());
             /*********************** Translation ******************/
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")),false);
-            //slicing.getModuleModules().apply(analysis, new Context());
-            result.result.get(0).apply(analysis,new Context());
+            slicing.getModuleModules().apply(analysis, new Context());
+           // result.result.get(0).apply(analysis,new Context());
 
             //System.out.println(analysis.components);
 

@@ -1,0 +1,24 @@
+"module recordWithInvMk.vdmsl
+
+open util/relation
+open util/boolean
+open vdmutil
+
+/************************   H   ************************/
+one sig A{}
+one sig B{}
+sig H in univ{}
+fact HType{
+H = { y : A + B}
+}
+
+/************************   R   ************************/
+sig nat in univ{}
+fact factNat{
+{ nat = { i:Int | gte[i,0]}}
+}
+
+sig R{
+	f: one H, \n\th: one nat, \n\ty: one Bool
+}{\n\t(  let a = y, c = f | \n\t\t(\n\t\t\t(a != True)\n\t\t and \n\t\t\t(c != B)\n\t\t)\n\t)\n}
+"

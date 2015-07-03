@@ -1,1 +1,1 @@
-"module typenat.vdmsl\n\nopen util/relation\nopen vdmutil\n\n/************************   A   ************************/\nsig nat in univ{}\nfact factNat{\n{ nat \u003d { i:Int | gte[i,0]}}\n}\n\nsig A in univ{}\nfact AType{\nA \u003d { y : nat}\n}\n\n"
+"module typenat.vdmsl\n\nopen util/relation\nopen util/boolean\nopen vdmutil\n\n/************************   A   ************************/\nsig nat in univ{}\nfact factNat{\n{ nat \u003d { i:Int | gte[i,0]}}\n}\n\nsig A in univ{}\nfact AType{\nA \u003d { y : nat}\n}\n\n"

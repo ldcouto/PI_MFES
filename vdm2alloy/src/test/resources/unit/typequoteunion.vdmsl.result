@@ -1,1 +1,1 @@
-"module typequoteunion.vdmsl\n\nopen util/relation\nopen vdmutil\n\n/************************   A   ************************/\none sig B{}\none sig C{}\nsig A in univ{}\nfact AType{\nA = { y : B + C}\n}\n\n"
+"module typequoteunion.vdmsl\n\nopen util/relation\nopen util/boolean\nopen vdmutil\n\n/************************   A   ************************/\none sig B{}\none sig C{}\nsig A in univ{}\nfact AType{\nA = { y : B + C}\n}\n\n"

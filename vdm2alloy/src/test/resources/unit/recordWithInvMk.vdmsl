@@ -1,0 +1,8 @@
+types
+
+H = <A> | <B>;
+
+R :: y : bool
+			h : nat
+			f : H
+inv mk_R(a,-,c) == a <> true and c<><B>;

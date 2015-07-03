@@ -1,0 +1,4 @@
+types
+X = <L>;
+W = X
+	inv e == e<><L>;

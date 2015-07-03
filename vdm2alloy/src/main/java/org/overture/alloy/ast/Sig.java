@@ -48,6 +48,7 @@ public class Sig extends Part
 
 		public FieldType(String name)
 		{
+            if(name.equals("bool")){name="Bool";}
 			this.sigTypeName = name;
 		}
 
