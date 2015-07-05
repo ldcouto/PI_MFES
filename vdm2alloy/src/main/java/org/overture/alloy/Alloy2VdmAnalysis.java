@@ -40,6 +40,7 @@ import org.overture.ast.intf.lex.ILexNameToken;
 import org.overture.ast.lex.VDMToken;
 import org.overture.ast.modules.AModuleModules;
 import org.overture.ast.node.INode;
+import org.overture.ast.node.NodeList;
 import org.overture.ast.patterns.*;
 import org.overture.ast.statements.AExternalClause;
 import org.overture.ast.types.*;
@@ -53,6 +54,8 @@ public class Alloy2VdmAnalysis
         put("real",null);
         put("map",null);
     }},1);
+
+    public HashMap<String,String> parametersListFunction ;
 
     public boolean isPtype=false;
     public boolean isPtype() {
@@ -188,7 +191,7 @@ public class Alloy2VdmAnalysis
 
         BasicTokenSearch basicTokens = new BasicTokenSearch();
         node.apply(basicTokens);
-        p(node.getDefs().getFirst().getClass().getSimpleName());
+//        p(node.getDefs().getFirst().getClass().getSimpleName());
         for (Entry<String, INode> entry : basicTokens.mkbasicToken.entrySet())
         {
             Sig s = new Sig(entry.getKey());
@@ -333,10 +336,14 @@ public class Alloy2VdmAnalysis
     }
 
 
+    public boolean isNat() {
+        return nat;
+    }
+
     private Context createType(PType type, Context outer)
             throws AnalysisException {
 
-p(type.toString());
+
         Context ctxt = new Context();
         if (outer.getSig(getTypeName(type)) != null)
         {
@@ -348,7 +355,7 @@ p(type.toString());
             SInvariantType invType = (SInvariantType) type;
             if (invType instanceof ANamedInvariantType)
             {
-                ctxt.merge(createNamedType((ANamedInvariantType) invType, outer));p("entrteljkrfnerf");
+                ctxt.merge(createNamedType((ANamedInvariantType) invType, outer));;
                 return ctxt;
             } else if (invType instanceof ARecordInvariantType)
             {
@@ -1379,7 +1386,7 @@ p(type.toString());
         }
         Context ctxt = new Context(question);
         String arguments = "";
-        //p(question.toString());
+
 
         List<String> lets = new Vector<String>();
 
@@ -1387,10 +1394,14 @@ p(type.toString());
         if(checkIsValid(lType)){isPtype=true;}
         else{isPtype=false;}
 
-
+        parametersListFunction = new HashMap<String,String>();
         for (int i = 0; i < node.getType().getParameters().size(); i++)
         {
+
+
+
             PPattern p = node.getParamPatternList().get(0).get(i);
+            parametersListFunction.put(p.toString(),node.getType().getParameters().get(i).toString());
             String argumentName = null;
             if (p instanceof ARecordPattern)
             {
@@ -1445,9 +1456,12 @@ p(type.toString());
 
         if (node.getBody() != null)
         {
-            sb.append("\n\t"+ltSet +"/* Body */");
-            sb.append("\n\t" + node.getBody().apply(this, ctxt).toPartBody());
-            //p("name "+node.getBody().getClass().getSimpleName());
+            if(node.getBody() instanceof AEqualsBinaryExp){
+                sb.append("\n\t" + node.getBody().apply(this, ctxt).toPartBody());
+            }else {
+                sb.append("\n\t" + ltSet + "/* Body */");
+                sb.append("\n\t" + node.getBody().apply(this, ctxt).toPartBody());
+            }
         }
 
         if (node.getPrecondition() != null)
@@ -1872,7 +1886,11 @@ p(type.toString());
             Sig eType = question.getSig(node.getExp().getType());
             //p(setTypes.toString());
             if(setTypes.containsKey(eType.name)){
-                    p.exp+=".contents"+setTypes.get(eType.name)+")";
+                if(setTypes.containsKey(setTypes.get(eType.name))){
+                    p.exp += ".contents" + setTypes.get(setTypes.get(eType.name)) + ")";
+                }else {
+                    p.exp += ".contents" + setTypes.get(eType.name) + ")";
+                }
             }
             if (eType.isWrapper)
             {
@@ -2264,7 +2282,7 @@ p(type.toString());
         AlloyPart p = new AlloyPart("some ");
         mergeReturns(p, node.getBindList().get(0).apply(this, question));// TODO
         //p(p.predicates.toString() + "\t\t" + p.topLevel.toString());
-        //p("node " + node.getBindList().get(0).getClass().getSimpleName());
+       // p("node " + node.getPredicate().getClass().getSimpleName());
         p.exp += " | ";
         mergeReturns(p, node.getPredicate().apply(this, question));
         if(isPo){
@@ -2306,7 +2324,7 @@ p(type.toString());
         for (Iterator<PPattern> iterator = node.getPlist().iterator(); iterator.hasNext();)
         {
             PPattern e = iterator.next();
-
+            parametersListFunction.put(e.toString(),"");
             if (!_visitedNodes.contains(e))
             {
                 AlloyPart sp = e.apply(this, question);
@@ -2368,11 +2386,17 @@ p(type.toString());
                 if(setTypes.containsKey(node.getSet().getType().toString())){
                     if(setTypes.containsKey(setTypes.get(node.getSet().getType().toString()))){
                         aux=setTypes.get(setTypes.get(node.getSet().getType().toString()));
-                        p.exp+=".contents"+aux;
+                                    //p.exp+=".contents"+aux;
                     }
                 }
 
                 //p("tipo "+node.getSet().getType()+"\n"+setTypes.toString()+"\t"+aux);
+                for(String  e : parametersListFunction.keySet()){
+                    if(parametersListFunction.get(e).equals("")){
+                        parametersListFunction.put(e,getBind(node.getSet(), question).toString());
+                    }
+                }
+
             }
         }
 
@@ -2501,6 +2525,16 @@ p(type.toString());
         }else {
             p.exp += bind;
             p.merge(getBind(node.getRight(), question));
+            String n = getBind(node.getRight(), question).toString();p(n.toString());
+            if(parametersListFunction.containsKey(n)){p("entra"+setTypes.toString()+"\t"+parametersListFunction.toString());
+                if(parametersListFunction.containsKey(parametersListFunction.get(n))){
+                    String x = parametersListFunction.get(parametersListFunction.get(n));
+                    if(setTypes.containsKey(x) && setTypes.containsKey(setTypes.get(x))){
+                        p.exp+=".contents"+setTypes.get(setTypes.get(x));
+                    }
+                }
+            }
+
         }
         if (!p.predicates.isEmpty())
         {
@@ -2509,13 +2543,14 @@ p(type.toString());
 
         p.appendPredicates();
         p.exp += ")";
+
         return p;
     };
 
     public AlloyPart caseAAndBooleanBinaryExp(
             org.overture.ast.expressions.AAndBooleanBinaryExp node,
             Context question) throws AnalysisException
-    {
+    {p(node.getLeft().getClass().getSimpleName());
         return defaultSBinaryExp(node, question);
     };
 

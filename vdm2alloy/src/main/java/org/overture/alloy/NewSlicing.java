@@ -79,7 +79,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         this.name=question.getDef();
         for (PDefinition p : node.getDefs())
         {
-
+            //p(p.toString()+"\n-------------------------------------\n"+p.getClass().getSimpleName());
             if(p instanceof  AValueDefinition){
                AValueDefinition a = (AValueDefinition)p;
                 if (question.getDef().equals(a.getPattern().toString()) && p.getClass().getSimpleName().equals(question.getType())) {
@@ -145,6 +145,16 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         return this.nodeList;
     }
 
+    @Override
+    public NodeList caseAImpliesBooleanBinaryExp(AImpliesBooleanBinaryExp node, ContextSlicing question) throws AnalysisException {
+        //p(node.toString());
+        //p(node.getLeft().getClass().getSimpleName());
+        //p(node.getRight().getClass().getSimpleName());
+        //p("--------------------------");
+        node.getLeft().apply(this, question);
+        node.getRight().apply(this,question);
+        return nodeList;
+    }
 
     @Override
     public NodeList caseARecordInvariantType(ARecordInvariantType node, ContextSlicing question) throws AnalysisException {
@@ -181,7 +191,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseABooleanBasicType(ABooleanBasicType node, ContextSlicing question) throws AnalysisException {
-        question.setNotAllowed(false);
+       // question.setNotAllowed(false);
         return this.nodeList;
     }
 
@@ -221,8 +231,17 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAImplicitFunctionDefinition(AImplicitFunctionDefinition node, ContextSlicing question) throws AnalysisException {
-
+        if(!question.getTypesDep().contains(node)  /*&& !question.invIsInList(node.getType().getParameters().get(0).toString())*/){
+            question.addTypesDep(node);
+        }
+        question.setFunctionName(node.getName().getName());
+        //p(node.getPredef().getBody().toString());
+        node.getResult().getType().apply(this,question);
+        node.getPredef().getBody().apply(this, question);
+        node.getPostdef().getBody().apply(this, question);
+        //p(node.getPostdef().getBody().getClass().getSimpleName());
         return nodeList;
+
     }
 
     @Override
@@ -302,6 +321,13 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     }
 
 
+
+    @Override
+    public NodeList caseANotUnaryExp(ANotUnaryExp node, ContextSlicing question) throws AnalysisException {
+        //p("expressao: "+node.getExp().toString());
+        node.getExp().apply(this,question);
+        return nodeList;
+    }
 
 
 
@@ -435,6 +461,13 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     @Override
     public NodeList caseAApplyExp(AApplyExp node, ContextSlicing question) throws AnalysisException {
         node.getRoot().apply(this,question);//p(node.getRoot().getClass().getSimpleName());
+       // p("\n\n----------\n"+node.getArgs().toString()+"\n"+node.getArgtypes());
+        for(PExp p : node.getArgs()){
+          //  p("\n\n----------\n"+p.toString());
+            p.apply(this,question);
+            //p(p.toString());
+        }
+       // p("entraaaa\t"+node.getRoot().toString());
         return nodeList;
     }
 
@@ -777,10 +810,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         return super.caseAMapRangeUnaryExp(node, question);
     }
 
-    @Override
-    public NodeList caseANotUnaryExp(ANotUnaryExp node, ContextSlicing question) throws AnalysisException {
-        return super.caseANotUnaryExp(node, question);
-    }
+
 
     @Override
     public NodeList caseAPowerSetUnaryExp(APowerSetUnaryExp node, ContextSlicing question) throws AnalysisException {
@@ -909,7 +939,9 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAAndBooleanBinaryExp(AAndBooleanBinaryExp node, ContextSlicing question) throws AnalysisException {
-        return super.caseAAndBooleanBinaryExp(node, question);
+        node.getLeft().apply(this,question);//p(node.getLeft().getClass().getSimpleName());
+        node.getRight().apply(this,question);
+        return nodeList;
     }
 
     @Override
@@ -917,10 +949,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         return super.caseAEquivalentBooleanBinaryExp(node, question);
     }
 
-    @Override
-    public NodeList caseAImpliesBooleanBinaryExp(AImpliesBooleanBinaryExp node, ContextSlicing question) throws AnalysisException {
-        return super.caseAImpliesBooleanBinaryExp(node, question);
-    }
+
 
     @Override
     public NodeList caseAOrBooleanBinaryExp(AOrBooleanBinaryExp node, ContextSlicing question) throws AnalysisException {
