@@ -46,12 +46,12 @@ public class Main
 {
 
 	public static void main(String[] args) throws Exception {
-        VdmToAlloy e = new VdmToAlloy("1","3", true, "Transaction", "ATypeDefinition", "/Users/macbookpro/Documents/Overture/workspace/AccountSysSL/AccountSys.vdmsl");
+        VdmToAlloy e = new VdmToAlloy("1","3", true, "TransactionType", "ATypeDefinition", "/Users/macbookpro/Documents/Overture/workspace/AccountSysSL/AccountSys.vdmsl");
         // if (e.execute() == 1) {
           //  System.out.println(e.getError());
         //}
 
-        //System.out.println(e.hasNaturalType("/Users/macbookpro/Documents/Overture/workspace/AccountSysSL/AccountSys.vdmsl","Transaction", "ATypeDefinition"));
+        System.out.println(e.hasNaturalType());
 
     }
 

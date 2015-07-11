@@ -42,7 +42,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         return hasNatural;
     }
 
-    private boolean hasNatural;
+    public boolean hasNatural=false;
 
     @Override
     public String toString() {
@@ -1200,7 +1200,8 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseANatOneNumericBasicType(ANatOneNumericBasicType node, ContextSlicing question) throws AnalysisException {
-        return super.caseANatOneNumericBasicType(node, question);
+
+        return nodeList;
     }
 
 

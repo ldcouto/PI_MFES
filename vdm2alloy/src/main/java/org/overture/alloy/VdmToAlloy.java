@@ -88,8 +88,8 @@ public class VdmToAlloy {
             /***************   Slicing  ******************/
             NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
             result.result.get(0).apply(slicing, new ContextSlicing(this.nameType, c.inverseTranslation(this.type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition,fi=AImplicitFunctionDefinition
-            if(slicing.isHasNatural()){
-                return true;
+            System.out.println(slicing.toString());
+            if(slicing.isHasNatural()){ return true;
             }else{return false;}
         }
         return false;
@@ -191,49 +191,7 @@ public class VdmToAlloy {
 
             String filename = tmpFile.getAbsolutePath();
             // Parse+typecheck the model
-            System.out.println("=========== Parsing+Typechecking "+filename+" =============");
-            try {
-                Module world = CompUtil.parseEverything_fromFile(rep, null, filename);
 
-                // Choose some default options for how you want to execute the commands
-                A4Options options = new A4Options();
-
-                options.solver = A4Options.SatSolver.SAT4J;
-                int i = 1;
-                for (Command command : world.getAllCommands()) {
-                    System.out.println(i + " : " + command.toString());
-                    i++;
-                    // Execute the command
-                    System.out.println("============ Command " + command + ": ============");
-                    A4Solution ans = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), command, options);
-                    // Print the outcome
-                    System.out.println(ans);
-                    this.command = command.toString() + "\n";
-                    this.filename = tmpFile.getAbsolutePath();
-                    this.ans = ans;
-                }
-            }
-            catch (Exception e) {
-                System.err.println("Erro: " + e);
-            }
-
-                System.out.println("\n------------------------------------");
-                System.out.println("Running Alloy...\n");
-                System.out.println("Temp file: " + tmpFile.getAbsolutePath());
-
-                System.out.println("Running Alloy on file: "
-                        + tmpFile.getName());
-                int exitCode = Terminal.execute(new String[]{"-alloy",
-                        tmpFile.getAbsolutePath(), "-a", "-s", "SAT4J"});
-                if (exitCode != 0) {
-                    return exitCode;
-                }
-                /*if (line.hasOption(extraAlloyTest.getOpt())) {
-                    String testInputPath = line.getOptionValue(extraAlloyTest.getOpt());
-                    System.out.println("Running Alloy on file: "
-                            + testInputPath);
-                    Terminal.main(new String[]{"-alloy", testInputPath, "-a", "-s", "SAT4J"});
-                }*/
 
         }else
         {
