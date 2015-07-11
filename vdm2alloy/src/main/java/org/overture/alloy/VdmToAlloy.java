@@ -44,6 +44,11 @@ public class VdmToAlloy {
 
 
 
+    public VdmToAlloy(String nameType,String type,String path) {
+        this.nameType = nameType;
+        this.type = type;
+        this.path = path;
+    }
 
     public VdmToAlloy(String natScope,String scope,boolean typeInvariantsat,String nameType,String type,String path) {
         this.typeInvariantsat = typeInvariantsat;
