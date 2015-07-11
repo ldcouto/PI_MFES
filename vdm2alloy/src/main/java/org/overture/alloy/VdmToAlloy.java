@@ -39,12 +39,13 @@ public class VdmToAlloy {
     public String filename;
     public A4Solution ans;
     public boolean hasNatural = false;
+    public String naturalScope = "";
 
 
 
 
 
-    public VdmToAlloy(String scope,boolean typeInvariantsat,String nameType,String type,String path) {
+    public VdmToAlloy(String natScope,String scope,boolean typeInvariantsat,String nameType,String type,String path) {
         this.typeInvariantsat = typeInvariantsat;
         this.nameType = nameType;
         this.type = type;
@@ -53,6 +54,7 @@ public class VdmToAlloy {
         this.command = "";
         this.ans = null;
         this.filename = "";
+        this.naturalScope=natScope;
     }
 
     public boolean hasNaturalType(String path,String nameType,String type) throws AnalysisException, IOException {
@@ -155,7 +157,7 @@ public class VdmToAlloy {
                analysis.components.addAll(analysisProof.getComponentsPO());*/
            //}else {
                 if (notAllowed.getHasNat()) {
-                    analysis.components.add(new Run(this.nameType, this.scope, "1"));
+                    analysis.components.add(new Run(this.nameType, this.scope, this.naturalScope));
                 } else {
                     analysis.components.add(new Run(this.nameType, this.scope));
                 }
