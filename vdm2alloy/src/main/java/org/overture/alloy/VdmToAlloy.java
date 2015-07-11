@@ -10,6 +10,7 @@ import edu.mit.csail.sdg.alloy4compiler.translator.A4Options;
 import edu.mit.csail.sdg.alloy4compiler.translator.A4Solution;
 import edu.mit.csail.sdg.alloy4compiler.translator.TranslateAlloyToKodkod;
 import edu.mit.csail.sdg.alloy4viz.VizGUI;
+
 import org.apache.commons.cli.*;
 import org.overture.alloy.ast.Part;
 import org.overture.alloy.ast.Run;
@@ -20,8 +21,13 @@ import org.overture.typechecker.util.TypeCheckerUtil;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by macbookpro on 28/05/15.
@@ -78,7 +84,15 @@ public class VdmToAlloy {
                 tmpFile = output;
             }
 
-
+            // create vdmutil if needed
+            String tempDir = System.getProperty("java.io.tmpdir");
+            File utilFile = new File(tempDir+File.separatorChar+"vdmutil.als");
+            if (!utilFile.exists()){
+            	InputStream utilstream = VdmToAlloy.class.getResourceAsStream("/vdmutil.als");
+            	
+            	Files.copy(utilstream,utilFile.toPath());
+            }
+            
 
             /***************   Slicing  ******************/
                 NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
