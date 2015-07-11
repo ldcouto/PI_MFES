@@ -1,6 +1,7 @@
 "module setType.vdmsl
 
 open util/relation
+open util/boolean
 open vdmutil
 
 /************************   Country   ************************/

@@ -131,8 +131,8 @@ public class NotAllowed extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
         @Override
         public NodeList caseABooleanBasicType(ABooleanBasicType node, ContextSlicing question) throws AnalysisException {
-            question.setNotAllowed(false);
-            notAllowedTypes.addType("bool", node.getLocation().getStartLine());
+            //question.setNotAllowed(false);
+           // notAllowedTypes.addType("bool", node.getLocation().getStartLine());
             return this.nodeList;
         }
 

@@ -1,0 +1,3 @@
+types
+A = bool | <H>
+	inv e == if (e <> true) then e<><H> else e = <H>

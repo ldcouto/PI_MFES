@@ -53,6 +53,8 @@ public class ContextSlicing {
             return "AStateDefinition";
         }else if(s.equals("op")){
             return "AImplicitOperationDefinition";
+        }else if(s.equals("fi")){
+            return "AImplicitFunctionDefinition";
         }
         return "";
     }
@@ -68,6 +70,8 @@ public class ContextSlicing {
             return "st";
         }else if(type.equals("AImplicitOperationDefinition")){
             return "op";
+        }else if(type.equals("AImplicitFunctionDefinition")){
+            return "fi";
         }
         return "";
     }

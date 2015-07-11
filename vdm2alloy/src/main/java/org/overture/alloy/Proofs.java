@@ -7,6 +7,7 @@ import org.overture.ast.modules.AModuleModules;
 import org.overture.ast.node.INode;
 import org.overture.pof.AVdmPoTree;
 import org.overture.pog.obligation.ProofObligation;
+import org.overture.pog.obligation.ProofObligationList;
 import org.overture.pog.pub.*;
 
 import java.util.List;
@@ -26,7 +27,12 @@ public class Proofs {
 
     public INode getINodeProofObligation(INode node) throws AnalysisException {
         ProofObligation po;
-        po = (ProofObligation) ProofObligationGenerator.generateProofObligations(node).get(0);
+        po = (ProofObligation) ProofObligationGenerator.generateProofObligations(node).get(1);
+
+        ProofObligationList a= (ProofObligationList)  ProofObligationGenerator.generateProofObligations(node);
+        p(a.toString());
+
+//        p(po.stitch.toString());
         return po.stitch;
     }
 

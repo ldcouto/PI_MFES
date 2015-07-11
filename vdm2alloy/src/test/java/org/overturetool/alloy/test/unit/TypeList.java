@@ -32,6 +32,7 @@ public  class TypeList {
             put("slicingTest97.vdmsl",newArray("letters","v"));
             put("slicingTest98.vdmsl",newArray("Exchange","st"));
             put("slicingTest99.vdmsl",newArray("Connect","op"));
+            put("slicingTest20.vdmsl",newArray("colMap","fi"));
             
     }};
 

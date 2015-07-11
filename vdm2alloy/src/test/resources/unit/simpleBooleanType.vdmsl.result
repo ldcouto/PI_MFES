@@ -1,0 +1,13 @@
+"module simpleBooleanType.vdmsl
+
+open util/relation
+open util/boolean
+open vdmutil
+
+/************************   A   ************************/
+sig A in univ{}
+fact AType{
+A = { y : Bool}
+}
+
+"

@@ -38,6 +38,8 @@ public class VdmToAlloy {
     public A4Solution ans;
 
 
+
+
     public VdmToAlloy(String scope,boolean typeInvariantsat,String nameType,String type,String path) {
         this.typeInvariantsat=typeInvariantsat;
         this.nameType=nameType;
@@ -48,6 +50,7 @@ public class VdmToAlloy {
         this.ans = null;
         this.filename = "";
     }
+
 
     public int execute() throws Exception
     {
@@ -74,17 +77,18 @@ public class VdmToAlloy {
             }
 
 
+
             /***************   Slicing  ******************/
               //  NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-            //result.result.get(0).apply(slicing, new ContextSlicing(nameType,c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition
+               // result.result.get(0).apply(slicing, new ContextSlicing(nameType,c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition,fi=AImplicitFunctionDefinition
 
             //System.out.println(slicing.getNodeList().toString());
 
-          //  System.out.println(slicing.toString());
+            //System.out.println("\n\n\n\n\n--------------------------------------------\n\n"+slicing.toString());
 
 
             /******************** Not allowed types ************************/
-            /*NotAllowed notAllowed = new NotAllowed();
+           /* NotAllowed notAllowed = new NotAllowed();
             slicing.getModuleModules().apply(notAllowed, new ContextSlicing());
             NotAllowedTypes o = new NotAllowedTypes(notAllowed.getNotAllowed());
             if(o.hasNoAllowedType()) {
@@ -96,13 +100,13 @@ public class VdmToAlloy {
 
             /***************   Proof Obligations  ******************/
 
-           //Proofs proof = new Proofs(slicing.getModuleModules());
+         //  Proofs proof = new Proofs(slicing.getModuleModules());
 
 
-            //System.out.println(proof.getNode().toString());
+           // System.out.println("PROOF OBLIGATION "+proof.getNode().toString());
             /*********************** Translation ******************/
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")),false);
-            //slicing.getModuleModules().apply(analysis, new Context());
+           // slicing.getModuleModules().apply(analysis, new Context());
             result.result.get(0).apply(analysis,new Context());
 
             //System.out.println(analysis.components);
@@ -141,12 +145,12 @@ public class VdmToAlloy {
 
             String filename = tmpFile.getAbsolutePath();
             // Parse+typecheck the model
-            System.out.println("=========== Parsing+Typechecking "+filename+" =============");
+          /*  System.out.println("=========== Parsing+Typechecking "+filename+" =============");
             try {
                 Module world = CompUtil.parseEverything_fromFile(rep, null, filename);
-
+*/
                 // Choose some default options for how you want to execute the commands
-                A4Options options = new A4Options();
+             /*   A4Options options = new A4Options();
 
                 options.solver = A4Options.SatSolver.SAT4J;
                 int i = 1;
@@ -177,7 +181,7 @@ public class VdmToAlloy {
                         tmpFile.getAbsolutePath(), "-a", "-s", "SAT4J"});
                 if (exitCode != 0) {
                     return exitCode;
-                }
+                }*/
                 /*if (line.hasOption(extraAlloyTest.getOpt())) {
                     String testInputPath = line.getOptionValue(extraAlloyTest.getOpt());
                     System.out.println("Running Alloy on file: "
@@ -203,6 +207,10 @@ public class VdmToAlloy {
 
     public A4Solution getANS() {
         return this.ans;
+    }
+
+    public String getError(){
+        return this.error;
     }
 
     public static void p(String string){

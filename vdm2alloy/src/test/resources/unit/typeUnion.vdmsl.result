@@ -1,4 +1,5 @@
 "module typeUnion.vdmsl\n\nopen util/relation
+open util/boolean
 open vdmutil
 
 /************************   T   ************************/

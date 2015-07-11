@@ -1,0 +1,13 @@
+"module simpleBooleanUnionWithIf.vdmsl
+
+open util/relation
+open util/boolean
+open vdmutil
+
+/************************   A   ************************/
+one sig H{}
+sig A in univ{}
+fact AInv{
+A = { e : H  + Bool | (e != True) implies (e != H) else (e = H) }
+}
+"

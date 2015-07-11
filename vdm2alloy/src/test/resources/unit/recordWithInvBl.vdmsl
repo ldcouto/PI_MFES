@@ -1,0 +1,8 @@
+types
+
+H = <A> | <B>;
+
+R :: y : bool
+			h : nat
+			f : H
+inv e == e.h>0 and e.y<> true;
