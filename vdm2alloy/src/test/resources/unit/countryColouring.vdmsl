@@ -1,10 +1,9 @@
-\begin{vdm_al}
 types
 
   Country = seq of char;
 
   Relation = set of (Country * Country)
- inv r== isRelation(r);
+  inv r== isRelation(r);
 
   Colour = set of Country;
 
@@ -20,7 +19,7 @@ functions
   areNb(cn1,cn2,r) ==
     mk_(cn1,cn2) in set r or mk_(cn2,cn1) in set r;
 
- CountriesRel: Relation -> set of Country
+  CountriesRel: Relation -> set of Country
   CountriesRel(r) ==
     dunion {{c1,c2} | mk_(c1,c2) in set r};
 
@@ -28,11 +27,11 @@ functions
   sameColour(cn1,cn2,cols) ==
     exists col in set cols & cn1 in set col and cn2 in set col;
 
- CountriesCol: Colouring -> set of Country
+  CountriesCol: Colouring -> set of Country
   CountriesCol(cols) ==
     dunion cols;
 
-  isColouring: Colouring -> bool --(verificar a cena do isType)
+  isColouring: Colouring -> bool
   isColouring(cols) ==
     forall col1,col2 in set cols & col1 <> col2 => col1 inter col2 = {};
 
@@ -45,11 +44,8 @@ functions
     forall cn1, cn2 in set CountriesRel(r) &
            areNb(cn1,cn2,r) => not sameColour(cn1,cn2,cols);
 
-  colMap(r: Relation) cols : Colouring
+  colMap(r: Relation) cols : Colouring 
   pre isRelation(r)
   post isColouring(cols) and
        isColouringOf(cols, CountriesRel(r)) and
        nbDistinctColours(cols, r);
-
-
-\end{vdm_al}

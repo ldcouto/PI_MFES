@@ -37,6 +37,13 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     NodeList<PDefinition> aux =  new NodeList(null);
 
     String name ;
+
+    public boolean isHasNatural() {
+        return hasNatural;
+    }
+
+    private boolean hasNatural;
+
     @Override
     public String toString() {
         if(moduleModules.getDefs().size()>0){return moduleModules.toString();}
@@ -51,6 +58,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     public NewSlicing(String module) {
         this.module = module;
+        this.hasNatural=false;
 
     }
 
@@ -326,6 +334,12 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
     public NodeList caseANotUnaryExp(ANotUnaryExp node, ContextSlicing question) throws AnalysisException {
         //p("expressao: "+node.getExp().toString());
         node.getExp().apply(this,question);
+        return nodeList;
+    }
+
+    @Override
+    public NodeList caseANatNumericBasicType(ANatNumericBasicType node, ContextSlicing question) throws AnalysisException {
+        this.hasNatural=true;
         return nodeList;
     }
 
@@ -1189,10 +1203,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
         return super.caseANatOneNumericBasicType(node, question);
     }
 
-    @Override
-    public NodeList caseANatNumericBasicType(ANatNumericBasicType node, ContextSlicing question) throws AnalysisException {
-        return super.caseANatNumericBasicType(node, question);
-    }
+
 
     @Override
     public NodeList caseARationalNumericBasicType(ARationalNumericBasicType node, ContextSlicing question) throws AnalysisException {
