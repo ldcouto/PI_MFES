@@ -51,7 +51,7 @@ public class Main
           //  System.out.println(e.getError());
         //}
 
-        System.out.println(e.hasNaturalType("/Users/macbookpro/Documents/Overture/workspace/AccountSysSL/AccountSys.vdmsl","Transaction", "ATypeDefinition"));
+        //System.out.println(e.hasNaturalType("/Users/macbookpro/Documents/Overture/workspace/AccountSysSL/AccountSys.vdmsl","Transaction", "ATypeDefinition"));
 
     }
 

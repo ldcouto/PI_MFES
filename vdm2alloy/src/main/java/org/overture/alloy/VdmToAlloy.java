@@ -62,13 +62,13 @@ public class VdmToAlloy {
         this.naturalScope=natScope;
     }
 
-    public boolean hasNaturalType(String path,String nameType,String type) throws AnalysisException, IOException {
+    public boolean hasNaturalType() throws AnalysisException, IOException {
         ContextSlicing c = new ContextSlicing();
         // create the command line parser
         String s = "";
 
 
-        File input = new File(path);
+        File input = new File(this.path);
         File output = null;
 
 
@@ -87,7 +87,7 @@ public class VdmToAlloy {
 
             /***************   Slicing  ******************/
             NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-            result.result.get(0).apply(slicing, new ContextSlicing(nameType, c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition,fi=AImplicitFunctionDefinition
+            result.result.get(0).apply(slicing, new ContextSlicing(this.nameType, c.inverseTranslation(this.type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition,fi=AImplicitFunctionDefinition
             if(slicing.isHasNatural()){
                 return true;
             }else{return false;}
