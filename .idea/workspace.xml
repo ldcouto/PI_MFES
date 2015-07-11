@@ -11,6 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="62d2b3c4-4b03-4305-96a9-71eb43d73b8e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="alloy.iws" />
@@ -55,11 +56,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11811024" vertical-offset="0" max-vertical-offset="635">
-              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="2235">
+              <caret line="51" column="9" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VdmToAlloy.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.42122185" vertical-offset="1508" max-vertical-offset="2160">
+              <caret line="139" column="13" selection-start-line="139" selection-start-column="13" selection-end-line="139" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -129,11 +140,11 @@
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/countryColouring.vdmsl" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/countryColouring.vdmsl.result" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/simpleBooleanUnionWithIf.vdmsl" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/recordWithInvMk.vdmsl" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" />
       </list>
     </option>
   </component>
@@ -145,7 +156,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1873" />
+    <option name="x" value="-1898" />
     <option name="y" value="-186" />
     <option name="width" value="1873" />
     <option name="height" value="1055" />
@@ -225,6 +236,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -631,8 +646,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.Vdm2AlloyUnitTest" />
-        <item index="1" class="java.lang.String" itemvalue="Application.Main" />
+        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.Vdm2AlloyUnitTest" />
         <item index="2" class="java.lang.String" itemvalue="JUnit.SlicingUnitTest" />
         <item index="3" class="java.lang.String" itemvalue="JUnit.CountryColouringTest" />
         <item index="4" class="java.lang.String" itemvalue="JUnit.TrafficTest" />
@@ -649,12 +664,6 @@
       <created>1426781744454</created>
       <option name="number" value="Default" />
       <updated>1426781744454</updated>
-    </task>
-    <task id="LOCAL-00011" summary="types">
-      <created>1428457712234</created>
-      <option name="number" value="00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1428457712234</updated>
     </task>
     <task id="LOCAL-00012" summary="types">
       <created>1429139195593</created>
@@ -944,7 +953,13 @@
       <option name="project" value="LOCAL" />
       <updated>1436638281978</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Final version">
+      <created>1436639334150</created>
+      <option name="number" value="00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1436639334151</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -968,7 +983,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1873" y="-186" width="1873" height="1055" extended-state="0" />
+    <frame x="-1898" y="-186" width="1873" height="1055" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Code Iris" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1066,7 +1081,8 @@
     <MESSAGE value="Boolean Types and more unit tests" />
     <MESSAGE value="Unit tests Kenneth correction" />
     <MESSAGE value="getError and getHasNatural" />
-    <option name="LAST_COMMIT_MESSAGE" value="getError and getHasNatural" />
+    <MESSAGE value="Final version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1391,14 +1407,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="2940">
-          <caret line="53" column="5" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/simpleBooleanUnionWithIf.vdmsl.result">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
@@ -1452,8 +1460,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11811024" vertical-offset="0" max-vertical-offset="635">
-          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="2235">
+          <caret line="51" column="9" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42122185" vertical-offset="1508" max-vertical-offset="2160">
+          <caret line="139" column="13" selection-start-line="139" selection-start-column="13" selection-end-line="139" selection-end-column="13" />
           <folding />
         </state>
       </provider>
