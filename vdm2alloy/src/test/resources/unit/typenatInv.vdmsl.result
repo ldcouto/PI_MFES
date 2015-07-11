@@ -11,6 +11,7 @@ fact factNat{
 { nat = { i:Int | gte[i,0]}}
 }
 
+sig numberinv in univ{}
 fact numberinvInv{
 numberinv = { i : nat | gt[i,10] }
 }

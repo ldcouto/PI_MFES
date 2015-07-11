@@ -643,6 +643,7 @@ public class Alloy2VdmAnalysis
                     Sig s = new Sig(namedType.getName().getName(), true);
                     ctxt.merge(createType(namedType.getType(), ctxt));
                     //s.supers.add(ctxt.getSig(namedType.getType()));
+
                     ctxt.addType(namedType, s);
                 }
                 else{
@@ -924,6 +925,7 @@ public class Alloy2VdmAnalysis
                     } else {
                         if (def.getInvPattern() != null) {// A = A'  \n  inv x = E <> ...
                             if (ctxt.getSig(namedType).toString() != null && namedType.getType().toString().equals("nat")) {
+                                this.components.add(ctxt.getSig(namedType));
                                 createTypeInvariant(def, ctxt.getSig(namedType), ctxt, namedType.getType());
                             } else {
 
@@ -1767,11 +1769,11 @@ public class Alloy2VdmAnalysis
                         }
 
 
-                }else {
+                }/*else {
                     if (i < (fieldNames.size() - 1) && !fieldNames.get(i + 1).equals("-")) {//i < (fieldNames.size() + r + 1)) {
-                        p.exp += ", ";
+                        p.exp += ", ";p("entraaaaaa");
                     }
-                }
+                }*/
             }
             p.exp += " | ";
             return p;

@@ -36,6 +36,8 @@ public class VdmToAlloy {
     public String command;
     public String filename;
     public A4Solution ans;
+    public boolean hasNatural = false;
+
 
 
 
@@ -79,22 +81,23 @@ public class VdmToAlloy {
 
 
             /***************   Slicing  ******************/
-              //  NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
-               // result.result.get(0).apply(slicing, new ContextSlicing(nameType,c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition,fi=AImplicitFunctionDefinition
+                NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+                result.result.get(0).apply(slicing, new ContextSlicing(nameType,c.inverseTranslation(type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition,fi=AImplicitFunctionDefinition
 
-            //System.out.println(slicing.getNodeList().toString());
+                this.hasNatural=slicing.isHasNatural();
+                System.out.println("cena:"+slicing.isHasNatural());
 
             //System.out.println("\n\n\n\n\n--------------------------------------------\n\n"+slicing.toString());
 
 
             /******************** Not allowed types ************************/
-           /* NotAllowed notAllowed = new NotAllowed();
+            NotAllowed notAllowed = new NotAllowed();
             slicing.getModuleModules().apply(notAllowed, new ContextSlicing());
             NotAllowedTypes o = new NotAllowedTypes(notAllowed.getNotAllowed());
             if(o.hasNoAllowedType()) {
-                this.error+="There are some problems on the file " + input +"\n"+o.toString();
+                this.error += "There are some problems on the file " + input + "\n" + o.toString();
                 return 1;
-            }*/
+            }
 
 
 
@@ -106,8 +109,8 @@ public class VdmToAlloy {
            // System.out.println("PROOF OBLIGATION "+proof.getNode().toString());
             /*********************** Translation ******************/
             Alloy2VdmAnalysis analysis = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")),false);
-           // slicing.getModuleModules().apply(analysis, new Context());
-            result.result.get(0).apply(analysis,new Context());
+            slicing.getModuleModules().apply(analysis, new Context());
+           // result.result.get(0).apply(analysis,new Context());
 
             //System.out.println(analysis.components);
 
@@ -115,13 +118,13 @@ public class VdmToAlloy {
                Alloy2VdmAnalysis analysisProof = new Alloy2VdmAnalysis(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")), true);
                proof.getNode().apply(analysisProof, new Context());
                analysis.components.addAll(analysisProof.getComponentsPO());*/
-          /* }else {
+           //}else {
                 if (notAllowed.getHasNat()) {
                     analysis.components.add(new Run(this.nameType, this.scope, "1"));
                 } else {
                     analysis.components.add(new Run(this.nameType, this.scope));
                 }
-            }*/
+            //}
 
 
            FileWriter outFile = new FileWriter(tmpFile);
@@ -145,12 +148,12 @@ public class VdmToAlloy {
 
             String filename = tmpFile.getAbsolutePath();
             // Parse+typecheck the model
-          /*  System.out.println("=========== Parsing+Typechecking "+filename+" =============");
+            System.out.println("=========== Parsing+Typechecking "+filename+" =============");
             try {
                 Module world = CompUtil.parseEverything_fromFile(rep, null, filename);
-*/
+
                 // Choose some default options for how you want to execute the commands
-             /*   A4Options options = new A4Options();
+                A4Options options = new A4Options();
 
                 options.solver = A4Options.SatSolver.SAT4J;
                 int i = 1;
@@ -181,7 +184,7 @@ public class VdmToAlloy {
                         tmpFile.getAbsolutePath(), "-a", "-s", "SAT4J"});
                 if (exitCode != 0) {
                     return exitCode;
-                }*/
+                }
                 /*if (line.hasOption(extraAlloyTest.getOpt())) {
                     String testInputPath = line.getOptionValue(extraAlloyTest.getOpt());
                     System.out.println("Running Alloy on file: "
@@ -211,6 +214,10 @@ public class VdmToAlloy {
 
     public String getError(){
         return this.error;
+    }
+
+    public boolean getNatural (){
+        return this.hasNatural;
     }
 
     public static void p(String string){
