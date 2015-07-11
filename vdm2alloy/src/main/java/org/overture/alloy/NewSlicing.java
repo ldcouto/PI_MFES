@@ -572,7 +572,7 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAIntLiteralExp(AIntLiteralExp node, ContextSlicing question) throws AnalysisException {
-        return super.caseAIntLiteralExp(node, question);
+        return nodeList;
     }
 
     @Override
@@ -982,24 +982,30 @@ public class NewSlicing extends QuestionAnswerAdaptor<ContextSlicing,NodeList> {
 
     @Override
     public NodeList caseAGreaterEqualNumericBinaryExp(AGreaterEqualNumericBinaryExp node, ContextSlicing question) throws AnalysisException {
-        return super.caseAGreaterEqualNumericBinaryExp(node, question);
-    }
-
-    @Override
-    public NodeList caseAGreaterNumericBinaryExp(AGreaterNumericBinaryExp node, ContextSlicing question) throws AnalysisException {
-       node.getLeft().apply(this,question);
+        node.getLeft().apply(this,question);
         node.getRight().apply(this,question);
         return nodeList;
     }
 
     @Override
+    public NodeList caseAGreaterNumericBinaryExp(AGreaterNumericBinaryExp node, ContextSlicing question) throws AnalysisException {
+       node.getLeft().apply(this,question);
+        node.getRight().apply(this,question); p("tipo "+node.getRight().getClass().getSimpleName());
+        return nodeList;
+    }
+
+    @Override
     public NodeList caseALessEqualNumericBinaryExp(ALessEqualNumericBinaryExp node, ContextSlicing question) throws AnalysisException {
-        return super.caseALessEqualNumericBinaryExp(node, question);
+        node.getLeft().apply(this,question);
+        node.getRight().apply(this,question);
+        return nodeList;
     }
 
     @Override
     public NodeList caseALessNumericBinaryExp(ALessNumericBinaryExp node, ContextSlicing question) throws AnalysisException {
-        return super.caseALessNumericBinaryExp(node, question);
+        node.getLeft().apply(this,question);
+        node.getRight().apply(this,question);
+        return nodeList;
     }
 
     @Override

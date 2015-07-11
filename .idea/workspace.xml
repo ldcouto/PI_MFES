@@ -9,7 +9,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="62d2b3c4-4b03-4305-96a9-71eb43d73b8e" name="Default" comment="Final version">
+    <list default="true" id="62d2b3c4-4b03-4305-96a9-71eb43d73b8e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" />
@@ -57,21 +57,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="2280">
-              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.30708662" vertical-offset="0" max-vertical-offset="2280">
+              <caret line="51" column="11" selection-start-line="51" selection-start-column="11" selection-end-line="51" selection-end-column="11" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VdmToAlloy.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="VdmToAlloy.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.44533762" vertical-offset="2273" max-vertical-offset="2970">
-              <caret line="193" column="12" selection-start-line="193" selection-start-column="12" selection-end-line="193" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="803" max-vertical-offset="3600">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
               <folding>
                 <element signature="e#6911#7262#0" expanded="true" />
                 <element signature="e#7261#7262#0" expanded="true" />
@@ -83,8 +83,8 @@
       <file leaf-file-name="NewSlicing.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="23.074074" vertical-offset="1553" max-vertical-offset="28530">
-              <caret line="91" column="21" selection-start-line="91" selection-start-column="21" selection-end-line="91" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="4436" max-vertical-offset="28620">
+              <caret line="337" column="5" selection-start-line="337" selection-start-column="5" selection-end-line="337" selection-end-column="5" />
               <folding>
                 <element signature="e#1384#1385#0" expanded="true" />
                 <element signature="e#1417#1418#0" expanded="true" />
@@ -159,9 +159,9 @@
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/simpleBooleanUnionWithIf.vdmsl" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/recordWithInvMk.vdmsl" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" />
       </list>
     </option>
   </component>
@@ -682,12 +682,6 @@
       <option name="number" value="Default" />
       <updated>1426781744454</updated>
     </task>
-    <task id="LOCAL-00017" summary="notAllowedType">
-      <created>1429482941904</created>
-      <option name="number" value="00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1429482941904</updated>
-    </task>
     <task id="LOCAL-00018" summary="notAllowedType">
       <created>1429483706073</created>
       <option name="number" value="00018" />
@@ -976,7 +970,13 @@
       <option name="project" value="LOCAL" />
       <updated>1436650661924</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Final version">
+      <created>1436652696962</created>
+      <option name="number" value="00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1436652696962</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1465,18 +1465,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="2280">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="23.074074" vertical-offset="1553" max-vertical-offset="28530">
-          <caret line="91" column="21" selection-start-line="91" selection-start-column="21" selection-end-line="91" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="4436" max-vertical-offset="28620">
+          <caret line="337" column="5" selection-start-line="337" selection-start-column="5" selection-end-line="337" selection-end-column="5" />
           <folding>
             <element signature="e#1384#1385#0" expanded="true" />
             <element signature="e#1417#1418#0" expanded="true" />
@@ -1486,12 +1478,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44533762" vertical-offset="2273" max-vertical-offset="2970">
-          <caret line="193" column="12" selection-start-line="193" selection-start-column="12" selection-end-line="193" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="803" max-vertical-offset="3600">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
           <folding>
             <element signature="e#6911#7262#0" expanded="true" />
             <element signature="e#7261#7262#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30708662" vertical-offset="0" max-vertical-offset="2280">
+          <caret line="51" column="11" selection-start-line="51" selection-start-column="11" selection-end-line="51" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
