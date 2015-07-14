@@ -9,8 +9,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="62d2b3c4-4b03-4305-96a9-71eb43d73b8e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
+    <list default="true" id="62d2b3c4-4b03-4305-96a9-71eb43d73b8e" name="Default" comment="Final version">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" afterPath="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -59,8 +58,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="2235">
-              <caret line="51" column="9" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2280">
+              <caret line="48" column="53" selection-start-line="48" selection-start-column="53" selection-end-line="48" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -69,9 +68,22 @@
       <file leaf-file-name="VdmToAlloy.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42122185" vertical-offset="1508" max-vertical-offset="2160">
-              <caret line="139" column="13" selection-start-line="139" selection-start-column="13" selection-end-line="139" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.20418006" vertical-offset="2153" max-vertical-offset="2775">
+              <caret line="175" column="13" selection-start-line="175" selection-start-column="13" selection-end-line="175" selection-end-column="13" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NewSlicing.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4436" max-vertical-offset="28620">
+              <caret line="337" column="5" selection-start-line="337" selection-start-column="5" selection-end-line="337" selection-end-column="5" />
+              <folding>
+                <element signature="e#1384#1385#0" expanded="true" />
+                <element signature="e#1417#1418#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -139,11 +151,11 @@
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/typenatInv.vdmsl.result" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/countryColouring.vdmsl" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/countryColouring.vdmsl.result" />
-        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/simpleBooleanUnionWithIf.vdmsl" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/recordWithInvMk.vdmsl" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Alloy2VdmAnalysis.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java" />
+        <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java" />
         <option value="$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java" />
       </list>
     </option>
@@ -665,48 +677,6 @@
       <option name="number" value="Default" />
       <updated>1426781744454</updated>
     </task>
-    <task id="LOCAL-00012" summary="types">
-      <created>1429139195593</created>
-      <option name="number" value="00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1429139195593</updated>
-    </task>
-    <task id="LOCAL-00013" summary="types">
-      <created>1429139748900</created>
-      <option name="number" value="00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1429139748900</updated>
-    </task>
-    <task id="LOCAL-00014" summary="notAllowedType">
-      <created>1429146595757</created>
-      <option name="number" value="00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1429146595757</updated>
-    </task>
-    <task id="LOCAL-00015" summary="notAllowedType">
-      <created>1429372085543</created>
-      <option name="number" value="00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1429372085543</updated>
-    </task>
-    <task id="LOCAL-00016" summary="notAllowedType">
-      <created>1429404167037</created>
-      <option name="number" value="00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1429404167037</updated>
-    </task>
-    <task id="LOCAL-00017" summary="notAllowedType">
-      <created>1429482941904</created>
-      <option name="number" value="00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1429482941904</updated>
-    </task>
-    <task id="LOCAL-00018" summary="notAllowedType">
-      <created>1429483706073</created>
-      <option name="number" value="00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1429483706073</updated>
-    </task>
     <task id="LOCAL-00019" summary="notAllowedType and inv in record types">
       <created>1429662523026</created>
       <option name="number" value="00019" />
@@ -959,7 +929,49 @@
       <option name="project" value="LOCAL" />
       <updated>1436639334151</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Final version">
+      <created>1436639808553</created>
+      <option name="number" value="00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1436639808554</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Final version">
+      <created>1436647770594</created>
+      <option name="number" value="00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1436647770595</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Final version">
+      <created>1436648283729</created>
+      <option name="number" value="00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1436648283729</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Final version">
+      <created>1436649344961</created>
+      <option name="number" value="00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1436649344961</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Final version">
+      <created>1436650661924</created>
+      <option name="number" value="00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1436650661924</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Final version">
+      <created>1436652696962</created>
+      <option name="number" value="00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1436652696962</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Final version">
+      <created>1436653652093</created>
+      <option name="number" value="00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1436653652093</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -994,6 +1006,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3194726" sideWeight="0.4997389" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Code explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39068827" sideWeight="0.4997284" order="3" side_tool="false" content_ui="tabs" />
@@ -1008,12 +1021,11 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1873999" sideWeight="0.803719" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3275862" sideWeight="0.68177086" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3275862" sideWeight="0.68177086" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0796875" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32012194" sideWeight="0.4997389" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39910313" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -1389,16 +1401,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33492824" vertical-offset="15" max-vertical-offset="28515">
-          <caret line="40" column="35" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
-          <folding>
-            <element signature="e#1417#1418#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/test/resources/unit/simpleBooleanUnion.vdmsl.result">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="960">
@@ -1458,18 +1460,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/NewSlicing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4436" max-vertical-offset="28620">
+          <caret line="337" column="5" selection-start-line="337" selection-start-column="5" selection-end-line="337" selection-end-column="5" />
+          <folding>
+            <element signature="e#1384#1385#0" expanded="true" />
+            <element signature="e#1417#1418#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="2235">
-          <caret line="51" column="9" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2280">
+          <caret line="48" column="53" selection-start-line="48" selection-start-column="53" selection-end-line="48" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vdm2alloy/src/main/java/org/overture/alloy/VdmToAlloy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42122185" vertical-offset="1508" max-vertical-offset="2160">
-          <caret line="139" column="13" selection-start-line="139" selection-start-column="13" selection-end-line="139" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.20418006" vertical-offset="2153" max-vertical-offset="2775">
+          <caret line="175" column="13" selection-start-line="175" selection-start-column="13" selection-end-line="175" selection-end-column="13" />
           <folding />
         </state>
       </provider>

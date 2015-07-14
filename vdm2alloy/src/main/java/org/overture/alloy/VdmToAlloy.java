@@ -14,6 +14,7 @@ import edu.mit.csail.sdg.alloy4viz.VizGUI;
 import org.apache.commons.cli.*;
 import org.overture.alloy.ast.Part;
 import org.overture.alloy.ast.Run;
+import org.overture.ast.analysis.AnalysisException;
 import org.overture.ast.lex.Dialect;
 import org.overture.ast.modules.AModuleModules;
 import org.overture.config.Settings;
@@ -21,13 +22,11 @@ import org.overture.typechecker.util.TypeCheckerUtil;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by macbookpro on 28/05/15.
@@ -43,20 +42,60 @@ public class VdmToAlloy {
     public String filename;
     public A4Solution ans;
     public boolean hasNatural = false;
+    public String naturalScope = "";
 
 
 
 
+    public VdmToAlloy(String nameType,String type,String path) {
+        this.nameType = nameType;
+        this.type = type;
+        this.path = path;
+    }
 
-    public VdmToAlloy(String scope,boolean typeInvariantsat,String nameType,String type,String path) {
-        this.typeInvariantsat=typeInvariantsat;
-        this.nameType=nameType;
-        this.type=type;
-        this.path=path;
-        this.scope=scope;
+    public VdmToAlloy(String natScope,String scope,boolean typeInvariantsat,String nameType,String type,String path) {
+        this.typeInvariantsat = typeInvariantsat;
+        this.nameType = nameType;
+        this.type = type;
+        this.path = path;
+        this.scope = scope;
         this.command = "";
         this.ans = null;
         this.filename = "";
+        this.naturalScope=natScope;
+    }
+
+    public boolean hasNaturalType() throws AnalysisException, IOException {
+        ContextSlicing c = new ContextSlicing();
+        // create the command line parser
+        String s = "";
+
+
+        File input = new File(this.path);
+        File output = null;
+
+
+        Settings.dialect = Dialect.VDM_SL;
+        TypeCheckerUtil.TypeCheckResult<List<AModuleModules>> result = TypeCheckerUtil.typeCheckSl(input);
+
+
+        if (result.errors.isEmpty()) {
+            File tmpFile = null;
+            if (output == null) {
+                tmpFile = File.createTempFile("vdm2alloy", ".als");
+            } else {
+                tmpFile = output;
+            }
+
+
+            /***************   Slicing  ******************/
+            NewSlicing slicing = new NewSlicing(tmpFile.getName().substring(0, tmpFile.getName().indexOf(".")));
+            result.result.get(0).apply(slicing, new ContextSlicing(this.nameType, c.inverseTranslation(this.type)));//t = ATypeDefinition , f = AExplicitFunctionDefinition , v = AValueDefinition , st = AStateDefinition,op = AImplicitOperationDefinition,fi=AImplicitFunctionDefinition
+            System.out.println(slicing.toString());
+            if(slicing.isHasNatural()){ return true;
+            }else{return false;}
+        }
+        return false;
     }
 
 
@@ -134,7 +173,7 @@ public class VdmToAlloy {
                analysis.components.addAll(analysisProof.getComponentsPO());*/
            //}else {
                 if (notAllowed.getHasNat()) {
-                    analysis.components.add(new Run(this.nameType, this.scope, "1"));
+                    analysis.components.add(new Run(this.nameType, this.scope, this.naturalScope));
                 } else {
                     analysis.components.add(new Run(this.nameType, this.scope));
                 }
@@ -149,6 +188,7 @@ public class VdmToAlloy {
 
             out.close();
             this.filename = tmpFile.getAbsolutePath();
+
 
 
         }else

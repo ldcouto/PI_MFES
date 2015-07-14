@@ -46,10 +46,12 @@ public class Main
 {
 
 	public static void main(String[] args) throws Exception {
-        VdmToAlloy e = new VdmToAlloy("3", true, args[1], "ATypeDefinition", args[0]);
+        VdmToAlloy e = new VdmToAlloy("1","3", true, args[1], "ATypeDefinition", args[0]);
          if (e.execute() == 1) {
             System.out.println(e.getError());
         }
+	  System.out.println(e.hasNaturalType());
+
     }
 
     /*
